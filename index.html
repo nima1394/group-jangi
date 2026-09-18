@@ -2,19 +2,60 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تست</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گروه جنگی 🔥</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <style>
-        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: Tahoma; margin: 0; padding: 20px; }
-        .container { background: #1e293b; padding: 40px; border-radius: 16px; text-align: center; max-width: 400px; width: 100%; }
-        h1 { color: #facc15; margin-bottom: 20px; }
-        .screen { padding: 20px; background: #0f172a; border-radius: 12px; margin-bottom: 15px; }
-        button { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .btn1 { background: #facc15; color: #0f172a; }
-        .btn2 { background: #8b5cf6; color: #fff; }
-        .back { background: #64748b; color: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
+        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        
+        .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; }
+        .container h1 { color: #facc15; margin-bottom: 20px; }
+        .btn1 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; background: #facc15; color: #0f172a; }
+        .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; background: #8b5cf6; color: #fff; }
+        
+        .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: 95vh; }
+        .header { padding: 12px; background: #0f172a; border-bottom: 1px solid #334155; }
+        .user-info { font-size: 12px; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
+        .group-title h2 { color: #facc15; font-size: 18px; }
+        .group-title span { color: #94a3b8; font-size: 12px; }
+        
+        .top-btns { display: flex; gap: 6px; align-items: center; }
+        .top-btn { background: #38bdf8; color: #0f172a; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
+        .game-btn { background: #22c55e; color: #fff; }
+        .server-btn { background: #ef4444; color: #fff; }
+        .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
+        
+        .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
+        .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; }
+        .msg.sent { align-self: flex-end; background: #0284c7; color: #fff; border-bottom-left-radius: 0; }
+        .msg.received { align-self: flex-start; background: #334155; color: #e2e8f0; border-bottom-right-radius: 0; }
+        .msg.bot { align-self: flex-start; background: #f59e0b; color: #fff; border-bottom-right-radius: 0; border: 2px solid #fbbf24; }
+        .msg-sender { font-size: 10px; color: #facc15; margin-bottom: 3px; font-weight: bold; }
+        .msg.bot .msg-sender { color: #fff; }
+        .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
+        .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
+        
+        .input-box { padding: 10px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 6px; align-items: center; }
+        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
+        button.send-btn { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
+        
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
+        .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
+        .modal-box h3 { margin-bottom: 15px; }
+        .modal-box input { width: 100%; margin-bottom: 10px; }
+        .modal-box button { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 8px; font-size: 14px; }
+        
+        .game-panel { background: #0f172a; border: 2px solid #22c55e; border-radius: 12px; padding: 15px; margin: 10px 0; text-align: right; }
+        .game-stat { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; border-bottom: 1px solid #334155; }
+        .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1e293b; border-radius: 6px; margin-bottom: 5px; }
+        .buy-btn { background: #22c55e; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
     </style>
 </head>
 <body>
+
     <!-- صفحه اصلی -->
     <div id="homeScreen" class="container">
         <h1>🔥 خوش آمدی</h1>
@@ -23,29 +64,401 @@
     </div>
 
     <!-- گروه جنگی -->
-    <div id="gjScreen" class="container" style="display: none;">
-        <h1>🔥 گروه جنگی</h1>
-        <div class="screen">اینجا صفحه گروه جنگیه!</div>
-        <button class="back" onclick="showScreen('home')">← بازگشت</button>
+    <div id="gjScreen" class="app-container" style="display: none;">
+        <div class="header">
+            <div class="user-info">
+                <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
+                <div class="top-btns">
+                    <button class="top-btn game-btn" onclick="openGamePanel()">🎮 بازی</button>
+                    <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
+                    <button class="back-btn" onclick="showScreen('home')">🏠</button>
+                </div>
+            </div>
+            <div class="group-title">
+                <h2>🔥 گروه جنگی</h2>
+                <span>بنویس !شروع</span>
+            </div>
+        </div>
+        <div class="messages-box" id="gjMessages">
+            <div class="msg-system">🔥 خوش آمدی! بنویس <b>!شروع</b></div>
+        </div>
+        <div class="input-box">
+            <input type="text" id="gjInput" placeholder="پیام یا دستور..." onkeypress="if(event.key==='Enter')sendGj()">
+            <button class="send-btn" onclick="sendGj()">ارسال</button>
+        </div>
     </div>
 
     <!-- پیام‌رسان -->
-    <div id="msgScreen" class="container" style="display: none;">
-        <h1>💬 پیام‌رسان</h1>
-        <div class="screen">اینجا صفحه پیام‌رسانه!</div>
-        <button class="back" onclick="showScreen('home')">← بازگشت</button>
+    <div id="msgScreen" class="app-container" style="display: none;">
+        <div class="header">
+            <div class="user-info">
+                <span>👤 <b id="msgUserLabel">...</b></span>
+                <div class="top-btns">
+                    <button class="back-btn" onclick="showScreen('home')">🏠</button>
+                </div>
+            </div>
+            <div class="group-title" style="border-color: #8b5cf6;">
+                <h2 style="color: #8b5cf6;">💬 پیام‌رسان</h2>
+                <span>به زودی...</span>
+            </div>
+        </div>
+        <div class="messages-box">
+            <div class="msg-system">💬 این بخش به زودی اضافه میشه</div>
+        </div>
+    </div>
+
+    <!-- مودال ورود -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #facc15;">👋 ورود</h3>
+            <input type="text" id="usernameInput" placeholder="اسم..." maxlength="20">
+            <button onclick="registerUser()" style="background: #facc15; color: #0f172a;">ورود 🚀</button>
+        </div>
+    </div>
+
+    <!-- مودال بازی -->
+    <div id="gameModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #22c55e;">🎮 بازی جنگی</h3>
+            <div class="game-panel">
+                <div class="game-stat"><span>💰 سکه:</span><b id="gCoins" style="color:#facc15;">500</b></div>
+                <div class="game-stat"><span>⚔️ سلاح:</span><b id="gWeapon">هیچ</b></div>
+                <div class="game-stat"><span>💪 قدرت:</span><b id="gPower" style="color:#ef4444;">0</b></div>
+                <div class="game-stat"><span>🏆 برد:</span><b id="gWins" style="color:#22c55e;">0</b></div>
+                <div class="game-stat"><span>💀 باخت:</span><b id="gLosses" style="color:#ef4444;">0</b></div>
+            </div>
+            <div class="game-panel">
+                <h3 style="color: #22c55e; font-size: 14px; margin-bottom: 10px;">🛒 فروشگاه</h3>
+                <div id="shopList"></div>
+            </div>
+            <button onclick="closeGamePanel()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <!-- مودال سرور -->
+    <div id="serverPassModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #ef4444;">🖥️ ورود به سرور</h3>
+            <input type="password" id="serverPass" placeholder="رمز...">
+            <button onclick="checkServerPass()" style="background: #ef4444; color: #fff;">ورود</button>
+            <button onclick="closeServerPass()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <div id="serverPanelModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #ef4444;">🖥️ سرور</h3>
+            <div style="text-align: right; margin-bottom: 15px;">
+                <p>👤 کاربران: <b id="sUsers" style="color:#38bdf8;">0</b></p>
+                <p>📨 پیام‌ها: <b id="sMessages" style="color:#22c55e;">0</b></p>
+            </div>
+            <button onclick="deleteAllData()" style="background: #ef4444; color: #fff;">🗑️ پاک کردن همه</button>
+            <button onclick="closeServerPanel()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
     </div>
 
     <script>
+        const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const GROUP_NAME = "گروه جنگی";
+        const BOT_NAME = "ربات بازی 🤖";
+        
+        const WEAPONS = {
+            'چاقو': { price: 50, power: 10, emoji: '🔪' },
+            'کمان': { price: 100, power: 20, emoji: '🏹' },
+            'تفنگ': { price: 200, power: 40, emoji: '🔫' },
+            'نارنجک': { price: 300, power: 60, emoji: '💣' },
+            'موشک معمولی': { price: 400, power: 80, emoji: '🚀' },
+            'لیزر': { price: 450, power: 100, emoji: '⚡' },
+            'موشک اتمی': { price: 500, power: 150, emoji: '☢️' }
+        };
+        
+        let myUsername = localStorage.getItem('chat_username');
+        let myCoins = 500;
+        let myWeapon = '';
+        let myWins = 0;
+        let myLosses = 0;
+        let fetchInterval = null;
+        let pendingScreen = null;
+
+        // ============ ناوبری ============
         function showScreen(name) {
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('gjScreen').style.display = 'none';
             document.getElementById('msgScreen').style.display = 'none';
             
-            if (name === 'home') document.getElementById('homeScreen').style.display = 'block';
-            else if (name === 'gj') document.getElementById('gjScreen').style.display = 'block';
-            else if (name === 'msg') document.getElementById('msgScreen').style.display = 'block';
+            if (name === 'home') {
+                document.getElementById('homeScreen').style.display = 'block';
+                if (fetchInterval) clearInterval(fetchInterval);
+            } else if (name === 'gj') {
+                if (!myUsername) {
+                    pendingScreen = 'gj';
+                    document.getElementById('loginModal').style.display = 'flex';
+                    return;
+                }
+                document.getElementById('gjScreen').style.display = 'flex';
+                document.getElementById('gjUserLabel').innerText = myUsername;
+                loadGameData();
+                updateGjCoin();
+                loadGjMessages();
+                startGjRefresh();
+            } else if (name === 'msg') {
+                if (!myUsername) {
+                    pendingScreen = 'msg';
+                    document.getElementById('loginModal').style.display = 'flex';
+                    return;
+                }
+                document.getElementById('msgScreen').style.display = 'flex';
+                document.getElementById('msgUserLabel').innerText = myUsername;
+            }
         }
+
+        // ============ ثبت نام ============
+        async function registerUser() {
+            const name = document.getElementById('usernameInput').value.trim();
+            if (!name || name.length < 2) {
+                alert('نام باید حداقل 2 کاراکتر باشه!');
+                return;
+            }
+            try {
+                const { data: ex } = await supabaseClient.from('users').select('id').eq('username', name).limit(1);
+                if (!ex || ex.length === 0) {
+                    await supabaseClient.from('users').insert([{ username: name }]);
+                }
+                localStorage.setItem('chat_username', name);
+                myUsername = name;
+                loadGameData();
+                document.getElementById('loginModal').style.display = 'none';
+                
+                if (pendingScreen === 'gj') showScreen('gj');
+                else if (pendingScreen === 'msg') showScreen('msg');
+                pendingScreen = null;
+            } catch(e) {
+                alert('خطا: ' + e.message);
+            }
+        }
+
+        // ============ بازی ============
+        function loadGameData() {
+            myCoins = parseInt(localStorage.getItem('game_coins_' + myUsername) || '500');
+            myWeapon = localStorage.getItem('game_weapon_' + myUsername) || '';
+            myWins = parseInt(localStorage.getItem('game_wins_' + myUsername) || '0');
+            myLosses = parseInt(localStorage.getItem('game_losses_' + myUsername) || '0');
+        }
+
+        function saveGameData() {
+            localStorage.setItem('game_coins_' + myUsername, myCoins);
+            localStorage.setItem('game_weapon_' + myUsername, myWeapon);
+            localStorage.setItem('game_wins_' + myUsername, myWins);
+            localStorage.setItem('game_losses_' + myUsername, myLosses);
+            updateGjCoin();
+        }
+
+        function updateGjCoin() {
+            const el = document.getElementById('gjCoinLabel');
+            if (el) el.innerText = myCoins;
+        }
+
+        function openGamePanel() {
+            document.getElementById('gCoins').innerText = myCoins;
+            document.getElementById('gWeapon').innerText = myWeapon ? (WEAPONS[myWeapon]?.emoji + ' ' + myWeapon) : 'هیچ';
+            document.getElementById('gPower').innerText = myWeapon ? WEAPONS[myWeapon].power : 0;
+            document.getElementById('gWins').innerText = myWins;
+            document.getElementById('gLosses').innerText = myLosses;
+            renderShop();
+            document.getElementById('gameModal').style.display = 'flex';
+        }
+
+        function closeGamePanel() {
+            document.getElementById('gameModal').style.display = 'none';
+        }
+
+        function renderShop() {
+            document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([name, w]) => `
+                <div class="shop-item">
+                    <span>${w.emoji} ${name}</span>
+                    <span style="color:#facc15;font-size:11px;">💰${w.price} ⚔️${w.power}</span>
+                    <button class="buy-btn" onclick="buyWeapon('${name}')" ${myCoins < w.price ? 'disabled' : ''}>خرید</button>
+                </div>
+            `).join('');
+        }
+
+        function buyWeapon(name) {
+            if (!WEAPONS[name]) return;
+            if (myCoins < WEAPONS[name].price) return alert('سکه کافی نداری!');
+            myCoins -= WEAPONS[name].price;
+            myWeapon = name;
+            saveGameData();
+            alert('✅ ' + name + ' خریداری شد!');
+            openGamePanel();
+        }
+
+        // ============ ارسال پیام گروه ============
+        async function sendGj() {
+            const input = document.getElementById('gjInput');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            
+            const compressed = LZString.compressToUTF16(text);
+            await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: 'GROUP:' + GROUP_NAME, content: compressed
+            }]);
+            await loadGjMessages();
+            
+            if (text.startsWith('!')) {
+                setTimeout(() => processBot(text, myUsername), 300);
+            }
+        }
+
+        async function sendGjBot(text) {
+            await supabaseClient.from('messages').insert([{
+                sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+                content: LZString.compressToUTF16(text)
+            }]);
+            await loadGjMessages();
+        }
+
+        async function loadGjMessages() {
+            const { data } = await supabaseClient.from('messages')
+                .select('*').eq('receiver', 'GROUP:' + GROUP_NAME)
+                .order('created_at', { ascending: true }).limit(100);
+            
+            const box = document.getElementById('gjMessages');
+            if (!box) return;
+            box.innerHTML = '';
+            if (!data || data.length === 0) {
+                box.innerHTML = '<div class="msg-system">🔥 بنویس !شروع</div>';
+                return;
+            }
+            data.forEach(msg => {
+                let text = LZString.decompressFromUTF16(msg.content) || msg.content;
+                const isMe = msg.sender === myUsername;
+                const isBot = msg.sender === BOT_NAME;
+                
+                if (msg.sender === 'system') {
+                    const div = document.createElement('div');
+                    div.className = 'msg-system';
+                    div.innerText = text;
+                    box.appendChild(div);
+                    return;
+                }
+                const div = document.createElement('div');
+                let cls = isBot ? 'bot' : (isMe ? 'sent' : 'received');
+                div.className = 'msg ' + cls;
+                const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : 
+                        (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : 
+                        '<div class="msg-sender">👤 ' + msg.sender + '</div>');
+                div.innerHTML = sh + '<div style="white-space:pre-wrap;">' + text + '</div><div class="msg-time">' + time + '</div>';
+                box.appendChild(div);
+            });
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // ============ ربات ============
+        async function processBot(cmd, sender) {
+            cmd = cmd.trim();
+            
+            if (cmd === '!شروع') {
+                await sendGjBot(`🎮 بازی شروع شد!\n\n💰 500 سکه داری\n\nدستورات:\n!موجودی\n!فروشگاه\n!خرید [سلاح]\n!حمله [اسم]\n!رتبه`);
+                return;
+            }
+            
+            if (cmd === '!موجودی') {
+                const wi = myWeapon ? (WEAPONS[myWeapon].emoji + ' ' + myWeapon) : 'هیچ';
+                await sendGjBot(`💰 ${sender}:\nسکه: ${myCoins}\nسلاح: ${wi}\nبرد: ${myWins} | باخت: ${myLosses}`);
+                return;
+            }
+            
+            if (cmd === '!فروشگاه') {
+                let s = '🛒 فروشگاه:\n\n';
+                Object.entries(WEAPONS).forEach(([n, w]) => {
+                    s += `${w.emoji} ${n} — 💰${w.price} — ⚔️${w.power}\n`;
+                });
+                await sendGjBot(s);
+                return;
+            }
+            
+            if (cmd.startsWith('!خرید ')) {
+                const wn = cmd.replace('!خرید ', '').trim();
+                if (!WEAPONS[wn]) { await sendGjBot('❌ سلاح نیست!'); return; }
+                if (myCoins < WEAPONS[wn].price) { await sendGjBot('❌ سکه کمه!'); return; }
+                myCoins -= WEAPONS[wn].price;
+                myWeapon = wn;
+                saveGameData();
+                await sendGjBot(`✅ ${sender} سلاح ${WEAPONS[wn].emoji} ${wn} خرید!\n💰 ${myCoins} سکه مونده`);
+                return;
+            }
+            
+            if (cmd.startsWith('!حمله ')) {
+                const target = cmd.replace('!حمله ', '').trim();
+                if (target === sender) { await sendGjBot('❌ به خودت حمله نکن!'); return; }
+                if (!myWeapon) { await sendGjBot('❌ اول سلاح بخر!'); return; }
+                
+                const aP = WEAPONS[myWeapon].power;
+                const tW = localStorage.getItem('game_weapon_' + target) || '';
+                const dP = tW ? WEAPONS[tW].power : 0;
+                
+                if (aP + Math.random()*50 > dP + Math.random()*50) {
+                    myCoins += 100; myWins++; saveGameData();
+                    await sendGjBot(`⚔️ ${sender} (${aP}) vs ${target} (${dP})\n\n🏆 برنده: ${sender}!\n💰 +100 سکه`);
+                } else {
+                    myCoins = Math.max(0, myCoins-100); myLosses++; saveGameData();
+                    await sendGjBot(`⚔️ ${sender} (${aP}) vs ${target} (${dP})\n\n🏆 برنده: ${target}!\n💀 ${sender} -100 سکه`);
+                }
+                return;
+            }
+            
+            if (cmd === '!رتبه') {
+                await sendGjBot('🏆 جدول به زودی...');
+                return;
+            }
+        }
+
+        function startGjRefresh() {
+            if (fetchInterval) clearInterval(fetchInterval);
+            fetchInterval = setInterval(() => loadGjMessages(), 2000);
+        }
+
+        // ============ پنل سرور ============
+        function openServerPanel() {
+            document.getElementById('serverPassModal').style.display = 'flex';
+        }
+
+        function closeServerPass() {
+            document.getElementById('serverPassModal').style.display = 'none';
+        }
+
+        async function checkServerPass() {
+            const p = document.getElementById('serverPass').value;
+            if (p !== 'nimaaslani1234A') { alert('رمز اشتباه!'); return; }
+            closeServerPass();
+            document.getElementById('serverPanelModal').style.display = 'flex';
+            const u = await supabaseClient.from('users').select('id');
+            const m = await supabaseClient.from('messages').select('id');
+            document.getElementById('sUsers').innerText = u.data?.length || 0;
+            document.getElementById('sMessages').innerText = m.data?.length || 0;
+        }
+
+        function closeServerPanel() {
+            document.getElementById('serverPanelModal').style.display = 'none';
+        }
+
+        async function deleteAllData() {
+            if (!confirm('همه پاک بشه؟')) return;
+            if (!confirm('تأیید نهایی!')) return;
+            await supabaseClient.from('messages').delete().neq('id', 0);
+            await supabaseClient.from('users').delete().neq('id', 0);
+            alert('✅ پاک شد!');
+            closeServerPanel();
+        }
+
+        // ============ شروع ============
+        window.addEventListener('load', () => {
+            if (myUsername) loadGameData();
+        });
     </script>
 </body>
 </html>
