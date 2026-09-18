@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گروه جنگی 🔥</title>
+    <title>پیام‌رسان 🔥</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <style>
@@ -14,18 +14,14 @@
             --bg-messages: #0b1120;
             --bg-input: #0f172a;
             --bg-input-field: #1e293b;
-            --bg-modal: #1e293b;
             --bg-msg-sent: #0284c7;
             --bg-msg-received: #334155;
-            --bg-msg-private-sent: #8b5cf6;
-            --bg-msg-private-received: #6d28d9;
             --bg-msg-bot: #f59e0b;
             --bg-msg-system: #475569;
             --text-primary: #ffffff;
             --text-secondary: #94a3b8;
             --text-sender: #facc15;
             --border-color: #334155;
-            --border-input: #475569;
         }
         body.light-theme {
             --bg-body: #e2e8f0;
@@ -34,117 +30,253 @@
             --bg-messages: #f8fafc;
             --bg-input: #f1f5f9;
             --bg-input-field: #ffffff;
-            --bg-modal: #ffffff;
             --bg-msg-received: #e2e8f0;
-            --bg-msg-private-received: #ddd6fe;
             --bg-msg-system: #cbd5e1;
             --text-primary: #0f172a;
             --text-secondary: #64748b;
             --text-sender: #d97706;
             --border-color: #cbd5e1;
-            --border-input: #cbd5e1;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-primary); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; transition: background-color 0.3s; }
+        body { background-color: var(--bg-body); color: var(--text-primary); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; transition: background 0.3s; }
+        
+        /* ============ صفحه اصلی (انتخاب) ============ */
+        .home-container { background: var(--bg-container); padding: 40px 30px; border-radius: 16px; border: 1px solid var(--border-color); max-width: 400px; width: 100%; text-align: center; }
+        .home-container h1 { color: #facc15; font-size: 28px; margin-bottom: 10px; }
+        .home-container p { color: var(--text-secondary); font-size: 14px; margin-bottom: 30px; }
+        .home-btn-group { display: flex; flex-direction: column; gap: 15px; }
+        .home-btn { padding: 18px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .home-btn:hover { transform: scale(1.02); }
+        .btn-group-jangi { background: #facc15; color: #0f172a; }
+        .btn-messenger { background: #8b5cf6; color: #fff; }
+
+        /* ============ اپ چت ============ */
         .app-container { background: var(--bg-container); width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; display: flex; flex-direction: column; height: 95vh; }
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
-        .modal-box { background: var(--bg-modal); padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
+        .modal-box { background: var(--bg-container); padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
         .header { padding: 12px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); }
         .user-info { font-size: 12px; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .group-title { text-align: center; padding: 8px; background: var(--bg-container); border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
-        .group-title h2 { color: #facc15; font-size: 18px; }
-        .group-title span { color: var(--text-secondary); font-size: 12px; }
         .top-btns { display: flex; gap: 6px; align-items: center; }
         .top-btn { background: #38bdf8; color: #0f172a; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
         .top-btn:hover { opacity: 0.9; }
-        .private-btn { background: #8b5cf6; color: #fff; }
+        .theme-btn { background: #f59e0b; color: #fff; }
         .server-btn { background: #ef4444; color: #fff; }
-        .theme-btn { background: #f59e0b; color: #fff; font-size: 14px; padding: 5px 8px; }
-        .game-btn { background: #22c55e; color: #fff; }
+        .back-btn { background: #64748b; color: #fff; text-decoration: none; display: inline-block; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+        
+        .group-title { text-align: center; padding: 8px; background: var(--bg-container); border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
+        .group-title h2 { color: #facc15; font-size: 16px; }
+        .group-title span { color: var(--text-secondary); font-size: 11px; }
+        
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: var(--bg-messages); }
         .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; }
         .msg.sent { align-self: flex-end; background: var(--bg-msg-sent); color: #fff; border-bottom-left-radius: 0; }
         .msg.received { align-self: flex-start; background: var(--bg-msg-received); color: var(--text-primary); border-bottom-right-radius: 0; }
-        .msg.private-sent { align-self: flex-end; background: var(--bg-msg-private-sent); color: #fff; border-bottom-left-radius: 0; }
-        .msg.private-received { align-self: flex-start; background: var(--bg-msg-private-received); color: var(--text-primary); border-bottom-right-radius: 0; }
         .msg.bot { align-self: flex-start; background: var(--bg-msg-bot); color: #fff; border-bottom-right-radius: 0; border: 2px solid #fbbf24; }
         .msg-sender { font-size: 10px; color: var(--text-sender); margin-bottom: 3px; font-weight: bold; }
         .msg.bot .msg-sender { color: #fff; }
         .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
         .msg-system { align-self: center; background: var(--bg-msg-system); color: var(--text-primary); font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
-        .input-box { padding: 12px; background: var(--bg-input); border-top: 1px solid var(--border-color); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-input-field); color: var(--text-primary); font-size: 13px; outline: none; min-width: 100px; }
+        
+        .input-box { padding: 10px; background: var(--bg-input); border-top: 1px solid var(--border-color); display: flex; gap: 6px; align-items: center; }
+        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-input-field); color: var(--text-primary); font-size: 13px; outline: none; }
         button { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
         button:hover { opacity: 0.9; }
+        
+        /* ============ نوار جستجو ============ */
+        .search-bar { padding: 8px 12px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); display: none; }
+        .search-bar.show { display: block; }
+        .search-bar input { width: 100%; padding: 8px 12px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-input-field); color: var(--text-primary); font-size: 13px; outline: none; }
+        
+        .search-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-container); border: 1px solid var(--border-color); border-radius: 8px; max-height: 300px; overflow-y: auto; z-index: 100; margin-top: 5px; }
+        .search-item { padding: 10px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .search-item:hover { background: var(--bg-messages); }
+        .search-item .name { font-weight: bold; font-size: 13px; }
+        .search-item .type { font-size: 10px; color: var(--text-secondary); }
+        
+        /* ============ لیست چت‌ها (صفحه اصلی پیام‌رسان) ============ */
+        .chats-list { flex: 1; overflow-y: auto; background: var(--bg-messages); }
+        .chat-item { padding: 12px 15px; border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .chat-item:hover { background: var(--bg-container); }
+        .chat-item .info { display: flex; flex-direction: column; }
+        .chat-item .name { font-weight: bold; font-size: 14px; color: var(--text-primary); }
+        .chat-item .last-msg { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
+        .chat-item .meta { text-align: left; }
+        .chat-item .time { font-size: 10px; color: var(--text-secondary); }
+        .chat-item .delete-chat-btn { background: #ef4444; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; margin-top: 5px; }
+        
+        /* ============ مودال‌ها ============ */
         .error-msg { color: #ef4444; font-size: 12px; margin-top: 8px; }
-        .chat-mode-info { background: #8b5cf6; color: #fff; padding: 6px 12px; font-size: 11px; text-align: center; display: none; }
-        .chat-mode-info.show { display: block; }
-        .notif-badge { background: #ef4444; color: #fff; border-radius: 50%; padding: 1px 6px; font-size: 10px; margin-right: 5px; font-weight: bold; }
+        .success-msg { background: #052e16; border: 1px solid #22c55e; color: #86efac; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 12px; display: none; }
         .user-list { max-height: 200px; overflow-y: auto; margin: 10px 0; text-align: right; }
         .user-item { background: var(--bg-input); padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); }
         .user-item:hover { background: var(--bg-messages); }
-        .online-dot { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 5px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
         .stat-card { background: var(--bg-input); padding: 12px; border-radius: 8px; text-align: center; }
         .stat-card .num { font-size: 22px; font-weight: bold; }
         .stat-card .label { font-size: 10px; color: var(--text-secondary); margin-top: 3px; }
-        .danger-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #ef4444; color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .user-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--bg-input); border-radius: 6px; margin-bottom: 6px; border: 1px solid var(--border-color); }
         .user-row .name { font-weight: bold; font-size: 13px; }
         .user-row .del-btn { background: #ef4444; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
-        .success-msg { background: #052e16; border: 1px solid #22c55e; color: #86efac; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 12px; display: none; }
-        .emoji-picker { display: none; background: var(--bg-container); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; gap: 5px; width: 100%; max-height: 150px; overflow-y: auto; }
-        .emoji-picker.show { display: flex; }
-        .emoji-picker span { font-size: 22px; cursor: pointer; padding: 4px; border-radius: 4px; }
-        .btn-emoji { background: #facc15; color: #0f172a; font-size: 16px; padding: 8px 10px; }
-        .game-panel { background: var(--bg-input); border: 2px solid #22c55e; border-radius: 12px; padding: 15px; margin: 10px; }
-        .game-panel h3 { color: #22c55e; margin-bottom: 10px; font-size: 15px; }
-        .game-stat { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; border-bottom: 1px solid var(--border-color); }
-        .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: var(--bg-messages); border-radius: 6px; margin-bottom: 5px; }
-        .shop-item .name { font-size: 13px; font-weight: bold; }
-        .shop-item .price { color: #facc15; font-size: 12px; }
-        .buy-btn { background: #22c55e; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
-        .buy-btn:hover { background: #16a34a; }
-        .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* ============ دکمه‌های پایین ============ */
+        .bottom-bar { padding: 10px; background: var(--bg-header); border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
+        .bottom-bar button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .btn-new-group { background: #22c55e; color: #fff; }
+        .btn-new-chat { background: #8b5cf6; color: #fff; }
+        
+        /* ============ وضعیت آنلاین ============ */
+        .online-dot { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 5px; animation: pulse 2s infinite; }
+        .offline-dot { display: inline-block; width: 8px; height: 8px; background: #64748b; border-radius: 50%; margin-left: 5px; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        .group-stats { display: flex; gap: 10px; justify-content: center; font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+        .group-stats span { display: flex; align-items: center; gap: 3px; }
+        
+        /* ============ اعضای گروه ============ */
+        .members-panel { background: var(--bg-input); border-bottom: 1px solid var(--border-color); padding: 10px; display: none; max-height: 150px; overflow-y: auto; }
+        .members-panel.show { display: block; }
+        .member-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-messages); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
     </style>
 </head>
 <body>
-    <!-- مودال ورود -->
+
+    <!-- ============ صفحه اصلی (انتخاب) ============ -->
+    <div id="homeScreen" class="home-container">
+        <h1>🔥 خوش آمدی</h1>
+        <p>یکی از گزینه‌ها را انتخاب کن:</p>
+        <div class="home-btn-group">
+            <button class="home-btn btn-group-jangi" onclick="window.location.href='/group-jangi/'">
+                🔥 گروه جنگی
+            </button>
+            <button class="home-btn btn-messenger" onclick="showMessenger()">
+                💬 پیام‌رسان
+            </button>
+        </div>
+    </div>
+
+    <!-- ============ صفحه پیام‌رسان ============ -->
+    <div id="messengerScreen" class="app-container" style="display: none;">
+        <div class="header">
+            <div class="user-info">
+                <span>👤 <b id="messengerUserLabel">...</b><span class="online-dot"></span></span>
+                <div class="top-btns">
+                    <button class="top-btn theme-btn" onclick="toggleTheme()" id="themeBtn2">🌙</button>
+                    <button class="top-btn server-btn" onclick="openServerPassModal()">🖥️</button>
+                    <button class="back-btn" onclick="showHome()">🏠</button>
+                </div>
+            </div>
+            <div class="group-title" style="border-color: #8b5cf6;">
+                <h2>💬 پیام‌رسان</h2>
+                <span>چت خصوصی و گروهی</span>
+            </div>
+        </div>
+        
+        <!-- نوار جستجو -->
+        <div class="search-bar show" style="position: relative;">
+            <input type="text" id="searchInput" placeholder="🔍 جستجوی کاربر یا گروه..." oninput="handleSearch()">
+            <div id="searchResults" class="search-results" style="display: none;"></div>
+        </div>
+        
+        <!-- لیست چت‌ها -->
+        <div class="chats-list" id="chatsList">
+            <div style="text-align: center; color: var(--text-secondary); padding: 30px; font-size: 13px;">
+                📭 هنوز چتی نداری<br>
+                <span style="font-size: 11px;">از پایین چت جدید یا گروه بساز</span>
+            </div>
+        </div>
+        
+        <!-- دکمه‌های پایین -->
+        <div class="bottom-bar">
+            <button class="btn-new-group" onclick="openCreateGroupModal()">➕ ساخت گروه</button>
+            <button class="btn-new-chat" onclick="openNewChatModal()">💬 چت جدید</button>
+        </div>
+    </div>
+
+    <!-- ============ صفحه چت داخل پیام‌رسان ============ -->
+    <div id="chatScreen" class="app-container" style="display: none;">
+        <div class="header">
+            <div class="user-info">
+                <span id="chatHeaderIcon">💬</span>
+                <div class="top-btns">
+                    <button class="top-btn theme-btn" onclick="toggleTheme()">🌙</button>
+                    <button class="back-btn" onclick="backToMessenger()">← بازگشت</button>
+                </div>
+            </div>
+            <div class="group-title" id="chatTitleBox">
+                <h2 id="chatTitleName">...</h2>
+                <div class="group-stats" id="chatGroupStats" style="display: none;">
+                    <span>👥 <b id="memberCountLabel">0</b> عضو</span>
+                    <span>🟢 <b id="onlineCountLabel">0</b> آنلاین</span>
+                </div>
+                <span id="chatSubtitle">💬</span>
+            </div>
+        </div>
+        
+        <!-- دکمه اعضای گروه -->
+        <div id="membersBtn" style="display: none; padding: 5px 10px; background: var(--bg-header); text-align: center; cursor: pointer; font-size: 11px; color: var(--text-secondary);" onclick="toggleMembers()">
+            👥 نمایش اعضای گروه
+        </div>
+        <div class="members-panel" id="membersPanel"></div>
+        
+        <div class="messages-box" id="chatMessagesBox"></div>
+        
+        <div class="input-box">
+            <input type="text" id="chatMsgInput" placeholder="پیام...">
+            <button onclick="sendChatMessage()">ارسال</button>
+        </div>
+    </div>
+
+    <!-- ============ مودال‌ها ============ -->
+
+    <!-- مودال ثبت نام -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
-            <h3 style="margin-bottom: 12px; color: #facc15;">🔥 ورود به گروه جنگی</h3>
-            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">لطفاً نام خود را وارد کنید:</p>
-            <input type="text" id="modalUsername" placeholder="اسم شما..." maxlength="20">
-            <button onclick="registerUser()" style="width: 100%; margin-top: 10px; background: #facc15; color: #0f172a;">ورود به گروه 🚀</button>
+            <h3 style="margin-bottom: 12px; color: #facc15;">👋 ورود</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">نام خود را وارد کن:</p>
+            <input type="text" id="modalUsername" placeholder="اسم..." maxlength="20">
+            <button onclick="registerUser()" style="width: 100%; margin-top: 10px; background: #facc15; color: #0f172a;">ورود 🚀</button>
             <div id="loginError" class="error-msg" style="display:none;"></div>
         </div>
     </div>
 
-    <!-- مودال چت خصوصی -->
-    <div id="privateModal" class="modal" style="display: none;">
+    <!-- مودال چت جدید -->
+    <div id="newChatModal" class="modal" style="display: none;">
         <div class="modal-box">
-            <h3 style="margin-bottom: 12px; color: #8b5cf6;">💬 چت خصوصی</h3>
-            <input type="text" id="privateUsername" placeholder="جستجوی کاربر..." oninput="filterUsers()" style="margin-bottom:10px;">
-            <div class="user-list" id="userList"></div>
-            <button onclick="startPrivateChatFromInput()" style="width: 100%; margin-top: 10px; background: #8b5cf6; color: #fff;">شروع چت 💜</button>
-            <button onclick="closePrivateModal()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
-            <div id="privateError" class="error-msg" style="display:none;"></div>
+            <h3 style="margin-bottom: 12px; color: #8b5cf6;">💬 چت جدید</h3>
+            <input type="text" id="newChatUsername" placeholder="نام کاربر..." oninput="filterNewChatUsers()">
+            <div class="user-list" id="newChatUserList"></div>
+            <button onclick="startNewChat()" style="width: 100%; margin-top: 10px; background: #8b5cf6; color: #fff;">شروع چت 💜</button>
+            <button onclick="closeNewChatModal()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
 
-    <!-- مودال رمز سرور -->
+    <!-- مودال ساخت گروه -->
+    <div id="createGroupModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="margin-bottom: 12px; color: #22c55e;">➕ ساخت گروه</h3>
+            <input type="text" id="newGroupName" placeholder="اسم گروه..." maxlength="30">
+            <button onclick="createNewGroup()" style="width: 100%; margin-top: 10px; background: #22c55e; color: #fff;">ساخت گروه 🔥</button>
+            <button onclick="closeCreateGroupModal()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
+            <div id="createGroupError" class="error-msg" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- مودال ورود سرور -->
     <div id="serverPassModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="margin-bottom: 12px; color: #ef4444;">🖥️ ورود به سرور</h3>
             <input type="password" id="serverPassword" placeholder="رمز عبور...">
             <button onclick="checkServerPassword()" style="width: 100%; margin-top: 10px; background: #ef4444; color: #fff;">ورود 🚀</button>
             <button onclick="closeServerPassModal()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
-            <div id="serverPassError" class="error-msg" style="display:none;"></div>
         </div>
     </div>
 
-    <!-- مودال پنل سرور -->
+    <!-- پنل سرور -->
     <div id="serverPanelModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="margin-bottom: 15px; color: #ef4444;">🖥️ مدیریت سرور</h3>
@@ -153,80 +285,22 @@
                 <div class="stat-card"><div class="num" id="statMessages" style="color:#22c55e;">0</div><div class="label">📨 پیام‌ها</div></div>
                 <div class="stat-card"><div class="num" id="statGroups" style="color:#facc15;">0</div><div class="label">📁 گروه‌ها</div></div>
             </div>
-            <div style="text-align:right; margin-bottom:8px; color:#facc15; font-weight:bold; font-size:13px;">👥 لیست کاربران</div>
+            <div style="text-align:right; margin-bottom:8px; color:#facc15; font-weight:bold; font-size:13px;">👥 کاربران</div>
             <div id="serverUserList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
-            <button class="danger-btn" onclick="deleteAllData()">🗑️ پاک کردن همه اطلاعات</button>
-            <button onclick="closeServerPanel()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
+            <button onclick="deleteAllData()" style="width: 100%; padding: 12px; border-radius: 8px; background: #ef4444; color: #fff; font-weight: bold; cursor: pointer; border: none; margin-top: 10px;">🗑️ پاک کردن همه اطلاعات</button>
+            <button onclick="closeServerPanel()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">بستن</button>
             <div class="success-msg" id="serverSuccessMsg"></div>
         </div>
     </div>
 
-    <!-- مودال بازی -->
-    <div id="gameModal" class="modal" style="display: none;">
+    <!-- مودال لینک گروه -->
+    <div id="shareLinkModal" class="modal" style="display: none;">
         <div class="modal-box">
-            <h3 style="margin-bottom: 15px; color: #22c55e;">🎮 بازی جنگی</h3>
-            <div class="game-panel">
-                <h3>📊 وضعیت تو</h3>
-                <div class="game-stat"><span>💰 سکه:</span><b id="gameCoins" style="color:#facc15;">500</b></div>
-                <div class="game-stat"><span>⚔️ سلاح:</span><b id="gameWeapon">هیچ</b></div>
-                <div class="game-stat"><span>💪 قدرت:</span><b id="gamePower" style="color:#ef4444;">0</b></div>
-                <div class="game-stat"><span>🏆 برد:</span><b id="gameWins" style="color:#22c55e;">0</b></div>
-                <div class="game-stat"><span>💀 باخت:</span><b id="gameLosses" style="color:#ef4444;">0</b></div>
-            </div>
-            
-            <div class="game-panel">
-                <h3>🛒 فروشگاه سلاح</h3>
-                <div id="shopList"></div>
-            </div>
-            
-            <div style="text-align:right; margin-top:15px;">
-                <p style="color:var(--text-secondary); font-size:12px; line-height:1.7;">
-                    🤖 <b style="color:#22c55e;">راهنمای دستورات:</b><br>
-                    • توی چت بنویس <code style="background:#0f172a; padding:2px 6px; border-radius:4px;">!شروع</code> تا بازی شروع بشه<br>
-                    • <code style="background:#0f172a; padding:2px 6px; border-radius:4px;">!موجودی</code> — سکه‌هات رو ببین<br>
-                    • <code style="background:#0f172a; padding:2px 6px; border-radius:4px;">!خرید چاقو</code> — سلاح بخر<br>
-                    • <code style="background:#0f172a; padding:2px 6px; border-radius:4px;">!حمله علی</code> — حمله کن<br>
-                    • <code style="background:#0f172a; padding:2px 6px; border-radius:4px;">!رتبه</code> — جدول امتیازات<br>
-                </p>
-            </div>
-            
-            <button onclick="closeGameModal()" style="width: 100%; margin-top: 15px; background: #475569; color: #fff;">بستن</button>
-        </div>
-    </div>
-
-    <!-- مودال نمایش تصویر -->
-    <div id="imageModal" class="modal" style="display: none;" onclick="closeImageModal()">
-        <img id="fullImage" style="max-width: 95%; max-height: 95%; border-radius: 8px;">
-    </div>
-
-    <div class="app-container">
-        <div class="header">
-            <div class="user-info">
-                <span>👤 <b id="currentUserLabel">...</b>💰 <b id="coinLabel" style="color:#facc15;">500</b><span class="online-dot"></span></span>
-                <div class="top-btns">
-                    <span id="notifBadge" class="notif-badge" style="display:none;">0</span>
-                    <button class="top-btn theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-                    <button class="top-btn game-btn" onclick="openGameModal()" title="بازی">🎮</button>
-                    <button class="top-btn private-btn" onclick="openPrivateModal()">💬</button>
-                    <button class="top-btn server-btn" onclick="openServerPassModal()">🖥️</button>
-                </div>
-            </div>
-            <div class="group-title">
-                <h2>🔥 گروه جنگی</h2>
-                <span id="headerSubtitle">💬 بازی جنگی — بنویس !شروع</span>
-            </div>
-        </div>
-        <div class="chat-mode-info" id="chatModeInfo">
-            💬 چت خصوصی با: <b id="chatWithName"></b>
-            <button onclick="backToGroup()" style="background:#fff;color:#8b5cf6;margin-right:10px;padding:2px 8px;font-size:11px;border:none;border-radius:4px;cursor:pointer;">بازگشت به گروه</button>
-        </div>
-        <div class="messages-box" id="messagesBox">
-            <div class="msg-system">🔥 به گروه جنگی خوش آمدید! بنویس <b>!شروع</b> تا بازی رو شروع کنی</div>
-        </div>
-        <div class="input-box">
-            <button class="btn-emoji" onclick="toggleEmoji()">😊</button>
-            <input type="text" id="msgInput" placeholder="پیام یا دستور بازی..." disabled>
-            <button onclick="sendMessage()" id="sendBtn" disabled>ارسال</button>
+            <h3 style="margin-bottom: 12px; color: #22c55e;">🔗 لینک گروه</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">این لینک رو برای دوستات بفرست:</p>
+            <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-input-field); color: var(--text-primary); font-size: 12px; direction: ltr;">
+            <button onclick="copyGroupLink()" style="width: 100%; margin-top: 10px; background: #22c55e; color: #fff;">📋 کپی لینک</button>
+            <button onclick="closeShareLinkModal()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
 
@@ -234,477 +308,372 @@
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const GROUP_NAME = "گروه جنگی";
-        const BOT_NAME = "ربات بازی 🤖";
         
-        // ============ تنظیمات بازی ============
-        const WEAPONS = {
-            'چاقو': { price: 50, power: 10, emoji: '🔪' },
-            'کمان': { price: 100, power: 20, emoji: '🏹' },
-            'تفنگ': { price: 200, power: 40, emoji: '🔫' },
-            'نارنجک': { price: 300, power: 60, emoji: '💣' },
-            'موشک معمولی': { price: 400, power: 80, emoji: '🚀' },
-            'لیزر': { price: 450, power: 100, emoji: '⚡' },
-            'موشک اتمی': { price: 500, power: 150, emoji: '☢️' }
-        };
-
         let myUsername = localStorage.getItem('chat_username');
-        let myCoins = parseInt(localStorage.getItem('game_coins_' + myUsername) || '500');
-        let myWeapon = localStorage.getItem('game_weapon_' + myUsername) || '';
-        let myWins = parseInt(localStorage.getItem('game_wins_' + myUsername) || '0');
-        let myLosses = parseInt(localStorage.getItem('game_losses_' + myUsername) || '0');
-        let fetchInterval = null;
-        let chatType = 'group';
-        let chatTarget = '';
-        let lastMsgIds = new Set();
+        let currentChat = { type: '', target: '' };  // type: 'private' or 'group'
         let allUsers = [];
-        let selectedUser = '';
+        let myGroups = [];  // گروه‌هایی که توشون هستم
+        let chatList = [];  // لیست چت‌ها (private + group)
+        let fetchInterval = null;
         let serverAuth = false;
+        let onlineUsers = new Set();
 
+        // ============ تم ============
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-theme');
-                document.getElementById('themeBtn').innerText = '☀️';
-            }
+            if (savedTheme === 'light') document.body.classList.add('light-theme');
+            updateThemeButtons();
         }
-
+        
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light-theme');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            document.getElementById('themeBtn').innerText = isLight ? '☀️' : '🌙';
+            updateThemeButtons();
+        }
+        
+        function updateThemeButtons() {
+            const isLight = document.body.classList.contains('light-theme');
+            const icon = isLight ? '☀️' : '🌙';
+            const b1 = document.getElementById('themeBtn2');
+            if (b1) b1.innerText = icon;
         }
 
-        function updateCoinLabel() {
-            document.getElementById('coinLabel').innerText = myCoins;
+        // ============ ناوبری ============
+        function showHome() {
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('messengerScreen').style.display = 'none';
+            document.getElementById('chatScreen').style.display = 'none';
+            if (fetchInterval) clearInterval(fetchInterval);
         }
-
-        function updateGamePanel() {
-            document.getElementById('gameCoins').innerText = myCoins;
-            document.getElementById('gameWeapon').innerText = myWeapon ? (WEAPONS[myWeapon]?.emoji + ' ' + myWeapon) : 'هیچ';
-            document.getElementById('gamePower').innerText = myWeapon ? WEAPONS[myWeapon].power : 0;
-            document.getElementById('gameWins').innerText = myWins;
-            document.getElementById('gameLosses').innerText = myLosses;
-            renderShop();
-        }
-
-        function renderShop() {
-            const list = document.getElementById('shopList');
-            list.innerHTML = Object.entries(WEAPONS).map(([name, w]) => `
-                <div class="shop-item">
-                    <span class="name">${w.emoji} ${name}</span>
-                    <span class="price">💰 ${w.price} | ⚔️ ${w.power}</span>
-                    <button class="buy-btn" onclick="buyWeapon('${name}')" ${myCoins < w.price ? 'disabled' : ''}>خرید</button>
-                </div>
-            `).join('');
-        }
-
-        function buyWeapon(name) {
-            if (!WEAPONS[name]) return;
-            if (myCoins < WEAPONS[name].price) {
-                alert('❌ سکه کافی نداری!');
-                return;
-            }
-            myCoins -= WEAPONS[name].price;
-            myWeapon = name;
-            localStorage.setItem('game_coins_' + myUsername, myCoins);
-            localStorage.setItem('game_weapon_' + myUsername, myWeapon);
-            alert('✅ ' + name + ' خریداری شد!');
-            updateCoinLabel();
-            updateGamePanel();
-            sendMessageAs(BOT_NAME, '🎉 ' + myUsername + ' سلاح ' + WEAPONS[name].emoji + ' ' + name + ' رو خریداری کرد! (قدرت: ' + WEAPONS[name].power + ')');
-        }
-
-        function openGameModal() {
-            updateGamePanel();
-            document.getElementById('gameModal').style.display = 'flex';
-        }
-
-        function closeGameModal() {
-            document.getElementById('gameModal').style.display = 'none';
-        }
-
-        window.onload = async () => {
-            initTheme();
-            updateCoinLabel();
+        
+        function showMessenger() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('messengerScreen').style.display = 'flex';
+            document.getElementById('chatScreen').style.display = 'none';
+            
             if (!myUsername) {
                 document.getElementById('loginModal').style.display = 'flex';
             } else {
-                document.getElementById('currentUserLabel').innerText = myUsername;
-                document.getElementById('msgInput').disabled = false;
-                document.getElementById('sendBtn').disabled = false;
-                await loadMessages();
-                await loadAllUsers();
-                startAutoRefresh();
+                document.getElementById('messengerUserLabel').innerText = myUsername;
+                initMessenger();
             }
-        };
+        }
+        
+        function backToMessenger() {
+            document.getElementById('chatScreen').style.display = 'none';
+            document.getElementById('messengerScreen').style.display = 'flex';
+            document.getElementById('chatMsgInput').value = '';
+            loadChatList();
+            loadMyGroups();
+        }
 
+        // ============ ثبت نام ============
         async function registerUser() {
-            const nameInput = document.getElementById('modalUsername').value.trim();
+            const name = document.getElementById('modalUsername').value.trim();
             const errDiv = document.getElementById('loginError');
-            errDiv.style.display = 'none';
-            if (!nameInput || nameInput.length < 2) {
+            if (!name || name.length < 2) {
                 errDiv.innerText = 'نام باید حداقل 2 کاراکتر باشه!';
                 errDiv.style.display = 'block';
                 return;
             }
             try {
-                const { data: existing } = await supabaseClient
-                    .from('users').select('id').eq('username', nameInput).limit(1);
+                const { data: existing } = await supabaseClient.from('users').select('id').eq('username', name).limit(1);
                 if (!existing || existing.length === 0) {
-                    await supabaseClient.from('users').insert([{ username: nameInput }]);
+                    await supabaseClient.from('users').insert([{ username: name }]);
                 }
-                localStorage.setItem('chat_username', nameInput);
-                myUsername = nameInput;
-                myCoins = parseInt(localStorage.getItem('game_coins_' + myUsername) || '500');
-                myWeapon = localStorage.getItem('game_weapon_' + myUsername) || '';
-                document.getElementById('currentUserLabel').innerText = myUsername;
-                updateCoinLabel();
+                localStorage.setItem('chat_username', name);
+                myUsername = name;
+                document.getElementById('messengerUserLabel').innerText = myUsername;
                 document.getElementById('loginModal').style.display = 'none';
-                document.getElementById('msgInput').disabled = false;
-                document.getElementById('sendBtn').disabled = false;
-                await sendWelcomeMessage();
-                await loadMessages();
-                await loadAllUsers();
-                startAutoRefresh();
-            } catch(e) { 
+                initMessenger();
+            } catch(e) {
                 errDiv.innerText = 'خطا: ' + e.message;
                 errDiv.style.display = 'block';
             }
         }
 
-        async function sendWelcomeMessage() {
-            const welcomeText = '👋 ' + myUsername + ' به گروه پیوست! (💰 500 سکه)';
-            const compressedText = LZString.compressToUTF16(welcomeText);
-            await supabaseClient.from('messages').insert([{
-                sender: 'system',
-                receiver: 'GROUP:' + GROUP_NAME,
-                content: compressedText
-            }]);
+        // ============ شروع پیام‌رسان ============
+        async function initMessenger() {
+            await updateOnlineStatus();
+            await loadAllUsers();
+            await loadMyGroups();
+            await loadChatList();
+            startAutoRefresh();
         }
 
-        async function sendMessageAs(sender, text) {
-            const compressed = LZString.compressToUTF16(text);
-            await supabaseClient.from('messages').insert([{
-                sender: sender,
-                receiver: 'GROUP:' + GROUP_NAME,
-                content: compressed
-            }]);
-            await loadMessages();
-        }
-
-        // ============ ربات بازی ============
-        async function processBotCommand(message, sender) {
-            const cmd = message.trim();
-            
-            // !شروع
-            if (cmd === '!شروع') {
-                const help = `🎮 **بازی جنگی شروع شد!**
-
-📜 قوانین:
-💰 هر بازیکن ۵۰۰ سکه داره
-⚔️ می‌تونه سلاح بخره
-🎯 به دیگران حمله کنه
-🏆 برنده جایزه می‌گیره
-
-🛒 دستورات:
-• !موجودی — سکه‌هات
-• !فروشگاه — لیست سلاح‌ها
-• !خرید [سلاح] — خرید سلاح
-• !حمله [اسم] — حمله
-• !رتبه — جدول امتیازات
-• !کمک — راهنما`;
-                await sendMessageAs(BOT_NAME, help);
-                return true;
-            }
-            
-            // !موجودی
-            if (cmd === '!موجودی') {
-                const weaponInfo = myWeapon ? (WEAPONS[myWeapon].emoji + ' ' + myWeapon + ' (قدرت: ' + WEAPONS[myWeapon].power + ')') : 'هیچ';
-                await sendMessageAs(BOT_NAME, `💰 ${sender} عزیز، موجودی تو:\n💵 سکه: ${myCoins}\n⚔️ سلاح: ${weaponInfo}\n🏆 برد: ${myWins} | 💀 باخت: ${myLosses}`);
-                return true;
-            }
-            
-            // !فروشگاه
-            if (cmd === '!فروشگاه') {
-                let shop = '🛒 **فروشگاه سلاح:**\n\n';
-                Object.entries(WEAPONS).forEach(([name, w]) => {
-                    shop += `${w.emoji} ${name} — 💰 ${w.price} — ⚔️ ${w.power}\n`;
-                });
-                await sendMessageAs(BOT_NAME, shop);
-                return true;
-            }
-            
-            // !خرید [سلاح]
-            if (cmd.startsWith('!خرید ')) {
-                const weaponName = cmd.replace('!خرید ', '').trim();
-                if (!WEAPONS[weaponName]) {
-                    await sendMessageAs(BOT_NAME, `❌ سلاح "${weaponName}" وجود نداره!`);
-                    return true;
-                }
-                if (myCoins < WEAPONS[weaponName].price) {
-                    await sendMessageAs(BOT_NAME, `❌ ${sender} عزیز، سکه کافی نداری! نیاز: ${WEAPONS[weaponName].price} | داری: ${myCoins}`);
-                    return true;
-                }
-                myCoins -= WEAPONS[weaponName].price;
-                myWeapon = weaponName;
-                localStorage.setItem('game_coins_' + myUsername, myCoins);
-                localStorage.setItem('game_weapon_' + myUsername, myWeapon);
-                updateCoinLabel();
-                await sendMessageAs(BOT_NAME, `✅ ${sender} سلاح ${WEAPONS[weaponName].emoji} ${weaponName} رو خریداری کرد!\n💰 موجودی جدید: ${myCoins} سکه\n⚔️ قدرت: ${WEAPONS[weaponName].power}`);
-                return true;
-            }
-            
-            // !حمله [اسم]
-            if (cmd.startsWith('!حمله ')) {
-                const target = cmd.replace('!حمله ', '').trim();
-                if (target === sender) {
-                    await sendMessageAs(BOT_NAME, `❌ نمی‌تونی به خودت حمله کنی!`);
-                    return true;
-                }
-                if (!allUsers.includes(target)) {
-                    await sendMessageAs(BOT_NAME, `❌ کاربر "${target}" پیدا نشد!`);
-                    return true;
-                }
-                if (!myWeapon) {
-                    await sendMessageAs(BOT_NAME, `❌ ${sender}، اول باید یه سلاح بخری! (!فروشگاه)`);
-                    return true;
-                }
-                
-                // قدرت مهاجم
-                const attackerPower = WEAPONS[myWeapon].power;
-                const targetWeapon = localStorage.getItem('game_weapon_' + target) || '';
-                const defenderPower = targetWeapon ? WEAPONS[targetWeapon].power : 0;
-                
-                // شانس
-                const attackerRoll = attackerPower + Math.random() * 50;
-                const defenderRoll = defenderPower + Math.random() * 50;
-                
-                let result;
-                if (attackerRoll > defenderRoll) {
-                    // مهاجم برد
-                    myCoins += 100;
-                    myWins++;
-                    localStorage.setItem('game_coins_' + myUsername, myCoins);
-                    localStorage.setItem('game_wins_' + myUsername, myWins);
-                    
-                    const targetCoins = Math.max(0, parseInt(localStorage.getItem('game_coins_' + target) || '500') - 100);
-                    localStorage.setItem('game_coins_' + target, targetCoins);
-                    const targetLosses = parseInt(localStorage.getItem('game_losses_' + target) || '0') + 1;
-                    localStorage.setItem('game_losses_' + target, targetLosses);
-                    
-                    result = `⚔️ **نبرد!**\n\n${sender} (${WEAPONS[myWeapon].emoji} ${myWeapon}) vs ${target} (${targetWeapon || 'بدون سلاح'})\n\n🎲 قدرت مهاجم: ${attackerPower}\n🎲 قدرت مدافع: ${defenderPower}\n\n🏆 **برنده: ${sender}!**\n💰 +100 سکه\n💀 ${target} -100 سکه`;
-                    updateCoinLabel();
-                } else {
-                    // مدافع برد
-                    const targetCoins = parseInt(localStorage.getItem('game_coins_' + target) || '500') + 100;
-                    localStorage.setItem('game_coins_' + target, targetCoins);
-                    
-                    myCoins = Math.max(0, myCoins - 100);
-                    myLosses++;
-                    localStorage.setItem('game_coins_' + myUsername, myCoins);
-                    localStorage.setItem('game_losses_' + myUsername, myLosses);
-                    
-                    result = `⚔️ **نبرد!**\n\n${sender} (${WEAPONS[myWeapon].emoji} ${myWeapon}) vs ${target} (${targetWeapon || 'بدون سلاح'})\n\n🎲 قدرت مهاجم: ${attackerPower}\n🎲 قدرت مدافع: ${defenderPower}\n\n🏆 **برنده: ${target}!**\n💰 +100 سکه\n💀 ${sender} -100 سکه`;
-                    updateCoinLabel();
-                }
-                
-                await sendMessageAs(BOT_NAME, result);
-                return true;
-            }
-            
-            // !رتبه
-            if (cmd === '!رتبه') {
-                const { data } = await supabaseClient.from('users').select('username');
-                if (data) {
-                    const rankings = data.map(u => {
-                        const coins = parseInt(localStorage.getItem('game_coins_' + u.username) || '500');
-                        const wins = parseInt(localStorage.getItem('game_wins_' + u.username) || '0');
-                        return { name: u.username, coins, wins };
-                    }).sort((a, b) => b.coins - a.coins);
-                    
-                    let list = '🏆 **جدول رتبه‌بندی:**\n\n';
-                    rankings.forEach((r, i) => {
-                        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
-                        list += medal + ' ' + r.name + ' — 💰 ' + r.coins + ' — 🏆 ' + r.wins + '\n';
-                    });
-                    await sendMessageAs(BOT_NAME, list);
-                }
-                return true;
-            }
-            
-            // !کمک
-            if (cmd === '!کمک') {
-                const help = `📖 **راهنمای بازی:**
-
-🛒 دستورات:
-• !شروع — شروع بازی
-• !موجودی — سکه‌هات
-• !فروشگاه — لیست سلاح‌ها
-• !خرید [سلاح] — خرید سلاح
-• !حمله [اسم] — حمله به یه نفر
-• !رتبه — جدول امتیازات
-• !کمک — همین پیام
-
-💰 هر بازیکن 500 سکه داره
-🏆 برنده نبرد 100 سکه می‌گیره
-💀 بازنده 100 سکه می‌ده`;
-                await sendMessageAs(BOT_NAME, help);
-                return true;
-            }
-            
-            // !پاک (تست - اختیاری)
-            if (cmd === '!ریست') {
-                myCoins = 500;
-                myWeapon = '';
-                myWins = 0;
-                myLosses = 0;
-                localStorage.setItem('game_coins_' + myUsername, 500);
-                localStorage.setItem('game_weapon_' + myUsername, '');
-                localStorage.setItem('game_wins_' + myUsername, 0);
-                localStorage.setItem('game_losses_' + myUsername, 0);
-                updateCoinLabel();
-                await sendMessageAs(BOT_NAME, `🔄 ${sender} بازی رو ریست کرد! (500 سکه)`);
-                return true;
-            }
-            
-            return false; // دستور نبود
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('msgInput');
-            const rawText = input.value.trim();
-            if (!rawText) return;
-            
-            // چک کن دستور بازی هست
-            if (rawText.startsWith('!')) {
-                input.value = '';
-                // پیام کاربر رو بفرست
-                const compressed = LZString.compressToUTF16(rawText);
-                let receiver = chatType === 'group' ? 'GROUP:' + GROUP_NAME : getPrivateReceiver();
-                await supabaseClient.from('messages').insert([{
-                    sender: myUsername, receiver: receiver, content: compressed
-                }]);
-                await loadMessages();
-                
-                // پردازش دستور ربات (فقط توی گروه)
-                if (chatType === 'group') {
-                    setTimeout(async () => {
-                        await processBotCommand(rawText, myUsername);
-                    }, 500);
-                }
-                return;
-            }
-            
-            const compressed = LZString.compressToUTF16(rawText);
-            input.value = '';
-            let receiver = chatType === 'group' ? 'GROUP:' + GROUP_NAME : getPrivateReceiver();
-            await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver, content: compressed
-            }]);
-            await loadMessages();
+        async function updateOnlineStatus() {
+            // علامت آنلاین بودن خودم
+            await supabaseClient.from('users').update({ online: true, last_seen: new Date().toISOString() }).eq('username', myUsername);
         }
 
         async function loadAllUsers() {
             try {
-                const { data } = await supabaseClient.from('users').select('username');
+                const { data } = await supabaseClient.from('users').select('username, online');
                 if (data) {
-                    allUsers = data.map(u => u.username).filter(u => u !== myUsername);
+                    allUsers = data.map(u => ({ username: u.username, online: u.online }));
+                    onlineUsers = new Set(data.filter(u => u.online).map(u => u.username));
                 }
             } catch(e) {}
         }
 
-        function toggleEmoji() {
-            document.getElementById('emojiPicker').classList.toggle('show');
+        async function loadMyGroups() {
+            try {
+                const { data } = await supabaseClient.from('groups').select('*');
+                if (data) {
+                    myGroups = data.filter(g => {
+                        const members = (g.members || '').split(',').filter(m => m);
+                        return members.includes(myUsername);
+                    });
+                }
+            } catch(e) {}
         }
 
-        function addEmoji(emoji) {
-            document.getElementById('msgInput').value += emoji;
+        async function loadChatList() {
+            // چت‌های خصوصی
+            const { data: privMsgs } = await supabaseClient.from('messages')
+                .select('*')
+                .like('receiver', 'PRIVATE:%')
+                .order('created_at', { ascending: false });
+            
+            const privChats = {};
+            (privMsgs || []).forEach(msg => {
+                const parts = msg.receiver.replace('PRIVATE:', '').split('|');
+                if (!parts.includes(myUsername)) return;
+                const other = parts.find(p => p !== myUsername);
+                if (!other) return;
+                if (!privChats[other]) {
+                    privChats[other] = { type: 'private', name: other, lastMsg: '', lastTime: msg.created_at, deleted: false };
+                }
+                // چک کن deleted هست یا نه
+                const key = 'chat_deleted_' + myUsername + '_' + other;
+                if (localStorage.getItem(key) === 'true') return;
+            });
+            
+            // پیام‌های خصوصی که ارسال کردم
+            const { data: sentPrivMsgs } = await supabaseClient.from('messages')
+                .select('*')
+                .like('receiver', 'PRIVATE:%')
+                .eq('sender', myUsername);
+            
+            (sentPrivMsgs || []).forEach(msg => {
+                const parts = msg.receiver.replace('PRIVATE:', '').split('|');
+                const other = parts.find(p => p !== myUsername);
+                if (!other) return;
+                const key = 'chat_deleted_' + myUsername + '_' + other;
+                if (localStorage.getItem(key) === 'true') return;
+                if (!privChats[other]) {
+                    privChats[other] = { type: 'private', name: other, lastMsg: '', lastTime: msg.created_at };
+                }
+            });
+            
+            // آخرین پیام هر چت رو بگیر
+            for (let user in privChats) {
+                const users = [myUsername, user].sort();
+                const receiver = 'PRIVATE:' + users[0] + '|' + users[1];
+                const { data } = await supabaseClient.from('messages')
+                    .select('*')
+                    .eq('receiver', receiver)
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+                if (data && data[0]) {
+                    let text = LZString.decompressFromUTF16(data[0].content) || data[0].content;
+                    if (text.startsWith('IMAGE:')) text = '🖼️ تصویر';
+                    if (text.startsWith('AUDIO:')) text = '🎤 پیام صوتی';
+                    privChats[user].lastMsg = text.substring(0, 30);
+                    privChats[user].lastTime = data[0].created_at;
+                }
+            }
+            
+            // گروه‌ها
+            const groupChats = myGroups.map(g => ({
+                type: 'group',
+                name: g.group_name,
+                lastMsg: '',
+                lastTime: g.created_at
+            }));
+            
+            // ترکیب
+            chatList = [...Object.values(privChats), ...groupChats];
+            chatList.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
+            
+            renderChatList();
         }
 
-        function openPrivateModal() {
-            document.getElementById('privateModal').style.display = 'flex';
-            selectedUser = '';
-            renderUserList('');
-        }
-
-        function closePrivateModal() {
-            document.getElementById('privateModal').style.display = 'none';
-        }
-
-        function renderUserList(filter) {
-            const list = document.getElementById('userList');
-            const filtered = allUsers.filter(u => u.toLowerCase().includes(filter.toLowerCase()));
-            if (filtered.length === 0) {
-                list.innerHTML = '<div style="color:#64748b;padding:10px;font-size:12px;">کاربری یافت نشد</div>';
+        function renderChatList() {
+            const list = document.getElementById('chatsList');
+            if (chatList.length === 0) {
+                list.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 30px; font-size: 13px;">📭 هنوز چتی نداری<br><span style="font-size: 11px;">از پایین چت جدید یا گروه بساز</span></div>';
                 return;
             }
-            list.innerHTML = filtered.map(u => `
-                <div class="user-item" onclick="selectUser('${u}')">
-                    <span>👤 ${u}</span>
-                    <span style="font-size:10px;color:#22c55e;">آنلاین</span>
-                </div>
-            `).join('');
+            list.innerHTML = chatList.map((c, i) => {
+                const isOnline = c.type === 'private' && onlineUsers.has(c.name);
+                const icon = c.type === 'group' ? '👥' : '👤';
+                const dot = c.type === 'private' ? (isOnline ? '<span class="online-dot"></span>' : '<span class="offline-dot"></span>') : '';
+                const delBtn = c.type === 'private' ? `<button class="delete-chat-btn" onclick="event.stopPropagation(); deleteChat('${c.name}')">🗑️ حذف</button>` : '';
+                const time = c.lastTime ? new Date(c.lastTime).toLocaleString('fa-IR', { hour: '2-digit', minute: '2-digit' }) : '';
+                return `
+                    <div class="chat-item" onclick="openChat('${c.type}', '${c.name}')">
+                        <div class="info">
+                            <div class="name">${icon} ${c.name} ${dot}</div>
+                            <div class="last-msg">${c.lastMsg || 'هنوز پیامی نیست'}</div>
+                        </div>
+                        <div class="meta">
+                            <div class="time">${time}</div>
+                            ${delBtn}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function filterUsers() {
-            renderUserList(document.getElementById('privateUsername').value);
+        // ============ حذف چت ============
+        function deleteChat(username) {
+            if (!confirm('چت با "' + username + '" حذف بشه؟')) return;
+            const key = 'chat_deleted_' + myUsername + '_' + username;
+            localStorage.setItem(key, 'true');
+            loadChatList();
         }
 
-        function selectUser(username) {
-            selectedUser = username;
-            document.getElementById('privateUsername').value = username;
-        }
-
-        function getPrivateReceiver() {
-            const users = [myUsername, chatTarget].sort();
-            return 'PRIVATE:' + users[0] + '|' + users[1];
-        }
-
-        async function startPrivateChatFromInput() {
-            let target = selectedUser || document.getElementById('privateUsername').value.trim();
-            if (!target || !allUsers.includes(target)) {
-                alert('کاربر پیدا نشد!');
+        // ============ جستجو ============
+        async function handleSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsBox = document.getElementById('searchResults');
+            if (!query) {
+                resultsBox.style.display = 'none';
                 return;
             }
-            chatType = 'private';
-            chatTarget = target;
-            document.getElementById('chatModeInfo').classList.add('show');
-            document.getElementById('chatWithName').innerText = target;
-            document.getElementById('headerSubtitle').innerText = '💬 چت خصوصی';
-            closePrivateModal();
-            await loadMessages();
+            
+            await loadAllUsers();
+            await loadMyGroups();
+            
+            const userResults = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(query));
+            const groupResults = myGroups.filter(g => g.group_name.toLowerCase().includes(query));
+            
+            if (userResults.length === 0 && groupResults.length === 0) {
+                resultsBox.innerHTML = '<div class="search-item" style="color: #64748b; justify-content: center;">کاربر یا گروهی یافت نشد</div>';
+                resultsBox.style.display = 'block';
+                return;
+            }
+            
+            let html = '';
+            userResults.forEach(u => {
+                const isOnline = onlineUsers.has(u.username);
+                html += `<div class="search-item" onclick="openChat('private', '${u.username}')">
+                    <span class="name">👤 ${u.username} ${isOnline ? '<span class="online-dot"></span>' : ''}</span>
+                    <span class="type">کاربر</span>
+                </div>`;
+            });
+            groupResults.forEach(g => {
+                html += `<div class="search-item" onclick="openChat('group', '${g.group_name}')">
+                    <span class="name">👥 ${g.group_name}</span>
+                    <span class="type">گروه</span>
+                </div>`;
+            });
+            resultsBox.innerHTML = html;
+            resultsBox.style.display = 'block';
         }
 
-        function backToGroup() {
-            chatType = 'group';
-            chatTarget = '';
-            document.getElementById('chatModeInfo').classList.remove('show');
-            document.getElementById('headerSubtitle').innerText = '💬 بازی جنگی — بنویس !شروع';
-            loadMessages();
-        }
-
-        async function loadMessages() {
-            let query = supabaseClient.from('messages').select('*');
-            if (chatType === 'group') {
-                query = query.eq('receiver', 'GROUP:' + GROUP_NAME);
+        // ============ باز کردن چت ============
+        async function openChat(type, name) {
+            currentChat = { type, target: name };
+            document.getElementById('messengerScreen').style.display = 'none';
+            document.getElementById('chatScreen').style.display = 'flex';
+            
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+            
+            const icon = type === 'group' ? '👥' : '👤';
+            document.getElementById('chatHeaderIcon').innerText = icon;
+            document.getElementById('chatTitleName').innerText = name;
+            
+            if (type === 'group') {
+                document.getElementById('chatGroupStats').style.display = 'flex';
+                document.getElementById('membersBtn').style.display = 'block';
+                await updateGroupStats(name);
             } else {
-                query = query.eq('receiver', getPrivateReceiver());
+                document.getElementById('chatGroupStats').style.display = 'none';
+                document.getElementById('membersBtn').style.display = 'none';
+                const isOnline = onlineUsers.has(name);
+                document.getElementById('chatSubtitle').innerText = isOnline ? '🟢 آنلاین' : '⚫ آفلاین';
             }
-            const { data } = await query.order('created_at', { ascending: true }).limit(200);
-            const box = document.getElementById('messagesBox');
+            
+            await loadChatMessages();
+        }
+
+        async function updateGroupStats(groupName) {
+            const { data: group } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
+            if (!group || group.length === 0) return;
+            const members = (group[0].members || '').split(',').filter(m => m);
+            document.getElementById('memberCountLabel').innerText = members.length;
+            
+            await loadAllUsers();
+            const online = members.filter(m => onlineUsers.has(m)).length;
+            document.getElementById('onlineCountLabel').innerText = online;
+        }
+
+        function toggleMembers() {
+            const panel = document.getElementById('membersPanel');
+            panel.classList.toggle('show');
+            if (panel.classList.contains('show')) {
+                loadMembersList();
+            }
+        }
+
+        async function loadMembersList() {
+            const { data: group } = await supabaseClient.from('groups').select('*').eq('group_name', currentChat.target).limit(1);
+            if (!group || group.length === 0) return;
+            const members = (group[0].members || '').split(',').filter(m => m);
+            await loadAllUsers();
+            const panel = document.getElementById('membersPanel');
+            panel.innerHTML = '<div style="font-weight:bold; font-size:12px; margin-bottom:5px; color:#facc15;">👥 اعضای گروه:</div>' + 
+                members.map(m => {
+                    const isOnline = onlineUsers.has(m);
+                    return `<div class="member-row"><span>${m}</span><span>${isOnline ? '🟢 آنلاین' : '⚫ آفلاین'}</span></div>`;
+                }).join('');
+        }
+
+        // ============ ارسال و بارگذاری پیام ============
+        function getReceiverForChat() {
+            if (currentChat.type === 'group') {
+                return 'GROUP:' + currentChat.target;
+            } else {
+                const users = [myUsername, currentChat.target].sort();
+                return 'PRIVATE:' + users[0] + '|' + users[1];
+            }
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatMsgInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const compressed = LZString.compressToUTF16(text);
+            input.value = '';
+            await supabaseClient.from('messages').insert([{
+                sender: myUsername,
+                receiver: getReceiverForChat(),
+                content: compressed
+            }]);
+            await loadChatMessages();
+        }
+
+        async function loadChatMessages() {
+            if (!currentChat.target) return;
+            const { data } = await supabaseClient.from('messages')
+                .select('*')
+                .eq('receiver', getReceiverForChat())
+                .order('created_at', { ascending: true })
+                .limit(200);
+            
+            const box = document.getElementById('chatMessagesBox');
             box.innerHTML = '';
             if (!data || data.length === 0) {
-                box.innerHTML = '<div class="msg-system">🔥 بنویس !شروع</div>';
+                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>';
                 return;
             }
             data.forEach(msg => {
-                let text = LZString.decompressFromUTF16(msg.content);
-                if (!text) text = msg.content;
+                let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
-                const isBot = msg.sender === BOT_NAME;
                 const isSystem = msg.sender === 'system';
-                
                 if (isSystem) {
                     const div = document.createElement('div');
                     div.className = 'msg-system';
@@ -712,46 +681,118 @@
                     box.appendChild(div);
                     return;
                 }
-                
                 const div = document.createElement('div');
-                let cls = isMe ? 'sent' : 'received';
-                if (chatType === 'private') cls = isMe ? 'private-sent' : 'private-received';
-                if (isBot) cls = 'bot';
-                div.className = 'msg ' + cls;
-                
+                div.className = 'msg ' + (isMe ? 'sent' : 'received');
                 const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
                 let senderHtml = '';
-                if (isBot) {
-                    senderHtml = '<div class="msg-sender">' + BOT_NAME + '</div>';
-                } else if (isMe) {
-                    senderHtml = '<div class="msg-sender" style="color:#38bdf8;">👤 ' + msg.sender + ' (شما)</div>';
+                if (isMe) {
+                    senderHtml = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>';
                 } else {
                     senderHtml = '<div class="msg-sender">👤 ' + msg.sender + '</div>';
                 }
-                
                 div.innerHTML = senderHtml + '<div style="white-space:pre-wrap;">' + text + '</div><div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
             box.scrollTop = box.scrollHeight;
         }
 
-        function startAutoRefresh() {
-            if (fetchInterval) clearInterval(fetchInterval);
-            fetchInterval = setInterval(async () => {
-                await loadMessages();
-                await loadAllUsers();
-            }, 2000);
+        // ============ مودال چت جدید ============
+        async function openNewChatModal() {
+            await loadAllUsers();
+            document.getElementById('newChatModal').style.display = 'flex';
+            document.getElementById('newChatUsername').value = '';
+            renderNewChatUsers('');
+        }
+
+        function closeNewChatModal() {
+            document.getElementById('newChatModal').style.display = 'none';
+        }
+
+        function renderNewChatUsers(filter) {
+            const list = document.getElementById('newChatUserList');
+            const filtered = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(filter.toLowerCase()));
+            if (filtered.length === 0) {
+                list.innerHTML = '<div style="color:#64748b;padding:10px;text-align:center;font-size:12px;">کاربری یافت نشد</div>';
+                return;
+            }
+            list.innerHTML = filtered.map(u => `
+                <div class="user-item" onclick="document.getElementById('newChatUsername').value='${u.username}'">
+                    <span>👤 ${u.username}</span>
+                    ${u.online ? '<span style="font-size:10px;color:#22c55e;">🟢 آنلاین</span>' : '<span style="font-size:10px;color:#64748b;">⚫ آفلاین</span>'}
+                </div>
+            `).join('');
+        }
+
+        function filterNewChatUsers() {
+            renderNewChatUsers(document.getElementById('newChatUsername').value);
+        }
+
+        async function startNewChat() {
+            const username = document.getElementById('newChatUsername').value.trim();
+            if (!username) return alert('نام کاربر رو وارد کن!');
+            if (username === myUsername) return alert('نمی‌تونی به خودت پیام بدی!');
+            const exists = allUsers.find(u => u.username === username);
+            if (!exists) return alert('کاربر پیدا نشد!');
+            // حذف علامت deleted
+            localStorage.removeItem('chat_deleted_' + myUsername + '_' + username);
+            closeNewChatModal();
+            await openChat('private', username);
+        }
+
+        // ============ مودال ساخت گروه ============
+        function openCreateGroupModal() {
+            document.getElementById('createGroupModal').style.display = 'flex';
+            document.getElementById('newGroupName').value = '';
+            document.getElementById('createGroupError').style.display = 'none';
+        }
+
+        function closeCreateGroupModal() {
+            document.getElementById('createGroupModal').style.display = 'none';
+        }
+
+        async function createNewGroup() {
+            const name = document.getElementById('newGroupName').value.trim();
+            const errDiv = document.getElementById('createGroupError');
+            if (!name || name.length < 2) {
+                errDiv.innerText = 'اسم گروه باید حداقل 2 کاراکتر باشه!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            try {
+                const { data: existing } = await supabaseClient.from('groups').select('*').eq('group_name', name).limit(1);
+                if (existing && existing.length > 0) {
+                    // گروه وجود داره - به اعضا اضافه کن
+                    const currentMembers = (existing[0].members || '').split(',').filter(m => m);
+                    if (!currentMembers.includes(myUsername)) {
+                        currentMembers.push(myUsername);
+                        await supabaseClient.from('groups').update({ members: currentMembers.join(',') }).eq('group_name', name);
+                    }
+                } else {
+                    // گروه جدید بساز
+                    await supabaseClient.from('groups').insert([{ group_name: name, members: myUsername }]);
+                }
+                // پیام سیستمی
+                await supabaseClient.from('messages').insert([{
+                    sender: 'system',
+                    receiver: 'GROUP:' + name,
+                    content: LZString.compressToUTF16('👋 گروه "' + name + '" ساخته شد!')
+                }]);
+                closeCreateGroupModal();
+                await loadMyGroups();
+                await openChat('group', name);
+            } catch(e) {
+                errDiv.innerText = 'خطا: ' + e.message;
+                errDiv.style.display = 'block';
+            }
         }
 
         // ============ پنل سرور ============
         function openServerPassModal() {
             document.getElementById('serverPassModal').style.display = 'flex';
         }
-
         function closeServerPassModal() {
             document.getElementById('serverPassModal').style.display = 'none';
         }
-
         async function checkServerPassword() {
             const pass = document.getElementById('serverPassword').value;
             if (pass !== 'nimaaslani1234A') {
@@ -764,24 +805,22 @@
             await loadServerStats();
             await loadServerUsers();
         }
-
         function closeServerPanel() {
             document.getElementById('serverPanelModal').style.display = 'none';
         }
-
         async function loadServerStats() {
             const users = await supabaseClient.from('users').select('id');
             const messages = await supabaseClient.from('messages').select('id');
+            const groups = await supabaseClient.from('groups').select('id');
             document.getElementById('statUsers').textContent = users.data ? users.data.length : 0;
             document.getElementById('statMessages').textContent = messages.data ? messages.data.length : 0;
-            document.getElementById('statGroups').textContent = 1;
+            document.getElementById('statGroups').textContent = groups.data ? groups.data.length : 0;
         }
-
         async function loadServerUsers() {
             const { data } = await supabaseClient.from('users').select('username').order('username');
             const list = document.getElementById('serverUserList');
             if (!data || data.length === 0) {
-                list.innerHTML = '<div style="color:#64748b;padding:15px;text-align:center;font-size:12px;">📭 کاربری نیست</div>';
+                list.innerHTML = '<div style="color:#64748b;padding:15px;text-align:center;">کاربری نیست</div>';
                 return;
             }
             list.innerHTML = data.map(u => `
@@ -791,33 +830,95 @@
                 </div>
             `).join('');
         }
-
         async function deleteUserFromServer(username) {
             if (!confirm('حذف ' + username + '؟')) return;
             await supabaseClient.from('messages').delete().eq('sender', username);
             await supabaseClient.from('users').delete().eq('username', username);
-            alert('✅ حذف شد');
+            alert('حذف شد');
             await loadServerStats();
             await loadServerUsers();
         }
-
         async function deleteAllData() {
-            if (!confirm('همه اطلاعات پاک بشه؟')) return;
+            if (!confirm('همه پاک بشه؟')) return;
             if (!confirm('تأیید نهایی!')) return;
             await supabaseClient.from('messages').delete().neq('id', 0);
+            await supabaseClient.from('groups').delete().neq('id', 0);
             await supabaseClient.from('users').delete().neq('id', 0);
-            document.getElementById('serverSuccessMsg').textContent = '✅ همه پاک شدند!';
+            document.getElementById('serverSuccessMsg').textContent = '✅ پاک شد!';
             document.getElementById('serverSuccessMsg').style.display = 'block';
             await loadServerStats();
             await loadServerUsers();
         }
 
-        function closeImageModal() {
-            document.getElementById('imageModal').style.display = 'none';
+        // ============ لینک گروه ============
+        function openShareLinkModal() {
+            const link = window.location.origin + '/group-jangi/index.html?join=' + encodeURIComponent(currentChat.target);
+            document.getElementById('groupLinkInput').value = link;
+            document.getElementById('shareLinkModal').style.display = 'flex';
+        }
+        function closeShareLinkModal() {
+            document.getElementById('shareLinkModal').style.display = 'none';
+        }
+        function copyGroupLink() {
+            const input = document.getElementById('groupLinkInput');
+            input.select();
+            document.execCommand('copy');
+            alert('✅ لینک کپی شد!');
         }
 
-        document.getElementById('msgInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendMessage();
+        // ============ آپدیت خودکار ============
+        function startAutoRefresh() {
+            if (fetchInterval) clearInterval(fetchInterval);
+            fetchInterval = setInterval(async () => {
+                await loadAllUsers();
+                if (document.getElementById('chatScreen').style.display === 'flex') {
+                    await loadChatMessages();
+                    if (currentChat.type === 'group') {
+                        await updateGroupStats(currentChat.target);
+                    }
+                } else if (document.getElementById('messengerScreen').style.display === 'flex') {
+                    await loadChatList();
+                    await loadMyGroups();
+                }
+            }, 2000);
+        }
+
+        // ============ شروع ============
+        window.addEventListener('load', function() {
+            initTheme();
+            
+            // چک کن از لینک گروه اومده
+            const urlParams = new URLSearchParams(window.location.search);
+            const joinGroup = urlParams.get('join');
+            
+            if (joinGroup && myUsername) {
+                showMessenger();
+                setTimeout(() => joinGroupByLink(joinGroup), 1500);
+            }
+        });
+
+        async function joinGroupByLink(groupName) {
+            try {
+                const { data: existing } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
+                if (existing && existing.length > 0) {
+                    const currentMembers = (existing[0].members || '').split(',').filter(m => m);
+                    if (!currentMembers.includes(myUsername)) {
+                        currentMembers.push(myUsername);
+                        await supabaseClient.from('groups').update({ members: currentMembers.join(',') }).eq('group_name', groupName);
+                        await supabaseClient.from('messages').insert([{
+                            sender: 'system',
+                            receiver: 'GROUP:' + groupName,
+                            content: LZString.compressToUTF16('👋 ' + myUsername + ' به گروه پیوست!')
+                        }]);
+                    }
+                    await loadMyGroups();
+                    await openChat('group', groupName);
+                }
+            } catch(e) {}
+        }
+
+        document.getElementById('chatMsgInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendChatMessage();
         });
     </script>
 </body>
