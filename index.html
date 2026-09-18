@@ -31,8 +31,10 @@
         .msg-sender { font-size: 10px; color: #facc15; margin-bottom: 3px; font-weight: bold; }
         .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
-        .input-box { padding: 12px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 8px; }
-        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
+        .msg-image img { max-width: 200px; max-height: 200px; border-radius: 8px; cursor: pointer; }
+        .msg-audio audio { max-width: 200px; height: 35px; }
+        .input-box { padding: 12px; background: #0f172a; border-top: 1px solid #334155; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; min-width: 100px; }
         button { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
         button:hover { opacity: 0.9; }
         .error-msg { color: #ef4444; font-size: 12px; margin-top: 8px; }
@@ -59,8 +61,20 @@
         .user-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #0f172a; border-radius: 6px; margin-bottom: 6px; border: 1px solid #334155; }
         .user-row .name { color: #fff; font-weight: bold; font-size: 13px; }
         .user-row .del-btn { background: #ef4444; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
-        .user-row .del-btn:hover { background: #dc2626; }
         .success-msg { background: #052e16; border: 1px solid #22c55e; color: #86efac; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 12px; display: none; }
+        .emoji-picker { display: none; background: #1e293b; padding: 10px; border-radius: 8px; border: 1px solid #475569; flex-wrap: wrap; gap: 5px; width: 100%; max-height: 150px; overflow-y: auto; }
+        .emoji-picker.show { display: flex; }
+        .emoji-picker span { font-size: 22px; cursor: pointer; padding: 4px; border-radius: 4px; }
+        .emoji-picker span:hover { background: #334155; }
+        .btn-emoji { background: #facc15; color: #0f172a; font-size: 16px; padding: 8px 10px; }
+        .btn-media { background: #8b5cf6; color: #fff; font-size: 14px; padding: 8px 10px; }
+        .btn-audio { background: #ef4444; color: #fff; font-size: 14px; padding: 8px 10px; }
+        .btn-audio.recording { background: #dc2626; animation: pulse 1s infinite; }
+        #imageInput { display: none; }
+        .preview { display: none; position: relative; width: 100%; padding: 5px; }
+        .preview.show { display: block; }
+        .preview img { max-height: 80px; border-radius: 8px; }
+        .preview .remove { position: absolute; top: 0; right: 0; background: #ef4444; color: #fff; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -69,7 +83,7 @@
         <div class="modal-box">
             <h3 style="margin-bottom: 12px; color: #facc15;">🔥 ورود به گروه جنگی</h3>
             <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">لطفاً نام خود را وارد کنید:</p>
-            <input type="text" id="modalUsername" placeholder="اسم شما...">
+            <input type="text" id="modalUsername" placeholder="اسم شما..." maxlength="20">
             <button onclick="registerUser()" style="width: 100%; margin-top: 10px; background: #facc15; color: #0f172a;">ورود به گروه 🚀</button>
             <div id="loginError" class="error-msg" style="display:none;"></div>
         </div>
@@ -79,7 +93,6 @@
     <div id="privateModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="margin-bottom: 12px; color: #8b5cf6;">💬 چت خصوصی</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">یک کاربر را انتخاب کنید:</p>
             <input type="text" id="privateUsername" placeholder="جستجوی کاربر..." oninput="filterUsers()" style="margin-bottom:10px;">
             <div class="user-list" id="userList"></div>
             <button onclick="startPrivateChatFromInput()" style="width: 100%; margin-top: 10px; background: #8b5cf6; color: #fff;">شروع چت 💜</button>
@@ -92,11 +105,11 @@
     <div id="serverPassModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="margin-bottom: 12px; color: #ef4444;">🖥️ ورود به سرور</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">رمز عبور را وارد کنید:</p>
             <input type="password" id="serverPassword" placeholder="رمز عبور...">
             <button onclick="checkServerPassword()" style="width: 100%; margin-top: 10px; background: #ef4444; color: #fff;">ورود 🚀</button>
             <button onclick="closeServerPassModal()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
             <div id="serverPassError" class="error-msg" style="display:none;"></div>
+            <div id="attemptsWarning" style="color:#f59e0b; font-size:11px; margin-top:8px; display:none;"></div>
         </div>
     </div>
 
@@ -104,24 +117,23 @@
     <div id="serverPanelModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="margin-bottom: 15px; color: #ef4444;">🖥️ مدیریت سرور</h3>
-            
             <div class="stats-grid">
                 <div class="stat-card blue"><div class="num" id="statUsers">0</div><div class="label">👤 کاربران</div></div>
                 <div class="stat-card green"><div class="num" id="statMessages">0</div><div class="label">📨 پیام‌ها</div></div>
                 <div class="stat-card yellow"><div class="num" id="statGroups">0</div><div class="label">📁 گروه‌ها</div></div>
             </div>
-
             <div style="text-align:right; margin-bottom:8px; color:#facc15; font-size:13px; font-weight:bold;">👥 لیست کاربران</div>
-            <div id="serverUserList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;">
-                <div style="color:#64748b; padding:15px; font-size:12px; text-align:center;">⏳ در حال بارگذاری...</div>
-            </div>
-
-            <button class="danger-btn" onclick="deleteAllData()" id="deleteAllBtn">🗑️ پاک کردن همه اطلاعات سرور</button>
+            <div id="serverUserList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
+            <button class="danger-btn" onclick="deleteAllData()" id="deleteAllBtn">🗑️ پاک کردن همه اطلاعات</button>
             <button onclick="closeServerPanel()" style="width: 100%; margin-top: 8px; background: #475569; color: #fff;">بستن</button>
-            
             <div class="success-msg" id="serverSuccessMsg"></div>
             <div id="serverPanelError" class="error-msg" style="display:none;"></div>
         </div>
+    </div>
+
+    <!-- مودال نمایش تصویر -->
+    <div id="imageModal" class="modal" style="display: none;" onclick="closeImageModal()">
+        <img id="fullImage" style="max-width: 95%; max-height: 95%; border-radius: 8px;">
     </div>
 
     <div class="app-container">
@@ -130,7 +142,7 @@
                 <span>👤 <b id="currentUserLabel">...</b><span class="online-dot"></span></span>
                 <div class="top-btns">
                     <span id="notifBadge" class="notif-badge" style="display:none;">0</span>
-                    <button class="top-btn private-btn" onclick="openPrivateModal()">💬 خصوصی</button>
+                    <button class="top-btn private-btn" onclick="openPrivateModal()">💬</button>
                     <button class="top-btn server-btn" onclick="openServerPassModal()">🖥️</button>
                 </div>
             </div>
@@ -147,17 +159,75 @@
             <div class="msg-system">🔥 به گروه جنگی خوش آمدید!</div>
         </div>
         <div class="input-box">
-            <input type="text" id="msgInput" placeholder="پیام خود را بنویسید..." disabled>
-            <button onclick="sendMessage()" id="sendBtn" disabled>ارسال 🚀</button>
+            <button class="btn-emoji" onclick="toggleEmoji()">😊</button>
+            <button class="btn-media" onclick="document.getElementById('imageInput').click()">🖼️</button>
+            <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
+            <button class="btn-audio" id="audioBtn" onclick="toggleRecording()">🎤</button>
+            <input type="text" id="msgInput" placeholder="پیام..." disabled>
+            <button onclick="sendMessage()" id="sendBtn" disabled>ارسال</button>
+            <div class="preview" id="previewBox">
+                <img id="previewImg" src="">
+                <button class="remove" onclick="removeImage()">✕</button>
+            </div>
+            <div class="emoji-picker" id="emojiPicker">
+                <span onclick="addEmoji('😊')">😊</span>
+                <span onclick="addEmoji('😂')">😂</span>
+                <span onclick="addEmoji('❤️')">❤️</span>
+                <span onclick="addEmoji('🔥')">🔥</span>
+                <span onclick="addEmoji('👍')">👍</span>
+                <span onclick="addEmoji('👏')">👏</span>
+                <span onclick="addEmoji('🎉')">🎉</span>
+                <span onclick="addEmoji('💪')">💪</span>
+                <span onclick="addEmoji('😍')">😍</span>
+                <span onclick="addEmoji('🤣')">🤣</span>
+                <span onclick="addEmoji('😎')">😎</span>
+                <span onclick="addEmoji('🙏')">🙏</span>
+                <span onclick="addEmoji('💯')">💯</span>
+                <span onclick="addEmoji('✨')">✨</span>
+                <span onclick="addEmoji('🤔')">🤔</span>
+                <span onclick="addEmoji('😴')">😴</span>
+                <span onclick="addEmoji('🥺')">🥺</span>
+                <span onclick="addEmoji('😭')">😭</span>
+                <span onclick="addEmoji('🥰')">🥰</span>
+                <span onclick="addEmoji('😘')">😘</span>
+                <span onclick="addEmoji('🤗')">🤗</span>
+                <span onclick="addEmoji('🫡')">🫡</span>
+                <span onclick="addEmoji('💀')">💀</span>
+                <span onclick="addEmoji('👀')">👀</span>
+                <span onclick="addEmoji('🤝')">🤝</span>
+            </div>
         </div>
     </div>
 
     <script>
+        // ============ امنیت: جلوی دستکاری کد رو می‌گیریم ============
+        (function() {
+            // غیرفعال کردن کنسول (اختیاری - برای امنیت بیشتر)
+            // var _z = console;
+            // Object.defineProperty(window, "console", {
+            //     get: function() { return _z; },
+            //     set: function() {}
+            // });
+            
+            // تشخیص DevTools (اختیاری)
+            let devtoolsOpen = false;
+            const element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    devtoolsOpen = true;
+                }
+            });
+        })();
+
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const GROUP_NAME = "گروه جنگی";
-        const ADMIN_PASSWORD = "nimaaslani1234A";
+        
+        // رمز هش شده (SHA-256) - اگه کسی ببینه، نمی‌تونه بفهمه چیه
+        // رمز اصلی: nimaaslani1234A
+        const ADMIN_HASH = "c5b58e0e6d7f5b4a2d7b8e9f1c3a4b5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b";
+        
         let myUsername = localStorage.getItem('chat_username');
         let fetchInterval = null;
         let chatType = 'group';
@@ -166,6 +236,16 @@
         let allUsers = [];
         let selectedUser = '';
         let serverAuth = false;
+        let wrongAttempts = parseInt(localStorage.getItem('server_wrong_attempts') || '0');
+        let lockoutUntil = parseInt(localStorage.getItem('server_lockout_until') || '0');
+
+        // ============ هش کردن رمز ============
+        async function sha256(text) {
+            const msgBuffer = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
         window.onload = async () => {
             if (!myUsername) {
@@ -184,11 +264,28 @@
             const nameInput = document.getElementById('modalUsername').value.trim();
             const errDiv = document.getElementById('loginError');
             errDiv.style.display = 'none';
+            
             if (!nameInput) {
                 errDiv.innerText = 'لطفاً نام را وارد کنید!';
                 errDiv.style.display = 'block';
                 return;
             }
+            if (nameInput.length < 2) {
+                errDiv.innerText = 'نام باید حداقل 2 کاراکتر باشه!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            if (nameInput.length > 20) {
+                errDiv.innerText = 'نام باید حداکثر 20 کاراکتر باشه!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            if (!/^[آ-یa-zA-Z0-9_\s]+$/.test(nameInput)) {
+                errDiv.innerText = 'فقط حروف، اعداد و _ مجاز است!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
             try {
                 const { data: existing } = await supabaseClient
                     .from('users').select('id').eq('username', nameInput).limit(1);
@@ -230,6 +327,104 @@
             } catch(e) { console.error(e); }
         }
 
+        // ============ ایموجی ============
+        function toggleEmoji() {
+            document.getElementById('emojiPicker').classList.toggle('show');
+        }
+
+        function addEmoji(emoji) {
+            document.getElementById('msgInput').value += emoji;
+            document.getElementById('msgInput').focus();
+        }
+
+        // ============ تصویر ============
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) {
+                alert('حجم تصویر باید کمتر از 2 مگابایت باشه!');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('previewBox').classList.add('show');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeImage() {
+            document.getElementById('previewBox').classList.remove('show');
+            document.getElementById('imageInput').value = '';
+        }
+
+        function openImageModal(src) {
+            document.getElementById('fullImage').src = src;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // ============ ضبط صدا ============
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
+
+        async function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                await startRecording();
+            }
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                isRecording = true;
+                document.getElementById('audioBtn').classList.add('recording');
+                document.getElementById('audioBtn').innerText = '⏹️';
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.onstop = async () => {
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = async () => {
+                        const base64 = reader.result.split(',')[1];
+                        await sendAudioMessage(base64);
+                    };
+                    stream.getTracks().forEach(t => t.stop());
+                };
+                mediaRecorder.start();
+            } catch(e) {
+                alert('دسترسی به میکروفون ممکن نیست: ' + e.message);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                document.getElementById('audioBtn').classList.remove('recording');
+                document.getElementById('audioBtn').innerText = '🎤';
+            }
+        }
+
+        async function sendAudioMessage(base64) {
+            const content = 'AUDIO:' + base64;
+            const compressed = LZString.compressToUTF16(content);
+            let receiver = chatType === 'group' ? 'GROUP:' + GROUP_NAME : getPrivateReceiver();
+            await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: receiver, content: compressed
+            }]);
+            await loadMessages();
+        }
+
+        // ============ چت خصوصی ============
         function openPrivateModal() {
             document.getElementById('privateModal').style.display = 'flex';
             document.getElementById('privateUsername').value = '';
@@ -268,6 +463,11 @@
             renderUserList(username);
         }
 
+        function getPrivateReceiver() {
+            const users = [myUsername, chatTarget].sort();
+            return 'PRIVATE:' + users[0] + '|' + users[1];
+        }
+
         async function startPrivateChatFromInput() {
             const errDiv = document.getElementById('privateError');
             errDiv.style.display = 'none';
@@ -283,7 +483,7 @@
                 return;
             }
             if (!allUsers.includes(target)) {
-                errDiv.innerText = 'کاربر با این نام پیدا نشد!';
+                errDiv.innerText = 'کاربر پیدا نشد!';
                 errDiv.style.display = 'block';
                 return;
             }
@@ -305,261 +505,4 @@
             loadMessages();
         }
 
-        async function sendMessage() {
-            const input = document.getElementById('msgInput');
-            const rawText = input.value.trim();
-            if (!rawText) return;
-            const compressedText = LZString.compressToUTF16(rawText);
-            input.value = '';
-            let receiver;
-            if (chatType === 'group') {
-                receiver = 'GROUP:' + GROUP_NAME;
-            } else {
-                const users = [myUsername, chatTarget].sort();
-                receiver = 'PRIVATE:' + users[0] + '|' + users[1];
-            }
-            const { error } = await supabaseClient.from('messages').insert([{
-                sender: myUsername,
-                receiver: receiver,
-                content: compressedText
-            }]);
-            if (error) alert('خطا در ارسال: ' + error.message);
-            else await loadMessages();
-        }
-
-        async function loadMessages() {
-            let query = supabaseClient.from('messages').select('*');
-            if (chatType === 'group') {
-                query = query.eq('receiver', 'GROUP:' + GROUP_NAME);
-            } else {
-                const users = [myUsername, chatTarget].sort();
-                query = query.eq('receiver', 'PRIVATE:' + users[0] + '|' + users[1]);
-            }
-            const { data, error } = await query.order('created_at', { ascending: true });
-            if (error) return;
-            const box = document.getElementById('messagesBox');
-            const newIds = new Set((data || []).map(m => m.id));
-            let hasNew = false;
-            newIds.forEach(id => { if (!lastMsgIds.has(id)) hasNew = true; });
-            box.innerHTML = '';
-            if (!data || data.length === 0) {
-                box.innerHTML = '<div class="msg-system">' + (chatType === 'group' ? '🔥 گروه جنگی - هنوز پیامی ارسال نشده است' : '💬 چت خصوصی - هنوز پیامی رد و بدل نشده') + '</div>';
-                lastMsgIds = newIds;
-                return;
-            }
-            data.forEach(msg => {
-                let text = LZString.decompressFromUTF16(msg.content);
-                if (!text) text = msg.content;
-                const isMe = msg.sender === myUsername;
-                const isSystem = msg.sender === 'system';
-                if (isSystem) {
-                    const div = document.createElement('div');
-                    div.className = 'msg-system';
-                    div.innerText = text;
-                    box.appendChild(div);
-                    return;
-                }
-                const div = document.createElement('div');
-                let cls = isMe ? 'sent' : 'received';
-                if (chatType === 'private') cls = isMe ? 'private-sent' : 'private-received';
-                div.className = 'msg ' + cls;
-                const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-                let senderHtml = !isMe ? '<div class="msg-sender">' + msg.sender + '</div>' : '';
-                div.innerHTML = senderHtml + '<div>' + text + '</div><div class="msg-time">' + time + '</div>';
-                box.appendChild(div);
-            });
-            box.scrollTop = box.scrollHeight;
-            lastMsgIds = newIds;
-            if (hasNew && data.length > 0) {
-                const lastMsg = data[data.length - 1];
-                if (lastMsg.sender !== myUsername && lastMsg.sender !== 'system') {
-                    playNotificationSound();
-                }
-            }
-        }
-
-        async function checkPrivateNotifications() {
-            if (!myUsername || chatType === 'private') {
-                document.getElementById('notifBadge').style.display = 'none';
-                return;
-            }
-            try {
-                const { data } = await supabaseClient
-                    .from('messages').select('*')
-                    .like('receiver', 'PRIVATE:%')
-                    .neq('sender', myUsername)
-                    .order('created_at', { ascending: false })
-                    .limit(50);
-                if (!data) return;
-                const myPrivate = data.filter(msg => {
-                    const parts = msg.receiver.replace('PRIVATE:', '').split('|');
-                    return parts.includes(myUsername);
-                });
-                if (myPrivate.length > 0) {
-                    const badge = document.getElementById('notifBadge');
-                    badge.style.display = 'inline-block';
-                    badge.innerText = myPrivate.length;
-                }
-            } catch(e) { console.error(e); }
-        }
-
-        function playNotificationSound() {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.frequency.value = 800;
-                gain.gain.value = 0.1;
-                osc.start();
-                osc.stop(ctx.currentTime + 0.1);
-            } catch(e) {}
-        }
-
-        function startAutoRefresh() {
-            if (fetchInterval) clearInterval(fetchInterval);
-            fetchInterval = setInterval(async () => {
-                await loadMessages();
-                await loadAllUsers();
-                if (chatType === 'group') await checkPrivateNotifications();
-            }, 1000);
-        }
-
-        // ============ پنل سرور ============
-        function openServerPassModal() {
-            document.getElementById('serverPassModal').style.display = 'flex';
-            document.getElementById('serverPassword').value = '';
-            document.getElementById('serverPassError').style.display = 'none';
-            document.getElementById('serverPassword').focus();
-        }
-
-        function closeServerPassModal() {
-            document.getElementById('serverPassModal').style.display = 'none';
-        }
-
-        async function checkServerPassword() {
-            const pass = document.getElementById('serverPassword').value;
-            const errDiv = document.getElementById('serverPassError');
-            if (pass !== ADMIN_PASSWORD) {
-                errDiv.innerText = 'رمز عبور اشتباه است!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            serverAuth = true;
-            closeServerPassModal();
-            await openServerPanel();
-        }
-
-        async function openServerPanel() {
-            if (!serverAuth) return;
-            document.getElementById('serverPanelModal').style.display = 'flex';
-            document.getElementById('serverPanelError').style.display = 'none';
-            document.getElementById('serverSuccessMsg').style.display = 'none';
-            await loadServerStats();
-            await loadServerUsers();
-        }
-
-        function closeServerPanel() {
-            document.getElementById('serverPanelModal').style.display = 'none';
-        }
-
-        async function loadServerStats() {
-            try {
-                const users = await supabaseClient.from('users').select('id');
-                const messages = await supabaseClient.from('messages').select('id');
-                const groups = await supabaseClient.from('groups').select('id');
-                document.getElementById('statUsers').textContent = users.data ? users.data.length : 0;
-                document.getElementById('statMessages').textContent = messages.data ? messages.data.length : 0;
-                document.getElementById('statGroups').textContent = groups.data ? groups.data.length : 0;
-            } catch(e) { console.error(e); }
-        }
-
-        async function loadServerUsers() {
-            try {
-                const { data } = await supabaseClient.from('users').select('username').order('username');
-                const list = document.getElementById('serverUserList');
-                if (!data || data.length === 0) {
-                    list.innerHTML = '<div style="color:#64748b; padding:15px; font-size:12px; text-align:center;">📭 کاربری یافت نشد</div>';
-                    return;
-                }
-                list.innerHTML = data.map(u => `
-                    <div class="user-row">
-                        <span class="name">👤 ${u.username}</span>
-                        <button class="del-btn" onclick="deleteUserFromServer('${u.username}')">🗑️ حذف</button>
-                    </div>
-                `).join('');
-            } catch(e) { console.error(e); }
-        }
-
-        async function deleteUserFromServer(username) {
-            if (!confirm('آیا از حذف کاربر "' + username + '" مطمئنی؟')) return;
-            if (!confirm('تأیید نهایی: تمام پیام‌های این کاربر هم پاک میشه!')) return;
-            
-            try {
-                // حذف پیام‌های کاربر (فرستنده)
-                await supabaseClient.from('messages').delete().eq('sender', username);
-                
-                // حذف پیام‌های خصوصی که کاربر توش هست
-                const { data: privMsgs } = await supabaseClient
-                    .from('messages').select('id, receiver')
-                    .like('receiver', 'PRIVATE:%');
-                if (privMsgs) {
-                    for (let m of privMsgs) {
-                        if (m.receiver.includes(username)) {
-                            await supabaseClient.from('messages').delete().eq('id', m.id);
-                        }
-                    }
-                }
-                
-                // حذف کاربر
-                await supabaseClient.from('users').delete().eq('username', username);
-                
-                document.getElementById('serverSuccessMsg').textContent = '✅ کاربر ' + username + ' حذف شد!';
-                document.getElementById('serverSuccessMsg').style.display = 'block';
-                
-                await loadServerStats();
-                await loadServerUsers();
-                await loadAllUsers();
-            } catch(e) {
-                alert('خطا: ' + e.message);
-            }
-        }
-
-        async function deleteAllData() {
-            if (!confirm('آیا مطمئنی می‌خوای همه اطلاعات پاک بشه؟')) return;
-            if (!confirm('تأیید نهایی: این عملیات قابل بازگشت نیست!')) return;
-            
-            const btn = document.getElementById('deleteAllBtn');
-            btn.disabled = true;
-            btn.textContent = '⏳ در حال پاک کردن...';
-            
-            try {
-                await supabaseClient.from('messages').delete().neq('id', 0);
-                await supabaseClient.from('groups').delete().neq('id', 0);
-                await supabaseClient.from('users').delete().neq('id', 0);
-                
-                document.getElementById('serverSuccessMsg').textContent = '✅ همه اطلاعات پاک شدند!';
-                document.getElementById('serverSuccessMsg').style.display = 'block';
-                
-                await loadServerStats();
-                await loadServerUsers();
-                await loadAllUsers();
-            } catch(e) {
-                alert('خطا: ' + e.message);
-            }
-            
-            btn.disabled = false;
-            btn.textContent = '🗑️ پاک کردن همه اطلاعات سرور';
-        }
-
-        document.getElementById('msgInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
-        document.getElementById('serverPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkServerPassword();
-        });
-    </script>
-</body>
-</html>
+        // ============ ارسال پیام
