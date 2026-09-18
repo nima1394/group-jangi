@@ -7,69 +7,134 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <style>
+        :root {
+            /* تم شب (پیش‌فرض) */
+            --bg-body: #0f172a;
+            --bg-container: #1e293b;
+            --bg-header: #0f172a;
+            --bg-messages: #0b1120;
+            --bg-input: #0f172a;
+            --bg-input-field: #1e293b;
+            --bg-modal: #1e293b;
+            --bg-msg-sent: #0284c7;
+            --bg-msg-received: #334155;
+            --bg-msg-private-sent: #8b5cf6;
+            --bg-msg-private-received: #6d28d9;
+            --bg-msg-system: #475569;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-sender: #facc15;
+            --border-color: #334155;
+            --border-input: #475569;
+            --btn-emoji-bg: #facc15;
+            --btn-emoji-color: #0f172a;
+        }
+
+        /* تم روز */
+        body.light-theme {
+            --bg-body: #e2e8f0;
+            --bg-container: #ffffff;
+            --bg-header: #f1f5f9;
+            --bg-messages: #f8fafc;
+            --bg-input: #f1f5f9;
+            --bg-input-field: #ffffff;
+            --bg-modal: #ffffff;
+            --bg-msg-sent: #0284c7;
+            --bg-msg-received: #e2e8f0;
+            --bg-msg-private-sent: #8b5cf6;
+            --bg-msg-private-received: #ddd6fe;
+            --bg-msg-system: #cbd5e1;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-sender: #d97706;
+            --border-color: #cbd5e1;
+            --border-input: #cbd5e1;
+            --btn-emoji-bg: #facc15;
+            --btn-emoji-color: #0f172a;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-        body { background-color: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-        .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: 95vh; }
+        body { background-color: var(--bg-body); color: var(--text-primary); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; transition: background-color 0.3s, color 0.3s; }
+        
+        .app-container { background: var(--bg-container); width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; display: flex; flex-direction: column; height: 95vh; transition: background-color 0.3s; }
+        
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
-        .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
-        .header { padding: 12px; background: #0f172a; border-bottom: 1px solid #334155; }
+        .modal-box { background: var(--bg-modal); padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; transition: background-color 0.3s; }
+        
+        .header { padding: 12px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); transition: background-color 0.3s; }
         .user-info { font-size: 12px; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
+        .group-title { text-align: center; padding: 8px; background: var(--bg-container); border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; transition: background-color 0.3s; }
         .group-title h2 { color: #facc15; font-size: 18px; }
-        .group-title span { color: #94a3b8; font-size: 12px; }
+        .group-title span { color: var(--text-secondary); font-size: 12px; }
+        
         .top-btns { display: flex; gap: 6px; align-items: center; }
         .top-btn { background: #38bdf8; color: #0f172a; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
         .top-btn:hover { opacity: 0.9; }
         .private-btn { background: #8b5cf6; color: #fff; }
         .server-btn { background: #ef4444; color: #fff; }
-        .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
+        .theme-btn { background: #f59e0b; color: #fff; font-size: 14px; padding: 5px 8px; }
+        
+        .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: var(--bg-messages); transition: background-color 0.3s; }
+        
         .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; }
-        .msg.sent { align-self: flex-end; background: #0284c7; color: #fff; border-bottom-left-radius: 0; }
-        .msg.received { align-self: flex-start; background: #334155; color: #e2e8f0; border-bottom-right-radius: 0; }
-        .msg.private-sent { align-self: flex-end; background: #8b5cf6; color: #fff; border-bottom-left-radius: 0; }
-        .msg.private-received { align-self: flex-start; background: #6d28d9; color: #fff; border-bottom-right-radius: 0; }
-        .msg-sender { font-size: 10px; color: #facc15; margin-bottom: 3px; font-weight: bold; }
+        .msg.sent { align-self: flex-end; background: var(--bg-msg-sent); color: #fff; border-bottom-left-radius: 0; }
+        .msg.received { align-self: flex-start; background: var(--bg-msg-received); color: var(--text-primary); border-bottom-right-radius: 0; }
+        .msg.private-sent { align-self: flex-end; background: var(--bg-msg-private-sent); color: #fff; border-bottom-left-radius: 0; }
+        .msg.private-received { align-self: flex-start; background: var(--bg-msg-private-received); color: var(--text-primary); border-bottom-right-radius: 0; }
+        
+        .msg-sender { font-size: 10px; color: var(--text-sender); margin-bottom: 3px; font-weight: bold; }
         .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
-        .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
+        .msg-system { align-self: center; background: var(--bg-msg-system); color: var(--text-primary); font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; opacity: 0.9; }
+        
         .msg-image img { max-width: 200px; max-height: 200px; border-radius: 8px; cursor: pointer; }
         .msg-audio audio { max-width: 200px; height: 35px; }
-        .input-box { padding: 12px; background: #0f172a; border-top: 1px solid #334155; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; min-width: 100px; }
+        
+        .input-box { padding: 12px; background: var(--bg-input); border-top: 1px solid var(--border-color); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; transition: background-color 0.3s; }
+        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-input-field); color: var(--text-primary); font-size: 13px; outline: none; min-width: 100px; transition: background-color 0.3s, color 0.3s; }
         button { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
         button:hover { opacity: 0.9; }
+        
         .error-msg { color: #ef4444; font-size: 12px; margin-top: 8px; }
         .chat-mode-info { background: #8b5cf6; color: #fff; padding: 6px 12px; font-size: 11px; text-align: center; display: none; }
         .chat-mode-info.show { display: block; }
         .notif-badge { background: #ef4444; color: #fff; border-radius: 50%; padding: 1px 6px; font-size: 10px; margin-right: 5px; font-weight: bold; }
+        
         .user-list { max-height: 200px; overflow-y: auto; margin: 10px 0; text-align: right; }
-        .user-item { background: #0f172a; padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; }
-        .user-item:hover { background: #334155; border-color: #8b5cf6; }
-        .user-item.selected { background: #8b5cf6; border-color: #8b5cf6; }
-        .user-item .name { color: #fff; font-weight: bold; }
+        .user-item { background: var(--bg-input); padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); }
+        .user-item:hover { background: var(--bg-messages); border-color: #8b5cf6; }
+        .user-item.selected { background: #8b5cf6; border-color: #8b5cf6; color: #fff; }
+        .user-item .name { color: var(--text-primary); font-weight: bold; }
         .online-dot { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 5px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
-        .stat-card { background: #0f172a; padding: 12px; border-radius: 8px; text-align: center; }
+        .stat-card { background: var(--bg-input); padding: 12px; border-radius: 8px; text-align: center; }
         .stat-card .num { font-size: 22px; font-weight: bold; }
-        .stat-card .label { font-size: 10px; color: #94a3b8; margin-top: 3px; }
+        .stat-card .label { font-size: 10px; color: var(--text-secondary); margin-top: 3px; }
         .stat-card.blue .num { color: #38bdf8; }
         .stat-card.green .num { color: #22c55e; }
         .stat-card.yellow .num { color: #facc15; }
+        
         .danger-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #ef4444; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 10px; }
         .danger-btn:hover { background: #dc2626; }
         .danger-btn:disabled { opacity: 0.5; }
-        .user-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #0f172a; border-radius: 6px; margin-bottom: 6px; border: 1px solid #334155; }
-        .user-row .name { color: #fff; font-weight: bold; font-size: 13px; }
+        
+        .user-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--bg-input); border-radius: 6px; margin-bottom: 6px; border: 1px solid var(--border-color); }
+        .user-row .name { color: var(--text-primary); font-weight: bold; font-size: 13px; }
         .user-row .del-btn { background: #ef4444; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        
         .success-msg { background: #052e16; border: 1px solid #22c55e; color: #86efac; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 12px; display: none; }
-        .emoji-picker { display: none; background: #1e293b; padding: 10px; border-radius: 8px; border: 1px solid #475569; flex-wrap: wrap; gap: 5px; width: 100%; max-height: 150px; overflow-y: auto; }
+        
+        .emoji-picker { display: none; background: var(--bg-container); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; gap: 5px; width: 100%; max-height: 150px; overflow-y: auto; }
         .emoji-picker.show { display: flex; }
         .emoji-picker span { font-size: 22px; cursor: pointer; padding: 4px; border-radius: 4px; }
-        .emoji-picker span:hover { background: #334155; }
-        .btn-emoji { background: #facc15; color: #0f172a; font-size: 16px; padding: 8px 10px; }
+        .emoji-picker span:hover { background: var(--bg-messages); }
+        
+        .btn-emoji { background: var(--btn-emoji-bg); color: var(--btn-emoji-color); font-size: 16px; padding: 8px 10px; }
         .btn-media { background: #8b5cf6; color: #fff; font-size: 14px; padding: 8px 10px; }
         .btn-audio { background: #ef4444; color: #fff; font-size: 14px; padding: 8px 10px; }
         .btn-audio.recording { background: #dc2626; animation: pulse 1s infinite; }
+        
         #imageInput { display: none; }
         .preview { display: none; position: relative; width: 100%; padding: 5px; }
         .preview.show { display: block; }
@@ -82,7 +147,7 @@
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="margin-bottom: 12px; color: #facc15;">🔥 ورود به گروه جنگی</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">لطفاً نام خود را وارد کنید:</p>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">لطفاً نام خود را وارد کنید:</p>
             <input type="text" id="modalUsername" placeholder="اسم شما..." maxlength="20">
             <button onclick="registerUser()" style="width: 100%; margin-top: 10px; background: #facc15; color: #0f172a;">ورود به گروه 🚀</button>
             <div id="loginError" class="error-msg" style="display:none;"></div>
@@ -142,6 +207,7 @@
                 <span>👤 <b id="currentUserLabel">...</b><span class="online-dot"></span></span>
                 <div class="top-btns">
                     <span id="notifBadge" class="notif-badge" style="display:none;">0</span>
+                    <button class="top-btn theme-btn" onclick="toggleTheme()" id="themeBtn" title="تغییر تم">🌙</button>
                     <button class="top-btn private-btn" onclick="openPrivateModal()">💬</button>
                     <button class="top-btn server-btn" onclick="openServerPassModal()">🖥️</button>
                 </div>
@@ -200,33 +266,10 @@
     </div>
 
     <script>
-        // ============ امنیت: جلوی دستکاری کد رو می‌گیریم ============
-        (function() {
-            // غیرفعال کردن کنسول (اختیاری - برای امنیت بیشتر)
-            // var _z = console;
-            // Object.defineProperty(window, "console", {
-            //     get: function() { return _z; },
-            //     set: function() {}
-            // });
-            
-            // تشخیص DevTools (اختیاری)
-            let devtoolsOpen = false;
-            const element = new Image();
-            Object.defineProperty(element, 'id', {
-                get: function() {
-                    devtoolsOpen = true;
-                }
-            });
-        })();
-
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const GROUP_NAME = "گروه جنگی";
-        
-        // رمز هش شده (SHA-256) - اگه کسی ببینه، نمی‌تونه بفهمه چیه
-        // رمز اصلی: nimaaslani1234A
-        const ADMIN_HASH = "c5b58e0e6d7f5b4a2d7b8e9f1c3a4b5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b";
         
         let myUsername = localStorage.getItem('chat_username');
         let fetchInterval = null;
@@ -239,15 +282,31 @@
         let wrongAttempts = parseInt(localStorage.getItem('server_wrong_attempts') || '0');
         let lockoutUntil = parseInt(localStorage.getItem('server_lockout_until') || '0');
 
-        // ============ هش کردن رمز ============
-        async function sha256(text) {
-            const msgBuffer = new TextEncoder().encode(text);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        // ============ تم شب/روز ============
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                document.getElementById('themeBtn').innerText = '☀️';
+            } else {
+                document.body.classList.remove('light-theme');
+                document.getElementById('themeBtn').innerText = '🌙';
+            }
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-theme');
+            if (isLight) {
+                localStorage.setItem('theme', 'light');
+                document.getElementById('themeBtn').innerText = '☀️';
+            } else {
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('themeBtn').innerText = '🌙';
+            }
         }
 
         window.onload = async () => {
+            initTheme();
             if (!myUsername) {
                 document.getElementById('loginModal').style.display = 'flex';
             } else {
@@ -264,7 +323,6 @@
             const nameInput = document.getElementById('modalUsername').value.trim();
             const errDiv = document.getElementById('loginError');
             errDiv.style.display = 'none';
-            
             if (!nameInput) {
                 errDiv.innerText = 'لطفاً نام را وارد کنید!';
                 errDiv.style.display = 'block';
@@ -280,12 +338,6 @@
                 errDiv.style.display = 'block';
                 return;
             }
-            if (!/^[آ-یa-zA-Z0-9_\s]+$/.test(nameInput)) {
-                errDiv.innerText = 'فقط حروف، اعداد و _ مجاز است!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
             try {
                 const { data: existing } = await supabaseClient
                     .from('users').select('id').eq('username', nameInput).limit(1);
@@ -327,7 +379,6 @@
             } catch(e) { console.error(e); }
         }
 
-        // ============ ایموجی ============
         function toggleEmoji() {
             document.getElementById('emojiPicker').classList.toggle('show');
         }
@@ -337,7 +388,6 @@
             document.getElementById('msgInput').focus();
         }
 
-        // ============ تصویر ============
         function previewImage(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -367,7 +417,6 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        // ============ ضبط صدا ============
         let mediaRecorder = null;
         let audioChunks = [];
         let isRecording = false;
@@ -424,7 +473,6 @@
             await loadMessages();
         }
 
-        // ============ چت خصوصی ============
         function openPrivateModal() {
             document.getElementById('privateModal').style.display = 'flex';
             document.getElementById('privateUsername').value = '';
@@ -505,16 +553,12 @@
             loadMessages();
         }
 
-        // ============ ارسال پیام ============
         async function sendMessage() {
             const input = document.getElementById('msgInput');
             const rawText = input.value.trim();
             const hasImage = document.getElementById('previewBox').classList.contains('show');
-            
             if (!rawText && !hasImage) return;
-            
             let receiver = chatType === 'group' ? 'GROUP:' + GROUP_NAME : getPrivateReceiver();
-            
             if (hasImage) {
                 const imgSrc = document.getElementById('previewImg').src;
                 const base64 = imgSrc.split(',')[1];
@@ -528,13 +572,11 @@
                 await loadMessages();
                 return;
             }
-            
             if (!rawText) return;
             if (rawText.length > 1000) {
                 alert('پیام خیلی طولانیه!');
                 return;
             }
-            
             const compressed = LZString.compressToUTF16(rawText);
             input.value = '';
             const { error } = await supabaseClient.from('messages').insert([{
@@ -544,7 +586,6 @@
             else await loadMessages();
         }
 
-        // ============ بارگذاری پیام‌ها ============
         async function loadMessages() {
             let query = supabaseClient.from('messages').select('*');
             if (chatType === 'group') {
@@ -581,7 +622,14 @@
                 if (chatType === 'private') cls = isMe ? 'private-sent' : 'private-received';
                 div.className = 'msg ' + cls;
                 const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-                let senderHtml = !isMe ? '<div class="msg-sender">' + msg.sender + '</div>' : '';
+                
+                // ⭐ نمایش اسم فرستنده برای همه پیام‌ها (چه خودت چه دیگران)
+                let senderHtml = '';
+                if (isMe) {
+                    senderHtml = '<div class="msg-sender" style="color:#38bdf8;">👤 ' + msg.sender + ' (شما)</div>';
+                } else {
+                    senderHtml = '<div class="msg-sender">👤 ' + msg.sender + '</div>';
+                }
                 
                 if (text.startsWith('IMAGE:')) {
                     const imgData = text.replace('IMAGE:', '');
@@ -646,9 +694,8 @@
             }, 1500);
         }
 
-        // ============ پنل سرور (امن‌تر) ============
+        // ============ پنل سرور ============
         function openServerPassModal() {
-            // چک کن قفل نباشه
             const now = Date.now();
             if (lockoutUntil > now) {
                 const remaining = Math.ceil((lockoutUntil - now) / 1000);
@@ -679,17 +726,11 @@
         async function checkServerPassword() {
             const pass = document.getElementById('serverPassword').value;
             const errDiv = document.getElementById('serverPassError');
-            
-            // تأخیر مصنوعی برای جلوگیری از Brute Force
             await new Promise(r => setTimeout(r, 500));
-            
-            // چک کردن رمز (با مقایسه مستقیم - چون هش SHA-256 با crypto.subtle از HTTPS کار می‌کنه)
             if (pass !== 'nimaaslani1234A') {
                 wrongAttempts++;
                 localStorage.setItem('server_wrong_attempts', wrongAttempts);
-                
                 if (wrongAttempts >= 3) {
-                    // قفل 5 دقیقه‌ای
                     lockoutUntil = Date.now() + 5 * 60 * 1000;
                     localStorage.setItem('server_lockout_until', lockoutUntil);
                     errDiv.innerText = '⛔ 3 بار اشتباه! حساب 5 دقیقه قفل شد.';
@@ -697,14 +738,11 @@
                     updateAttemptsWarning();
                     return;
                 }
-                
                 errDiv.innerText = 'رمز عبور اشتباه است! (' + wrongAttempts + '/3)';
                 errDiv.style.display = 'block';
                 updateAttemptsWarning();
                 return;
             }
-            
-            // رمز درست
             wrongAttempts = 0;
             lockoutUntil = 0;
             localStorage.setItem('server_wrong_attempts', '0');
@@ -797,7 +835,6 @@
             btn.textContent = '🗑️ پاک کردن همه اطلاعات';
         }
 
-        // ============ رویدادها ============
         document.getElementById('msgInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendMessage();
         });
