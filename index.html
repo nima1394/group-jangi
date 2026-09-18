@@ -12,8 +12,9 @@
         
         .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; }
         .container h1 { color: #facc15; margin-bottom: 20px; }
-        .btn1 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; background: #facc15; color: #0f172a; }
-        .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; background: #8b5cf6; color: #fff; }
+        .btn1, .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .btn1 { background: #facc15; color: #0f172a; }
+        .btn2 { background: #8b5cf6; color: #fff; }
         
         .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: 95vh; }
         .header { padding: 12px; background: #0f172a; border-bottom: 1px solid #334155; }
@@ -21,6 +22,8 @@
         .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
         .group-title h2 { color: #facc15; font-size: 18px; }
         .group-title span { color: #94a3b8; font-size: 12px; }
+        .group-title.messenger { border-color: #8b5cf6; }
+        .group-title.messenger h2 { color: #8b5cf6; }
         
         .top-btns { display: flex; gap: 6px; align-items: center; }
         .top-btn { background: #38bdf8; color: #0f172a; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
@@ -32,6 +35,8 @@
         .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; }
         .msg.sent { align-self: flex-end; background: #0284c7; color: #fff; border-bottom-left-radius: 0; }
         .msg.received { align-self: flex-start; background: #334155; color: #e2e8f0; border-bottom-right-radius: 0; }
+        .msg.private-sent { align-self: flex-end; background: #8b5cf6; color: #fff; border-bottom-left-radius: 0; }
+        .msg.private-received { align-self: flex-start; background: #6d28d9; color: #fff; border-bottom-right-radius: 0; }
         .msg.bot { align-self: flex-start; background: #f59e0b; color: #fff; border-bottom-right-radius: 0; border: 2px solid #fbbf24; }
         .msg-sender { font-size: 10px; color: #facc15; margin-bottom: 3px; font-weight: bold; }
         .msg.bot .msg-sender { color: #fff; }
@@ -40,7 +45,7 @@
         
         .input-box { padding: 10px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 6px; align-items: center; }
         input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
-        button.send-btn { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
+        .send-btn { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
         
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
         .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
@@ -50,8 +55,43 @@
         
         .game-panel { background: #0f172a; border: 2px solid #22c55e; border-radius: 12px; padding: 15px; margin: 10px 0; text-align: right; }
         .game-stat { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; border-bottom: 1px solid #334155; }
-        .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1e293b; border-radius: 6px; margin-bottom: 5px; }
+        .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1e293b; border-radius: 6px; margin-bottom: 5px; font-size: 12px; }
         .buy-btn { background: #22c55e; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
+        .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* ============ پیام‌رسان ============ */
+        .search-bar { padding: 8px 12px; background: #0f172a; border-bottom: 1px solid #334155; position: relative; }
+        .search-bar input { width: 100%; padding: 8px 12px; border-radius: 20px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
+        .search-results { position: absolute; top: 100%; left: 12px; right: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; max-height: 300px; overflow-y: auto; z-index: 100; margin-top: 5px; }
+        .search-item { padding: 10px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; font-size: 13px; }
+        .search-item:hover { background: #0b1120; }
+        
+        .chats-list { flex: 1; overflow-y: auto; background: #0b1120; }
+        .chat-item { padding: 12px 15px; border-bottom: 1px solid #334155; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .chat-item:hover { background: #1e293b; }
+        .chat-item .name { font-weight: bold; font-size: 14px; color: #fff; }
+        .chat-item .last-msg { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+        .chat-item .time { font-size: 10px; color: #94a3b8; }
+        .chat-item .del-btn { background: #ef4444; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; margin-top: 5px; }
+        
+        .bottom-bar { padding: 10px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 8px; }
+        .bottom-bar button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .btn-new-group { background: #22c55e; color: #fff; }
+        .btn-new-chat { background: #8b5cf6; color: #fff; }
+        
+        .online-dot { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 5px; animation: pulse 2s infinite; }
+        .offline-dot { display: inline-block; width: 8px; height: 8px; background: #64748b; border-radius: 50%; margin-left: 5px; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        .group-stats { display: flex; gap: 10px; justify-content: center; font-size: 11px; color: #94a3b8; margin-top: 4px; }
+        
+        .members-panel { background: #0f172a; border-bottom: 1px solid #334155; padding: 10px; display: none; max-height: 150px; overflow-y: auto; }
+        .members-panel.show { display: block; }
+        .member-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; }
+        
+        .user-list { max-height: 200px; overflow-y: auto; margin: 10px 0; text-align: right; }
+        .user-item { background: #0f172a; padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; font-size: 13px; }
+        .user-item:hover { background: #1e293b; }
     </style>
 </head>
 <body>
@@ -69,7 +109,7 @@
             <div class="user-info">
                 <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
                 <div class="top-btns">
-                    <button class="top-btn game-btn" onclick="openGamePanel()">🎮 بازی</button>
+                    <button class="top-btn game-btn" onclick="openGamePanel()">🎮</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
                 </div>
@@ -94,20 +134,63 @@
             <div class="user-info">
                 <span>👤 <b id="msgUserLabel">...</b></span>
                 <div class="top-btns">
+                    <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
                 </div>
             </div>
-            <div class="group-title" style="border-color: #8b5cf6;">
-                <h2 style="color: #8b5cf6;">💬 پیام‌رسان</h2>
-                <span>به زودی...</span>
+            <div class="group-title messenger">
+                <h2>💬 پیام‌رسان</h2>
+                <span>چت خصوصی و گروهی</span>
             </div>
         </div>
-        <div class="messages-box">
-            <div class="msg-system">💬 این بخش به زودی اضافه میشه</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 جستجوی کاربر یا گروه..." oninput="handleSearch()">
+            <div id="searchResults" class="search-results" style="display: none;"></div>
+        </div>
+        <div class="chats-list" id="chatsList">
+            <div style="text-align: center; color: #94a3b8; padding: 30px; font-size: 13px;">
+                📭 هنوز چتی نداری<br>
+                <span style="font-size: 11px;">از پایین چت جدید یا گروه بساز</span>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <button class="btn-new-group" onclick="openCreateGroupModal()">➕ ساخت گروه</button>
+            <button class="btn-new-chat" onclick="openNewChatModal()">💬 چت جدید</button>
         </div>
     </div>
 
-    <!-- مودال ورود -->
+    <!-- صفحه چت داخل پیام‌رسان -->
+    <div id="chatScreen" class="app-container" style="display: none;">
+        <div class="header">
+            <div class="user-info">
+                <span id="chatHeaderIcon">💬</span>
+                <div class="top-btns">
+                    <button class="top-btn" onclick="shareGroupLink()" id="shareLinkBtn" style="display:none; background:#22c55e; color:#fff;">🔗</button>
+                    <button class="back-btn" onclick="backToMessenger()">← بازگشت</button>
+                </div>
+            </div>
+            <div class="group-title" id="chatTitleBox">
+                <h2 id="chatTitleName">...</h2>
+                <div class="group-stats" id="chatGroupStats" style="display: none;">
+                    <span>👥 <b id="memberCountLabel">0</b> عضو</span>
+                    <span>🟢 <b id="onlineCountLabel">0</b> آنلاین</span>
+                </div>
+                <span id="chatSubtitle">💬</span>
+            </div>
+        </div>
+        <div id="membersBtn" style="display: none; padding: 5px 10px; background: #0f172a; text-align: center; cursor: pointer; font-size: 11px; color: #94a3b8;" onclick="toggleMembers()">
+            👥 نمایش اعضای گروه
+        </div>
+        <div class="members-panel" id="membersPanel"></div>
+        <div class="messages-box" id="chatMessagesBox"></div>
+        <div class="input-box">
+            <input type="text" id="chatMsgInput" placeholder="پیام..." onkeypress="if(event.key==='Enter')sendChatMessage()">
+            <button class="send-btn" onclick="sendChatMessage()">ارسال</button>
+        </div>
+    </div>
+
+    <!-- مودال‌ها -->
+
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #facc15;">👋 ورود</h3>
@@ -116,7 +199,26 @@
         </div>
     </div>
 
-    <!-- مودال بازی -->
+    <div id="newChatModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #8b5cf6;">💬 چت جدید</h3>
+            <input type="text" id="newChatUsername" placeholder="نام کاربر..." oninput="filterNewChatUsers()">
+            <div class="user-list" id="newChatUserList"></div>
+            <button onclick="startNewChat()" style="background: #8b5cf6; color: #fff;">شروع چت 💜</button>
+            <button onclick="closeNewChatModal()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <div id="createGroupModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #22c55e;">➕ ساخت گروه</h3>
+            <input type="text" id="newGroupName" placeholder="اسم گروه..." maxlength="30">
+            <button onclick="createNewGroup()" style="background: #22c55e; color: #fff;">ساخت گروه 🔥</button>
+            <button onclick="closeCreateGroupModal()" style="background: #475569; color: #fff;">بستن</button>
+            <div id="createGroupError" style="color:#ef4444; font-size:12px; margin-top:8px; display:none;"></div>
+        </div>
+    </div>
+
     <div id="gameModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🎮 بازی جنگی</h3>
@@ -135,7 +237,6 @@
         </div>
     </div>
 
-    <!-- مودال سرور -->
     <div id="serverPassModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #ef4444;">🖥️ ورود به سرور</h3>
@@ -151,9 +252,20 @@
             <div style="text-align: right; margin-bottom: 15px;">
                 <p>👤 کاربران: <b id="sUsers" style="color:#38bdf8;">0</b></p>
                 <p>📨 پیام‌ها: <b id="sMessages" style="color:#22c55e;">0</b></p>
+                <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
             </div>
             <button onclick="deleteAllData()" style="background: #ef4444; color: #fff;">🗑️ پاک کردن همه</button>
             <button onclick="closeServerPanel()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <div id="shareLinkModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">این لینک رو برای دوستات بفرست:</p>
+            <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 11px; direction: ltr;">
+            <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی لینک</button>
+            <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
 
@@ -175,11 +287,13 @@
         };
         
         let myUsername = localStorage.getItem('chat_username');
-        let myCoins = 500;
-        let myWeapon = '';
-        let myWins = 0;
-        let myLosses = 0;
+        let myCoins = 500, myWeapon = '', myWins = 0, myLosses = 0;
+        let currentChat = { type: '', target: '' };
+        let allUsers = [];
+        let myGroups = [];
+        let chatList = [];
         let fetchInterval = null;
+        let onlineUsers = new Set();
         let pendingScreen = null;
 
         // ============ ناوبری ============
@@ -187,16 +301,14 @@
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('gjScreen').style.display = 'none';
             document.getElementById('msgScreen').style.display = 'none';
+            document.getElementById('chatScreen').style.display = 'none';
+            
+            if (fetchInterval) clearInterval(fetchInterval);
             
             if (name === 'home') {
                 document.getElementById('homeScreen').style.display = 'block';
-                if (fetchInterval) clearInterval(fetchInterval);
             } else if (name === 'gj') {
-                if (!myUsername) {
-                    pendingScreen = 'gj';
-                    document.getElementById('loginModal').style.display = 'flex';
-                    return;
-                }
+                if (!myUsername) { pendingScreen = 'gj'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('gjScreen').style.display = 'flex';
                 document.getElementById('gjUserLabel').innerText = myUsername;
                 loadGameData();
@@ -204,39 +316,32 @@
                 loadGjMessages();
                 startGjRefresh();
             } else if (name === 'msg') {
-                if (!myUsername) {
-                    pendingScreen = 'msg';
-                    document.getElementById('loginModal').style.display = 'flex';
-                    return;
-                }
+                if (!myUsername) { pendingScreen = 'msg'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('msgScreen').style.display = 'flex';
                 document.getElementById('msgUserLabel').innerText = myUsername;
+                initMessenger();
             }
         }
 
         // ============ ثبت نام ============
         async function registerUser() {
             const name = document.getElementById('usernameInput').value.trim();
-            if (!name || name.length < 2) {
-                alert('نام باید حداقل 2 کاراکتر باشه!');
-                return;
-            }
+            if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
             try {
                 const { data: ex } = await supabaseClient.from('users').select('id').eq('username', name).limit(1);
                 if (!ex || ex.length === 0) {
-                    await supabaseClient.from('users').insert([{ username: name }]);
+                    await supabaseClient.from('users').insert([{ username: name, online: true }]);
+                } else {
+                    await supabaseClient.from('users').update({ online: true }).eq('username', name);
                 }
                 localStorage.setItem('chat_username', name);
                 myUsername = name;
                 loadGameData();
                 document.getElementById('loginModal').style.display = 'none';
-                
                 if (pendingScreen === 'gj') showScreen('gj');
                 else if (pendingScreen === 'msg') showScreen('msg');
                 pendingScreen = null;
-            } catch(e) {
-                alert('خطا: ' + e.message);
-            }
+            } catch(e) { alert('خطا: ' + e.message); }
         }
 
         // ============ بازی ============
@@ -246,7 +351,6 @@
             myWins = parseInt(localStorage.getItem('game_wins_' + myUsername) || '0');
             myLosses = parseInt(localStorage.getItem('game_losses_' + myUsername) || '0');
         }
-
         function saveGameData() {
             localStorage.setItem('game_coins_' + myUsername, myCoins);
             localStorage.setItem('game_weapon_' + myUsername, myWeapon);
@@ -254,12 +358,10 @@
             localStorage.setItem('game_losses_' + myUsername, myLosses);
             updateGjCoin();
         }
-
         function updateGjCoin() {
             const el = document.getElementById('gjCoinLabel');
             if (el) el.innerText = myCoins;
         }
-
         function openGamePanel() {
             document.getElementById('gCoins').innerText = myCoins;
             document.getElementById('gWeapon').innerText = myWeapon ? (WEAPONS[myWeapon]?.emoji + ' ' + myWeapon) : 'هیچ';
@@ -269,11 +371,7 @@
             renderShop();
             document.getElementById('gameModal').style.display = 'flex';
         }
-
-        function closeGamePanel() {
-            document.getElementById('gameModal').style.display = 'none';
-        }
-
+        function closeGamePanel() { document.getElementById('gameModal').style.display = 'none'; }
         function renderShop() {
             document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([name, w]) => `
                 <div class="shop-item">
@@ -283,7 +381,6 @@
                 </div>
             `).join('');
         }
-
         function buyWeapon(name) {
             if (!WEAPONS[name]) return;
             if (myCoins < WEAPONS[name].price) return alert('سکه کافی نداری!');
@@ -294,24 +391,19 @@
             openGamePanel();
         }
 
-        // ============ ارسال پیام گروه ============
+        // ============ گروه جنگی (چت) ============
         async function sendGj() {
             const input = document.getElementById('gjInput');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
-            
-            const compressed = LZString.compressToUTF16(text);
             await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: 'GROUP:' + GROUP_NAME, content: compressed
+                sender: myUsername, receiver: 'GROUP:' + GROUP_NAME,
+                content: LZString.compressToUTF16(text)
             }]);
             await loadGjMessages();
-            
-            if (text.startsWith('!')) {
-                setTimeout(() => processBot(text, myUsername), 300);
-            }
+            if (text.startsWith('!')) setTimeout(() => processBot(text, myUsername), 300);
         }
-
         async function sendGjBot(text) {
             await supabaseClient.from('messages').insert([{
                 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
@@ -319,12 +411,10 @@
             }]);
             await loadGjMessages();
         }
-
         async function loadGjMessages() {
-            const { data } = await supabaseClient.from('messages')
-                .select('*').eq('receiver', 'GROUP:' + GROUP_NAME)
+            const { data } = await supabaseClient.from('messages').select('*')
+                .eq('receiver', 'GROUP:' + GROUP_NAME)
                 .order('created_at', { ascending: true }).limit(100);
-            
             const box = document.getElementById('gjMessages');
             if (!box) return;
             box.innerHTML = '';
@@ -336,7 +426,6 @@
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
                 const isBot = msg.sender === BOT_NAME;
-                
                 if (msg.sender === 'system') {
                     const div = document.createElement('div');
                     div.className = 'msg-system';
@@ -345,8 +434,7 @@
                     return;
                 }
                 const div = document.createElement('div');
-                let cls = isBot ? 'bot' : (isMe ? 'sent' : 'received');
-                div.className = 'msg ' + cls;
+                div.className = 'msg ' + (isBot ? 'bot' : (isMe ? 'sent' : 'received'));
                 const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
                 let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : 
                         (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : 
@@ -356,31 +444,20 @@
             });
             box.scrollTop = box.scrollHeight;
         }
-
-        // ============ ربات ============
         async function processBot(cmd, sender) {
             cmd = cmd.trim();
-            
-            if (cmd === '!شروع') {
-                await sendGjBot(`🎮 بازی شروع شد!\n\n💰 500 سکه داری\n\nدستورات:\n!موجودی\n!فروشگاه\n!خرید [سلاح]\n!حمله [اسم]\n!رتبه`);
-                return;
-            }
-            
+            if (cmd === '!شروع') { await sendGjBot('🎮 بازی شروع شد!\n\n💰 500 سکه\n\n!موجودی\n!فروشگاه\n!خرید [سلاح]\n!حمله [اسم]'); return; }
             if (cmd === '!موجودی') {
                 const wi = myWeapon ? (WEAPONS[myWeapon].emoji + ' ' + myWeapon) : 'هیچ';
-                await sendGjBot(`💰 ${sender}:\nسکه: ${myCoins}\nسلاح: ${wi}\nبرد: ${myWins} | باخت: ${myLosses}`);
+                await sendGjBot('💰 ' + sender + ':\nسکه: ' + myCoins + '\nسلاح: ' + wi + '\nبرد: ' + myWins + ' | باخت: ' + myLosses);
                 return;
             }
-            
             if (cmd === '!فروشگاه') {
                 let s = '🛒 فروشگاه:\n\n';
-                Object.entries(WEAPONS).forEach(([n, w]) => {
-                    s += `${w.emoji} ${n} — 💰${w.price} — ⚔️${w.power}\n`;
-                });
+                Object.entries(WEAPONS).forEach(([n, w]) => { s += w.emoji + ' ' + n + ' — 💰' + w.price + ' — ⚔️' + w.power + '\n'; });
                 await sendGjBot(s);
                 return;
             }
-            
             if (cmd.startsWith('!خرید ')) {
                 const wn = cmd.replace('!خرید ', '').trim();
                 if (!WEAPONS[wn]) { await sendGjBot('❌ سلاح نیست!'); return; }
@@ -388,49 +465,365 @@
                 myCoins -= WEAPONS[wn].price;
                 myWeapon = wn;
                 saveGameData();
-                await sendGjBot(`✅ ${sender} سلاح ${WEAPONS[wn].emoji} ${wn} خرید!\n💰 ${myCoins} سکه مونده`);
+                await sendGjBot('✅ ' + sender + ' سلاح ' + WEAPONS[wn].emoji + ' ' + wn + ' خرید!\n💰 ' + myCoins + ' سکه مونده');
                 return;
             }
-            
             if (cmd.startsWith('!حمله ')) {
                 const target = cmd.replace('!حمله ', '').trim();
                 if (target === sender) { await sendGjBot('❌ به خودت حمله نکن!'); return; }
                 if (!myWeapon) { await sendGjBot('❌ اول سلاح بخر!'); return; }
-                
                 const aP = WEAPONS[myWeapon].power;
                 const tW = localStorage.getItem('game_weapon_' + target) || '';
                 const dP = tW ? WEAPONS[tW].power : 0;
-                
                 if (aP + Math.random()*50 > dP + Math.random()*50) {
                     myCoins += 100; myWins++; saveGameData();
-                    await sendGjBot(`⚔️ ${sender} (${aP}) vs ${target} (${dP})\n\n🏆 برنده: ${sender}!\n💰 +100 سکه`);
+                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + sender + '!\n💰 +100 سکه');
                 } else {
                     myCoins = Math.max(0, myCoins-100); myLosses++; saveGameData();
-                    await sendGjBot(`⚔️ ${sender} (${aP}) vs ${target} (${dP})\n\n🏆 برنده: ${target}!\n💀 ${sender} -100 سکه`);
+                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + target + '!\n💀 ' + sender + ' -100 سکه');
                 }
                 return;
             }
-            
             if (cmd === '!رتبه') {
-                await sendGjBot('🏆 جدول به زودی...');
+                await loadAllUsers();
+                let ranks = allUsers.map(u => ({
+                    name: u.username,
+                    coins: parseInt(localStorage.getItem('game_coins_' + u.username) || '500'),
+                    wins: parseInt(localStorage.getItem('game_wins_' + u.username) || '0')
+                })).sort((a,b) => b.coins - a.coins);
+                let s = '🏆 جدول:\n\n';
+                ranks.forEach((r, i) => {
+                    const m = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
+                    s += m + ' ' + r.name + ' — 💰' + r.coins + ' — 🏆' + r.wins + '\n';
+                });
+                await sendGjBot(s);
                 return;
             }
         }
-
         function startGjRefresh() {
             if (fetchInterval) clearInterval(fetchInterval);
             fetchInterval = setInterval(() => loadGjMessages(), 2000);
         }
 
+        // ============ پیام‌رسان ============
+        async function initMessenger() {
+            await supabaseClient.from('users').update({ online: true }).eq('username', myUsername);
+            await loadAllUsers();
+            await loadMyGroups();
+            await loadChatList();
+            if (fetchInterval) clearInterval(fetchInterval);
+            fetchInterval = setInterval(msRefresh, 2500);
+        }
+
+        async function msRefresh() {
+            await loadAllUsers();
+            if (document.getElementById('chatScreen').style.display === 'flex') {
+                await loadChatMessages();
+                if (currentChat.type === 'group') await updateGroupStats(currentChat.target);
+            } else if (document.getElementById('msgScreen').style.display === 'flex') {
+                await loadChatList();
+                await loadMyGroups();
+            }
+        }
+
+        async function loadAllUsers() {
+            const { data } = await supabaseClient.from('users').select('username, online');
+            if (data) {
+                allUsers = data.map(u => ({ username: u.username, online: u.online }));
+                onlineUsers = new Set(data.filter(u => u.online).map(u => u.username));
+            }
+        }
+
+        async function loadMyGroups() {
+            const { data } = await supabaseClient.from('groups').select('*');
+            if (data) {
+                myGroups = data.filter(g => {
+                    const members = (g.members || '').split(',').filter(m => m);
+                    return members.includes(myUsername);
+                });
+            }
+        }
+
+        async function loadChatList() {
+            const { data: allMsgs } = await supabaseClient.from('messages')
+                .select('*').like('receiver', 'PRIVATE:%')
+                .order('created_at', { ascending: false });
+            
+            const privChats = {};
+            (allMsgs || []).forEach(msg => {
+                const parts = msg.receiver.replace('PRIVATE:', '').split('|');
+                if (!parts.includes(myUsername)) return;
+                const other = parts.find(p => p !== myUsername);
+                if (!other) return;
+                if (localStorage.getItem('chat_deleted_' + myUsername + '_' + other) === 'true') return;
+                if (!privChats[other]) {
+                    privChats[other] = { type: 'private', name: other, lastMsg: '', lastTime: msg.created_at };
+                }
+            });
+            
+            for (let user in privChats) {
+                const users = [myUsername, user].sort();
+                const receiver = 'PRIVATE:' + users[0] + '|' + users[1];
+                const { data } = await supabaseClient.from('messages')
+                    .select('*').eq('receiver', receiver)
+                    .order('created_at', { ascending: false }).limit(1);
+                if (data && data[0]) {
+                    let t = LZString.decompressFromUTF16(data[0].content) || data[0].content;
+                    if (t.startsWith('IMAGE:')) t = '🖼️ تصویر';
+                    if (t.startsWith('AUDIO:')) t = '🎤 صدا';
+                    privChats[user].lastMsg = t.substring(0, 30);
+                }
+            }
+            
+            const groupChats = myGroups.map(g => ({
+                type: 'group', name: g.group_name, lastMsg: '', lastTime: g.created_at
+            }));
+            
+            chatList = [...Object.values(privChats), ...groupChats];
+            chatList.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
+            renderChatList();
+        }
+
+        function renderChatList() {
+            const list = document.getElementById('chatsList');
+            if (!list) return;
+            if (chatList.length === 0) {
+                list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:30px;font-size:13px;">📭 هنوز چتی نداری<br><span style="font-size:11px;">از پایین چت جدید یا گروه بساز</span></div>';
+                return;
+            }
+            list.innerHTML = chatList.map(c => {
+                const isOnline = c.type === 'private' && onlineUsers.has(c.name);
+                const icon = c.type === 'group' ? '👥' : '👤';
+                const dot = c.type === 'private' ? (isOnline ? '<span class="online-dot"></span>' : '<span class="offline-dot"></span>') : '';
+                const del = c.type === 'private' ? `<button class="del-btn" onclick="event.stopPropagation(); deleteChat('${c.name}')">🗑️</button>` : '';
+                const time = c.lastTime ? new Date(c.lastTime).toLocaleString('fa-IR', { hour: '2-digit', minute: '2-digit' }) : '';
+                return `<div class="chat-item" onclick="openChat('${c.type}', '${c.name}')">
+                    <div><div class="name">${icon} ${c.name} ${dot}</div>
+                    <div class="last-msg">${c.lastMsg || 'هنوز پیامی نیست'}</div></div>
+                    <div style="text-align:left;"><div class="time">${time}</div>${del}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function deleteChat(username) {
+            if (!confirm('چت با "' + username + '" حذف بشه؟')) return;
+            localStorage.setItem('chat_deleted_' + myUsername + '_' + username, 'true');
+            loadChatList();
+        }
+
+        async function handleSearch() {
+            const q = document.getElementById('searchInput').value.trim().toLowerCase();
+            const rb = document.getElementById('searchResults');
+            if (!q) { rb.style.display = 'none'; return; }
+            await loadAllUsers();
+            await loadMyGroups();
+            const uR = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(q));
+            const gR = myGroups.filter(g => g.group_name.toLowerCase().includes(q));
+            if (uR.length === 0 && gR.length === 0) {
+                rb.innerHTML = '<div class="search-item" style="color:#64748b;justify-content:center;">یافت نشد</div>';
+                rb.style.display = 'block';
+                return;
+            }
+            let html = '';
+            uR.forEach(u => {
+                html += `<div class="search-item" onclick="openChat('private', '${u.username}')">
+                    <span>👤 ${u.username} ${onlineUsers.has(u.username) ? '🟢' : '⚫'}</span><span style="font-size:10px;color:#94a3b8;">کاربر</span></div>`;
+            });
+            gR.forEach(g => {
+                html += `<div class="search-item" onclick="openChat('group', '${g.group_name}')">
+                    <span>👥 ${g.group_name}</span><span style="font-size:10px;color:#94a3b8;">گروه</span></div>`;
+            });
+            rb.innerHTML = html;
+            rb.style.display = 'block';
+        }
+
+        async function openChat(type, name) {
+            currentChat = { type, target: name };
+            document.getElementById('msgScreen').style.display = 'none';
+            document.getElementById('chatScreen').style.display = 'flex';
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('chatHeaderIcon').innerText = type === 'group' ? '👥' : '👤';
+            document.getElementById('chatTitleName').innerText = name;
+            
+            if (type === 'group') {
+                document.getElementById('chatGroupStats').style.display = 'flex';
+                document.getElementById('membersBtn').style.display = 'block';
+                document.getElementById('shareLinkBtn').style.display = 'inline-block';
+                await updateGroupStats(name);
+            } else {
+                document.getElementById('chatGroupStats').style.display = 'none';
+                document.getElementById('membersBtn').style.display = 'none';
+                document.getElementById('shareLinkBtn').style.display = 'none';
+                document.getElementById('chatSubtitle').innerText = onlineUsers.has(name) ? '🟢 آنلاین' : '⚫ آفلاین';
+            }
+            await loadChatMessages();
+        }
+
+        async function updateGroupStats(groupName) {
+            const { data: g } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
+            if (!g || g.length === 0) return;
+            const members = (g[0].members || '').split(',').filter(m => m);
+            document.getElementById('memberCountLabel').innerText = members.length;
+            await loadAllUsers();
+            document.getElementById('onlineCountLabel').innerText = members.filter(m => onlineUsers.has(m)).length;
+        }
+
+        function toggleMembers() {
+            const p = document.getElementById('membersPanel');
+            p.classList.toggle('show');
+            if (p.classList.contains('show')) loadMembersList();
+        }
+
+        async function loadMembersList() {
+            const { data: g } = await supabaseClient.from('groups').select('*').eq('group_name', currentChat.target).limit(1);
+            if (!g || g.length === 0) return;
+            const members = (g[0].members || '').split(',').filter(m => m);
+            await loadAllUsers();
+            document.getElementById('membersPanel').innerHTML = '<div style="font-weight:bold;font-size:12px;margin-bottom:5px;color:#facc15;">👥 اعضا:</div>' +
+                members.map(m => `<div class="member-row"><span>${m}</span><span>${onlineUsers.has(m) ? '🟢' : '⚫'}</span></div>`).join('');
+        }
+
+        function getReceiverForChat() {
+            if (currentChat.type === 'group') return 'GROUP:' + currentChat.target;
+            const u = [myUsername, currentChat.target].sort();
+            return 'PRIVATE:' + u[0] + '|' + u[1];
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatMsgInput');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: getReceiverForChat(),
+                content: LZString.compressToUTF16(text)
+            }]);
+            await loadChatMessages();
+        }
+
+        async function loadChatMessages() {
+            if (!currentChat.target) return;
+            const { data } = await supabaseClient.from('messages')
+                .select('*').eq('receiver', getReceiverForChat())
+                .order('created_at', { ascending: true }).limit(200);
+            const box = document.getElementById('chatMessagesBox');
+            if (!box) return;
+            box.innerHTML = '';
+            if (!data || data.length === 0) {
+                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>';
+                return;
+            }
+            data.forEach(msg => {
+                let text = LZString.decompressFromUTF16(msg.content) || msg.content;
+                const isMe = msg.sender === myUsername;
+                if (msg.sender === 'system') {
+                    const div = document.createElement('div');
+                    div.className = 'msg-system';
+                    div.innerText = text;
+                    box.appendChild(div);
+                    return;
+                }
+                const div = document.createElement('div');
+                let cls = isMe ? 'sent' : 'received';
+                if (currentChat.type === 'private') cls = isMe ? 'private-sent' : 'private-received';
+                div.className = 'msg ' + cls;
+                const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                let sH = isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + msg.sender + '</div>';
+                div.innerHTML = sH + '<div style="white-space:pre-wrap;">' + text + '</div><div class="msg-time">' + time + '</div>';
+                box.appendChild(div);
+            });
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function backToMessenger() {
+            document.getElementById('chatScreen').style.display = 'none';
+            document.getElementById('msgScreen').style.display = 'flex';
+            loadChatList();
+            loadMyGroups();
+        }
+
+        // ============ مودال چت جدید ============
+        async function openNewChatModal() {
+            await loadAllUsers();
+            document.getElementById('newChatModal').style.display = 'flex';
+            document.getElementById('newChatUsername').value = '';
+            renderNewChatUsers('');
+        }
+        function closeNewChatModal() { document.getElementById('newChatModal').style.display = 'none'; }
+        function renderNewChatUsers(f) {
+            const l = document.getElementById('newChatUserList');
+            const fl = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(f.toLowerCase()));
+            if (fl.length === 0) { l.innerHTML = '<div style="color:#64748b;padding:10px;text-align:center;font-size:12px;">کاربری یافت نشد</div>'; return; }
+            l.innerHTML = fl.map(u => `<div class="user-item" onclick="document.getElementById('newChatUsername').value='${u.username}'">
+                <span>👤 ${u.username}</span>${u.online ? '<span style="font-size:10px;color:#22c55e;">🟢</span>' : '<span style="font-size:10px;color:#64748b;">⚫</span>'}
+            </div>`).join('');
+        }
+        function filterNewChatUsers() { renderNewChatUsers(document.getElementById('newChatUsername').value); }
+        async function startNewChat() {
+            const u = document.getElementById('newChatUsername').value.trim();
+            if (!u) return alert('نام کاربر!');
+            if (u === myUsername) return alert('به خودت پیام نده!');
+            await loadAllUsers();
+            if (!allUsers.find(x => x.username === u)) return alert('کاربر پیدا نشد!');
+            localStorage.removeItem('chat_deleted_' + myUsername + '_' + u);
+            closeNewChatModal();
+            await openChat('private', u);
+        }
+
+        // ============ مودال ساخت گروه ============
+        function openCreateGroupModal() {
+            document.getElementById('createGroupModal').style.display = 'flex';
+            document.getElementById('newGroupName').value = '';
+            document.getElementById('createGroupError').style.display = 'none';
+        }
+        function closeCreateGroupModal() { document.getElementById('createGroupModal').style.display = 'none'; }
+        async function createNewGroup() {
+            const name = document.getElementById('newGroupName').value.trim();
+            const err = document.getElementById('createGroupError');
+            if (!name || name.length < 2) { err.innerText = 'اسم گروه حداقل 2 کاراکتر!'; err.style.display = 'block'; return; }
+            try {
+                const { data: ex } = await supabaseClient.from('groups').select('*').eq('group_name', name).limit(1);
+                if (ex && ex.length > 0) {
+                    const mem = (ex[0].members || '').split(',').filter(m => m);
+                    if (!mem.includes(myUsername)) {
+                        mem.push(myUsername);
+                        await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', name);
+                    }
+                } else {
+                    await supabaseClient.from('groups').insert([{ group_name: name, members: myUsername }]);
+                }
+                await supabaseClient.from('messages').insert([{
+                    sender: 'system', receiver: 'GROUP:' + name,
+                    content: LZString.compressToUTF16('👋 گروه "' + name + '" ساخته شد!')
+                }]);
+                closeCreateGroupModal();
+                await loadMyGroups();
+                await openChat('group', name);
+            } catch(e) { err.innerText = 'خطا: ' + e.message; err.style.display = 'block'; }
+        }
+
+        // ============ لینک گروه ============
+        function shareGroupLink() {
+            if (currentChat.type !== 'group') return;
+            const link = window.location.origin + window.location.pathname + '?join=' + encodeURIComponent(currentChat.target);
+            document.getElementById('groupLinkInput').value = link;
+            document.getElementById('shareLinkModal').style.display = 'flex';
+        }
+        function closeShareLinkModal() { document.getElementById('shareLinkModal').style.display = 'none'; }
+        function copyGroupLink() {
+            const input = document.getElementById('groupLinkInput');
+            input.select();
+            try {
+                document.execCommand('copy');
+                navigator.clipboard.writeText(input.value).catch(() => {});
+                alert('✅ لینک کپی شد!');
+            } catch(e) { prompt('کپی کن:', input.value); }
+        }
+
         // ============ پنل سرور ============
-        function openServerPanel() {
-            document.getElementById('serverPassModal').style.display = 'flex';
-        }
-
-        function closeServerPass() {
-            document.getElementById('serverPassModal').style.display = 'none';
-        }
-
+        function openServerPanel() { document.getElementById('serverPassModal').style.display = 'flex'; }
+        function closeServerPass() { document.getElementById('serverPassModal').style.display = 'none'; }
         async function checkServerPass() {
             const p = document.getElementById('serverPass').value;
             if (p !== 'nimaaslani1234A') { alert('رمز اشتباه!'); return; }
@@ -438,27 +831,55 @@
             document.getElementById('serverPanelModal').style.display = 'flex';
             const u = await supabaseClient.from('users').select('id');
             const m = await supabaseClient.from('messages').select('id');
+            const g = await supabaseClient.from('groups').select('id');
             document.getElementById('sUsers').innerText = u.data?.length || 0;
             document.getElementById('sMessages').innerText = m.data?.length || 0;
+            document.getElementById('sGroups').innerText = g.data?.length || 0;
         }
-
-        function closeServerPanel() {
-            document.getElementById('serverPanelModal').style.display = 'none';
-        }
-
+        function closeServerPanel() { document.getElementById('serverPanelModal').style.display = 'none'; }
         async function deleteAllData() {
             if (!confirm('همه پاک بشه؟')) return;
             if (!confirm('تأیید نهایی!')) return;
             await supabaseClient.from('messages').delete().neq('id', 0);
+            await supabaseClient.from('groups').delete().neq('id', 0);
             await supabaseClient.from('users').delete().neq('id', 0);
             alert('✅ پاک شد!');
             closeServerPanel();
         }
 
-        // ============ شروع ============
+        // ============ لود ============
         window.addEventListener('load', () => {
             if (myUsername) loadGameData();
+            const params = new URLSearchParams(window.location.search);
+            const jg = params.get('join');
+            if (jg && myUsername) {
+                showScreen('msg');
+                setTimeout(() => joinGroupByLink(jg), 2000);
+            }
         });
+
+        async function joinGroupByLink(groupName) {
+            try {
+                const { data: ex } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
+                if (ex && ex.length > 0) {
+                    const mem = (ex[0].members || '').split(',').filter(m => m);
+                    if (!mem.includes(myUsername)) {
+                        mem.push(myUsername);
+                        await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', groupName);
+                        await supabaseClient.from('messages').insert([{
+                            sender: 'system', receiver: 'GROUP:' + groupName,
+                            content: LZString.compressToUTF16('👋 ' + myUsername + ' به گروه پیوست!')
+                        }]);
+                    }
+                    await loadMyGroups();
+                    await openChat('group', groupName);
+                } else {
+                    await supabaseClient.from('groups').insert([{ group_name: groupName, members: myUsername }]);
+                    await loadMyGroups();
+                    await openChat('group', groupName);
+                }
+            } catch(e) { console.log(e); }
+        }
     </script>
 </body>
 </html>
