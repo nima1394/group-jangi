@@ -29,6 +29,8 @@
         .top-btn { background: #38bdf8; color: #0f172a; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
         .game-btn { background: #22c55e; color: #fff; }
         .server-btn { background: #ef4444; color: #fff; }
+        .notif-btn { background: #f59e0b; color: #fff; }
+        .notif-btn.on { background: #22c55e; }
         .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
         
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
@@ -72,12 +74,13 @@
         .search-item:hover { background: #0b1120; }
         
         .chats-list { flex: 1; overflow-y: auto; background: #0b1120; }
-        .chat-item { padding: 12px 15px; border-bottom: 1px solid #334155; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .chat-item { padding: 12px 15px; border-bottom: 1px solid #334155; cursor: pointer; display: flex; justify-content: space-between; align-items: center; position: relative; }
         .chat-item:hover { background: #1e293b; }
         .chat-item .name { font-weight: bold; font-size: 14px; color: #fff; }
         .chat-item .last-msg { font-size: 11px; color: #94a3b8; margin-top: 3px; }
         .chat-item .time { font-size: 10px; color: #94a3b8; }
         .chat-item .del-btn { background: #ef4444; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; margin-top: 5px; }
+        .chat-item .unread-badge { position: absolute; top: 8px; left: 8px; background: #ef4444; color: #fff; border-radius: 50%; min-width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; padding: 0 6px; }
         
         .bottom-bar { padding: 10px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 8px; }
         .bottom-bar button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 13px; font-weight: bold; cursor: pointer; }
@@ -97,11 +100,17 @@
         .user-item { background: #0f172a; padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; font-size: 13px; }
         .user-item:hover { background: #1e293b; }
         
-        /* ============ ضبط صدا ============ */
         .recording-indicator { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #dc2626; color: #fff; padding: 15px 25px; border-radius: 30px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 5px 20px rgba(220,38,38,0.5); }
         .recording-indicator.show { display: flex; align-items: center; gap: 10px; }
         .rec-dot { width: 12px; height: 12px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.2; } }
+        
+        /* ============ اعلان داخلی ============ */
+        .in-app-notif { position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(139,92,246,0.5); z-index: 99999; display: none; max-width: 320px; cursor: pointer; animation: slideIn 0.3s ease; }
+        .in-app-notif.show { display: block; }
+        .in-app-notif .title { font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        .in-app-notif .body { font-size: 12px; opacity: 0.95; }
+        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         
         #imageModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: pointer; padding: 20px; }
         #imageModal img { max-width: 95%; max-height: 95%; border-radius: 8px; }
@@ -113,6 +122,7 @@
         <h1>🔥 خوش آمدی</h1>
         <button class="btn1" onclick="showScreen('gj')">🔥 گروه جنگی</button>
         <button class="btn2" onclick="showScreen('msg')">💬 پیام‌رسان</button>
+        <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
     </div>
 
     <!-- گروه جنگی -->
@@ -121,6 +131,7 @@
             <div class="user-info">
                 <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
                 <div class="top-btns">
+                    <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
                     <button class="top-btn game-btn" onclick="openGamePanel()">🎮</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
@@ -147,6 +158,7 @@
             <div class="user-info">
                 <span>👤 <b id="msgUserLabel">...</b></span>
                 <div class="top-btns">
+                    <button class="top-btn notif-btn" onclick="toggleNotifications()" id="msNotifBtn">🔕</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
                 </div>
@@ -178,6 +190,7 @@
             <div class="user-info">
                 <span id="chatHeaderIcon">💬</span>
                 <div class="top-btns">
+                    <button class="top-btn notif-btn" onclick="toggleNotifications()" id="chNotifBtn">🔕</button>
                     <button class="top-btn" onclick="shareGroupLink()" id="shareLinkBtn" style="display:none; background:#22c55e; color:#fff;">🔗</button>
                     <button class="back-btn" onclick="backToMessenger()">← بازگشت</button>
                 </div>
@@ -203,19 +216,22 @@
         </div>
     </div>
 
-    <!-- نشانگر ضبط -->
     <div id="recordingIndicator" class="recording-indicator">
         <div class="rec-dot"></div>
         <span id="recordingTime">00:00</span>
         <span style="margin-right: 10px;">در حال ضبط...</span>
     </div>
 
-    <!-- مودال نمایش تصویر -->
+    <!-- اعلان داخلی -->
+    <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()">
+        <div class="title" id="notifTitle">پیام جدید</div>
+        <div class="body" id="notifBody">...</div>
+    </div>
+
     <div id="imageModal" onclick="closeImageModal()">
         <img id="fullImage" src="">
     </div>
 
-    <!-- مودال ورود -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #facc15;">👋 ورود</h3>
@@ -317,8 +333,254 @@
         let myGroups = [];
         let chatList = [];
         let fetchInterval = null;
+        let notifInterval = null;
         let onlineUsers = new Set();
         let pendingScreen = null;
+        
+        // اعلان‌ها
+        let notificationsEnabled = localStorage.getItem('notif_enabled') !== 'false';
+        let knownMsgIds = new Set();
+        let lastCheckTime = new Date().toISOString();
+        let unreadCounts = {};  // { chatKey: count }
+        let currentScreenName = 'home';
+
+        // ============ اعلان‌ها ============
+        function requestNotifPermission() {
+            if (!('Notification' in window)) {
+                alert('مرورگر تو از اعلان پشتیبانی نمی‌کنه!');
+                return;
+            }
+            Notification.requestPermission().then(perm => {
+                if (perm === 'granted') {
+                    notificationsEnabled = true;
+                    localStorage.setItem('notif_enabled', 'true');
+                    updateNotifButtons();
+                    document.getElementById('notifPermBtn').innerText = '✅ اعلان‌ها فعال هستند';
+                    document.getElementById('notifPermBtn').style.background = '#22c55e';
+                    showInAppNotif('✅ اعلان‌ها فعال شد', 'حالا پیام‌های جدید بهت اعلان داده میشه');
+                    playNotifSound();
+                } else {
+                    alert('اجازه اعلان داده نشد!');
+                }
+            });
+        }
+
+        function toggleNotifications() {
+            notificationsEnabled = !notificationsEnabled;
+            localStorage.setItem('notif_enabled', notificationsEnabled.toString());
+            updateNotifButtons();
+            if (notificationsEnabled) {
+                showInAppNotif('🔔 اعلان‌ها فعال', 'پیام‌های جدید بهت اعلان داده میشه');
+                if ('Notification' in window && Notification.permission !== 'granted') {
+                    Notification.requestPermission();
+                }
+            } else {
+                showInAppNotif('🔕 اعلان‌ها غیرفعال', 'دیگه اعلان نمی‌بینی');
+            }
+        }
+
+        function updateNotifButtons() {
+            const icon = notificationsEnabled ? '🔔' : '🔕';
+            const cls = notificationsEnabled ? 'top-btn notif-btn on' : 'top-btn notif-btn';
+            ['gjNotifBtn', 'msNotifBtn', 'chNotifBtn'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.innerText = icon; el.className = cls; }
+            });
+        }
+
+        function showInAppNotif(title, body) {
+            const n = document.getElementById('inAppNotif');
+            document.getElementById('notifTitle').innerText = title;
+            document.getElementById('notifBody').innerText = body;
+            n.classList.add('show');
+            setTimeout(() => n.classList.remove('show'), 4000);
+        }
+
+        function handleNotifClick() {
+            document.getElementById('inAppNotif').classList.remove('show');
+        }
+
+        function showBrowserNotif(title, body, tag) {
+            if (!notificationsEnabled) return;
+            if (!('Notification' in window)) return;
+            if (Notification.permission !== 'granted') return;
+            
+            try {
+                const notif = new Notification(title, {
+                    body: body,
+                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔥</text></svg>',
+                    tag: tag || 'chat-msg',
+                    requireInteraction: false
+                });
+                notif.onclick = () => {
+                    window.focus();
+                    notif.close();
+                    if (tag && tag.startsWith('private-')) {
+                        const user = tag.replace('private-', '');
+                        showScreen('msg');
+                        setTimeout(() => openChat('private', user), 1000);
+                    }
+                };
+                setTimeout(() => notif.close(), 5000);
+            } catch(e) { console.log(e); }
+        }
+
+        function playNotifSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                // صدای دو تون
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.connect(gain1); gain1.connect(ctx.destination);
+                osc1.frequency.value = 800;
+                gain1.gain.value = 0.15;
+                osc1.start();
+                osc1.stop(ctx.currentTime + 0.1);
+                
+                setTimeout(() => {
+                    const osc2 = ctx.createOscillator();
+                    const gain2 = ctx.createGain();
+                    osc2.connect(gain2); gain2.connect(ctx.destination);
+                    osc2.frequency.value = 1200;
+                    gain2.gain.value = 0.15;
+                    osc2.start();
+                    osc2.stop(ctx.currentTime + 0.15);
+                }, 120);
+            } catch(e) {}
+        }
+
+        function vibrate() {
+            if ('vibrate' in navigator) {
+                navigator.vibrate([100, 50, 100]);
+            }
+        }
+
+        // ============ چک پیام‌های جدید ============
+        async function checkNewMessages() {
+            if (!myUsername) return;
+            
+            try {
+                // گرفتن پیام‌های جدید که من گیرنده‌شون هستم
+                const { data } = await supabaseClient
+                    .from('messages')
+                    .select('*')
+                    .gt('created_at', lastCheckTime)
+                    .neq('sender', myUsername)
+                    .order('created_at', { ascending: true });
+                
+                if (!data || data.length === 0) return;
+                
+                lastCheckTime = new Date().toISOString();
+                
+                for (let msg of data) {
+                    if (knownMsgIds.has(msg.id)) continue;
+                    knownMsgIds.add(msg.id);
+                    
+                    let text = LZString.decompressFromUTF16(msg.content) || msg.content;
+                    let preview = text;
+                    if (text.startsWith('AUDIO:')) preview = '🎤 پیام صوتی';
+                    if (text.startsWith('IMAGE:')) preview = '🖼️ تصویر';
+                    preview = preview.substring(0, 60);
+                    
+                    const receiver = msg.receiver;
+                    let chatKey = '';
+                    let chatTitle = '';
+                    let notifBody = '';
+                    
+                    if (receiver === 'GROUP:' + GROUP_NAME) {
+                        // پیام گروه جنگی
+                        chatKey = 'gj';
+                        chatTitle = '🔥 گروه جنگی';
+                        notifBody = msg.sender + ': ' + preview;
+                        
+                        // اگه توی گروه جنگی نیستی، اعلان بده
+                        if (currentScreenName !== 'gj') {
+                            unreadCounts['gj'] = (unreadCounts['gj'] || 0) + 1;
+                            showBrowserNotif('🔥 گروه جنگی', notifBody, 'group-gj');
+                            showInAppNotif('🔥 گروه جنگی', notifBody);
+                            playNotifSound();
+                            vibrate();
+                        }
+                    } else if (receiver.startsWith('PRIVATE:')) {
+                        const parts = receiver.replace('PRIVATE:', '').split('|');
+                        if (!parts.includes(myUsername)) continue;
+                        const other = parts.find(p => p !== myUsername);
+                        if (!other) continue;
+                        
+                        chatKey = 'private-' + other;
+                        chatTitle = '💬 ' + other;
+                        notifBody = preview;
+                        
+                        // چک کن توی همین چت هستی یا نه
+                        const isInThisChat = currentScreenName === 'chat' && currentChat.type === 'private' && currentChat.target === other;
+                        
+                        if (!isInThisChat) {
+                            unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
+                            showBrowserNotif('💬 پیام از ' + other, notifBody, 'private-' + other);
+                            showInAppNotif('💬 پیام از ' + other, notifBody);
+                            playNotifSound();
+                            vibrate();
+                        }
+                    } else if (receiver.startsWith('GROUP:')) {
+                        // پیام گروه‌های دیگه
+                        const gname = receiver.replace('GROUP:', '');
+                        const isMyGroup = myGroups.find(g => g.group_name === gname);
+                        if (!isMyGroup) continue;
+                        
+                        chatKey = 'group-' + gname;
+                        chatTitle = '👥 ' + gname;
+                        notifBody = msg.sender + ': ' + preview;
+                        
+                        const isInThisGroup = currentScreenName === 'chat' && currentChat.type === 'group' && currentChat.target === gname;
+                        
+                        if (!isInThisGroup) {
+                            unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
+                            showBrowserNotif('👥 ' + gname, notifBody, 'group-' + gname);
+                            showInAppNotif('👥 ' + gname, notifBody);
+                            playNotifSound();
+                            vibrate();
+                        }
+                    }
+                }
+                
+                // آپدیت نشان‌های unread
+                updateUnreadBadges();
+                
+            } catch(e) { console.log(e); }
+        }
+
+        function updateUnreadBadges() {
+            // پاک کردن همه badge ها
+            document.querySelectorAll('.unread-badge').forEach(b => b.remove());
+            
+            // برای گروه جنگی
+            if (unreadCounts['gj'] && currentScreenName !== 'gj') {
+                // میشه توی دکمه گروه جنگی نشون داد
+            }
+            
+            // برای چت‌ها
+            chatList.forEach((c, i) => {
+                const key = c.type === 'private' ? 'private-' + c.name : 'group-' + c.name;
+                const count = unreadCounts[key];
+                if (count && count > 0) {
+                    const items = document.querySelectorAll('.chat-item');
+                    if (items[i]) {
+                        const badge = document.createElement('div');
+                        badge.className = 'unread-badge';
+                        badge.innerText = count > 99 ? '99+' : count;
+                        items[i].appendChild(badge);
+                    }
+                }
+            });
+        }
+
+        function clearUnread(key) {
+            if (unreadCounts[key]) {
+                unreadCounts[key] = 0;
+                delete unreadCounts[key];
+                updateUnreadBadges();
+            }
+        }
 
         // ============ ضبط صدا ============
         let mediaRecorder = null;
@@ -346,16 +608,13 @@
                 document.getElementById('recordingIndicator').classList.add('show');
                 document.getElementById('recordingTime').innerText = '00:00';
                 
-                // تغییر دکمه
                 const btnId = context === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn';
                 document.getElementById(btnId).classList.add('recording');
                 document.getElementById(btnId).innerText = '⏹️';
                 
-                // تایمر
                 recordingTimer = setInterval(() => {
                     recordingSeconds++;
                     document.getElementById('recordingTime').innerText = formatTime(recordingSeconds);
-                    // حداکثر 60 ثانیه
                     if (recordingSeconds >= 60) stopRecording();
                 }, 1000);
                 
@@ -396,22 +655,14 @@
         }
 
         function toggleGjRecording() {
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording('gj');
-            }
+            if (isRecording) stopRecording();
+            else startRecording('gj');
         }
-
         function toggleChRecording() {
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording('ch');
-            }
+            if (isRecording) stopRecording();
+            else startRecording('ch');
         }
 
-        // ============ ارسال پیام صوتی ============
         async function sendGjAudio(base64) {
             const content = 'AUDIO:' + base64;
             await supabaseClient.from('messages').insert([{
@@ -430,7 +681,6 @@
             await loadChatMessages();
         }
 
-        // ============ نمایش پیام صوتی ============
         function renderMessageContent(text) {
             if (text.startsWith('AUDIO:')) {
                 const data = text.replace('AUDIO:', '');
@@ -460,12 +710,15 @@
             
             if (fetchInterval) clearInterval(fetchInterval);
             
+            currentScreenName = name;
+            
             if (name === 'home') {
                 document.getElementById('homeScreen').style.display = 'block';
             } else if (name === 'gj') {
                 if (!myUsername) { pendingScreen = 'gj'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('gjScreen').style.display = 'flex';
                 document.getElementById('gjUserLabel').innerText = myUsername;
+                clearUnread('gj');
                 loadGameData();
                 updateGjCoin();
                 loadGjMessages();
@@ -493,6 +746,11 @@
                 myUsername = name;
                 loadGameData();
                 document.getElementById('loginModal').style.display = 'none';
+                
+                // شروع چک اعلان‌ها
+                lastCheckTime = new Date().toISOString();
+                startNotifChecker();
+                
                 if (pendingScreen === 'gj') showScreen('gj');
                 else if (pendingScreen === 'msg') showScreen('msg');
                 pendingScreen = null;
@@ -737,6 +995,7 @@
             chatList = [...Object.values(privChats), ...groupChats];
             chatList.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
             renderChatList();
+            updateUnreadBadges();
         }
 
         function renderChatList() {
@@ -800,6 +1059,11 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('chatHeaderIcon').innerText = type === 'group' ? '👥' : '👤';
             document.getElementById('chatTitleName').innerText = name;
+            currentScreenName = 'chat';
+            
+            // پاک کردن unread این چت
+            const key = type === 'private' ? 'private-' + name : 'group-' + name;
+            clearUnread(key);
             
             if (type === 'group') {
                 document.getElementById('chatGroupStats').style.display = 'flex';
@@ -894,6 +1158,7 @@
         function backToMessenger() {
             document.getElementById('chatScreen').style.display = 'none';
             document.getElementById('msgScreen').style.display = 'flex';
+            currentScreenName = 'msg';
             loadChatList();
             loadMyGroups();
         }
@@ -1002,14 +1267,40 @@
             closeServerPanel();
         }
 
+        // ============ چک اعلان‌ها ============
+        function startNotifChecker() {
+            if (notifInterval) clearInterval(notifInterval);
+            notifInterval = setInterval(checkNewMessages, 2000);
+        }
+
         // ============ لود ============
         window.addEventListener('load', () => {
-            if (myUsername) loadGameData();
+            updateNotifButtons();
+            if (myUsername) {
+                loadGameData();
+                lastCheckTime = new Date().toISOString();
+                startNotifChecker();
+            }
+            
+            // چک کن اعلان‌ها قبلاً فعال شدن
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const btn = document.getElementById('notifPermBtn');
+                if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
+            }
+            
             const params = new URLSearchParams(window.location.search);
             const jg = params.get('join');
             if (jg && myUsername) {
                 showScreen('msg');
                 setTimeout(() => joinGroupByLink(jg), 2000);
+            }
+        });
+
+        // وقتی کاربر برگشت به صفحه
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                lastCheckTime = new Date().toISOString();
+                updateUnreadBadges();
             }
         });
 
