@@ -43,9 +43,15 @@
         .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
         
+        .msg-audio audio { max-width: 220px; height: 40px; border-radius: 20px; outline: none; }
+        .msg-image img { max-width: 200px; max-height: 200px; border-radius: 8px; cursor: pointer; }
+        
         .input-box { padding: 10px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 6px; align-items: center; }
-        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
+        input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; min-width: 80px; }
         .send-btn { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
+        .voice-btn { background: #ef4444; color: #fff; padding: 8px 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .voice-btn.recording { background: #dc2626; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
         .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
@@ -59,7 +65,6 @@
         .buy-btn { background: #22c55e; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
         .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* ============ پیام‌رسان ============ */
         .search-bar { padding: 8px 12px; background: #0f172a; border-bottom: 1px solid #334155; position: relative; }
         .search-bar input { width: 100%; padding: 8px 12px; border-radius: 20px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
         .search-results { position: absolute; top: 100%; left: 12px; right: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; max-height: 300px; overflow-y: auto; z-index: 100; margin-top: 5px; }
@@ -81,7 +86,6 @@
         
         .online-dot { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 5px; animation: pulse 2s infinite; }
         .offline-dot { display: inline-block; width: 8px; height: 8px; background: #64748b; border-radius: 50%; margin-left: 5px; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         
         .group-stats { display: flex; gap: 10px; justify-content: center; font-size: 11px; color: #94a3b8; margin-top: 4px; }
         
@@ -92,11 +96,19 @@
         .user-list { max-height: 200px; overflow-y: auto; margin: 10px 0; text-align: right; }
         .user-item { background: #0f172a; padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; font-size: 13px; }
         .user-item:hover { background: #1e293b; }
+        
+        /* ============ ضبط صدا ============ */
+        .recording-indicator { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #dc2626; color: #fff; padding: 15px 25px; border-radius: 30px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 5px 20px rgba(220,38,38,0.5); }
+        .recording-indicator.show { display: flex; align-items: center; gap: 10px; }
+        .rec-dot { width: 12px; height: 12px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.2; } }
+        
+        #imageModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: pointer; padding: 20px; }
+        #imageModal img { max-width: 95%; max-height: 95%; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-    <!-- صفحه اصلی -->
     <div id="homeScreen" class="container">
         <h1>🔥 خوش آمدی</h1>
         <button class="btn1" onclick="showScreen('gj')">🔥 گروه جنگی</button>
@@ -123,6 +135,7 @@
             <div class="msg-system">🔥 خوش آمدی! بنویس <b>!شروع</b></div>
         </div>
         <div class="input-box">
+            <button class="voice-btn" id="gjVoiceBtn" onclick="toggleGjRecording()">🎤</button>
             <input type="text" id="gjInput" placeholder="پیام یا دستور..." onkeypress="if(event.key==='Enter')sendGj()">
             <button class="send-btn" onclick="sendGj()">ارسال</button>
         </div>
@@ -159,7 +172,7 @@
         </div>
     </div>
 
-    <!-- صفحه چت داخل پیام‌رسان -->
+    <!-- چت داخل پیام‌رسان -->
     <div id="chatScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
@@ -184,13 +197,25 @@
         <div class="members-panel" id="membersPanel"></div>
         <div class="messages-box" id="chatMessagesBox"></div>
         <div class="input-box">
+            <button class="voice-btn" id="chVoiceBtn" onclick="toggleChRecording()">🎤</button>
             <input type="text" id="chatMsgInput" placeholder="پیام..." onkeypress="if(event.key==='Enter')sendChatMessage()">
             <button class="send-btn" onclick="sendChatMessage()">ارسال</button>
         </div>
     </div>
 
-    <!-- مودال‌ها -->
+    <!-- نشانگر ضبط -->
+    <div id="recordingIndicator" class="recording-indicator">
+        <div class="rec-dot"></div>
+        <span id="recordingTime">00:00</span>
+        <span style="margin-right: 10px;">در حال ضبط...</span>
+    </div>
 
+    <!-- مودال نمایش تصویر -->
+    <div id="imageModal" onclick="closeImageModal()">
+        <img id="fullImage" src="">
+    </div>
+
+    <!-- مودال ورود -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #facc15;">👋 ورود</h3>
@@ -262,9 +287,8 @@
     <div id="shareLinkModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">این لینک رو برای دوستات بفرست:</p>
             <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 11px; direction: ltr;">
-            <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی لینک</button>
+            <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی</button>
             <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
@@ -295,6 +319,137 @@
         let fetchInterval = null;
         let onlineUsers = new Set();
         let pendingScreen = null;
+
+        // ============ ضبط صدا ============
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordingTimer = null;
+        let recordingSeconds = 0;
+        let recordingContext = '';
+
+        function formatTime(s) {
+            const m = Math.floor(s/60);
+            const sec = s%60;
+            return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
+        }
+
+        async function startRecording(context) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                isRecording = true;
+                recordingContext = context;
+                recordingSeconds = 0;
+                
+                document.getElementById('recordingIndicator').classList.add('show');
+                document.getElementById('recordingTime').innerText = '00:00';
+                
+                // تغییر دکمه
+                const btnId = context === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn';
+                document.getElementById(btnId).classList.add('recording');
+                document.getElementById(btnId).innerText = '⏹️';
+                
+                // تایمر
+                recordingTimer = setInterval(() => {
+                    recordingSeconds++;
+                    document.getElementById('recordingTime').innerText = formatTime(recordingSeconds);
+                    // حداکثر 60 ثانیه
+                    if (recordingSeconds >= 60) stopRecording();
+                }, 1000);
+                
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.onstop = async () => {
+                    clearInterval(recordingTimer);
+                    document.getElementById('recordingIndicator').classList.remove('show');
+                    
+                    const btn = document.getElementById(context === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn');
+                    btn.classList.remove('recording');
+                    btn.innerText = '🎤';
+                    
+                    stream.getTracks().forEach(t => t.stop());
+                    
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = async () => {
+                        const base64 = reader.result.split(',')[1];
+                        if (context === 'gj') await sendGjAudio(base64);
+                        else await sendChAudio(base64);
+                    };
+                };
+                
+                mediaRecorder.start();
+            } catch(e) {
+                alert('دسترسی به میکروفون ممکن نیست!\n\n' + e.message);
+                isRecording = false;
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                clearInterval(recordingTimer);
+            }
+        }
+
+        function toggleGjRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording('gj');
+            }
+        }
+
+        function toggleChRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording('ch');
+            }
+        }
+
+        // ============ ارسال پیام صوتی ============
+        async function sendGjAudio(base64) {
+            const content = 'AUDIO:' + base64;
+            await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: 'GROUP:' + GROUP_NAME,
+                content: LZString.compressToUTF16(content)
+            }]);
+            await loadGjMessages();
+        }
+
+        async function sendChAudio(base64) {
+            const content = 'AUDIO:' + base64;
+            await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: getReceiverForChat(),
+                content: LZString.compressToUTF16(content)
+            }]);
+            await loadChatMessages();
+        }
+
+        // ============ نمایش پیام صوتی ============
+        function renderMessageContent(text) {
+            if (text.startsWith('AUDIO:')) {
+                const data = text.replace('AUDIO:', '');
+                return '<div class="msg-audio"><audio controls preload="metadata" src="data:audio/webm;base64,' + data + '"></audio></div>';
+            }
+            if (text.startsWith('IMAGE:')) {
+                const data = text.replace('IMAGE:', '');
+                return '<div class="msg-image"><img src="data:image/jpeg;base64,' + data + '" onclick="openImageModal(this.src)"></div>';
+            }
+            return '<div style="white-space:pre-wrap;">' + text + '</div>';
+        }
+
+        function openImageModal(src) {
+            document.getElementById('fullImage').src = src;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
 
         // ============ ناوبری ============
         function showScreen(name) {
@@ -391,7 +546,7 @@
             openGamePanel();
         }
 
-        // ============ گروه جنگی (چت) ============
+        // ============ گروه جنگی ============
         async function sendGj() {
             const input = document.getElementById('gjInput');
             const text = input.value.trim();
@@ -439,7 +594,7 @@
                 let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : 
                         (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : 
                         '<div class="msg-sender">👤 ' + msg.sender + '</div>');
-                div.innerHTML = sh + '<div style="white-space:pre-wrap;">' + text + '</div><div class="msg-time">' + time + '</div>';
+                div.innerHTML = sh + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
             box.scrollTop = box.scrollHeight;
@@ -570,7 +725,7 @@
                 if (data && data[0]) {
                     let t = LZString.decompressFromUTF16(data[0].content) || data[0].content;
                     if (t.startsWith('IMAGE:')) t = '🖼️ تصویر';
-                    if (t.startsWith('AUDIO:')) t = '🎤 صدا';
+                    if (t.startsWith('AUDIO:')) t = '🎤 پیام صوتی';
                     privChats[user].lastMsg = t.substring(0, 30);
                 }
             }
@@ -730,7 +885,7 @@
                 div.className = 'msg ' + cls;
                 const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
                 let sH = isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + msg.sender + '</div>';
-                div.innerHTML = sH + '<div style="white-space:pre-wrap;">' + text + '</div><div class="msg-time">' + time + '</div>';
+                div.innerHTML = sH + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
             box.scrollTop = box.scrollHeight;
