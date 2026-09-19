@@ -10,13 +10,35 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
         body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         
-        .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; }
+        /* ============ نوار وضعیت نت ============ */
+        .status-bar { position: fixed; top: 0; left: 0; right: 0; height: 32px; background: linear-gradient(90deg, #0f172a, #1e293b); border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 9999; font-size: 11px; font-weight: bold; }
+        .status-item { display: flex; align-items: center; gap: 5px; }
+        .status-good { color: #22c55e; }
+        .status-mid { color: #f59e0b; }
+        .status-bad { color: #ef4444; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+        .status-dot.weak { background: #f59e0b; }
+        .status-dot.offline { background: #ef4444; animation: none; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
+        /* ============ صفحه خطای نت ============ */
+        .offline-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0f172a; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 99998; text-align: center; padding: 20px; }
+        .offline-screen.show { display: flex; }
+        .offline-screen .emoji { font-size: 100px; margin-bottom: 20px; animation: sadFloat 2s infinite; }
+        @keyframes sadFloat { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
+        .offline-screen h1 { color: #ef4444; font-size: 24px; margin-bottom: 15px; }
+        .offline-screen p { color: #94a3b8; font-size: 14px; margin-bottom: 30px; max-width: 400px; line-height: 1.7; }
+        .offline-screen .retry-btn { background: #38bdf8; color: #0f172a; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .offline-screen .retry-btn:hover { opacity: 0.9; }
+        
+        /* ============ اپلیکیشن ============ */
+        .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 32px; }
         .container h1 { color: #facc15; margin-bottom: 20px; }
         .btn1, .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
         .btn1 { background: #facc15; color: #0f172a; }
         .btn2 { background: #8b5cf6; color: #fff; }
         
-        .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: 95vh; }
+        .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: calc(95vh - 32px); margin-top: 32px; }
         .header { padding: 12px; background: #0f172a; border-bottom: 1px solid #334155; }
         .user-info { font-size: 12px; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
@@ -53,7 +75,6 @@
         .send-btn { padding: 8px 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 12px; }
         .voice-btn { background: #ef4444; color: #fff; padding: 8px 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
         .voice-btn.recording { background: #dc2626; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
         .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
@@ -100,13 +121,12 @@
         .user-item { background: #0f172a; padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; font-size: 13px; }
         .user-item:hover { background: #1e293b; }
         
-        .recording-indicator { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #dc2626; color: #fff; padding: 15px 25px; border-radius: 30px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 5px 20px rgba(220,38,38,0.5); }
+        .recording-indicator { position: fixed; top: 50px; left: 50%; transform: translateX(-50%); background: #dc2626; color: #fff; padding: 15px 25px; border-radius: 30px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 5px 20px rgba(220,38,38,0.5); }
         .recording-indicator.show { display: flex; align-items: center; gap: 10px; }
         .rec-dot { width: 12px; height: 12px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.2; } }
         
-        /* ============ اعلان داخلی ============ */
-        .in-app-notif { position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(139,92,246,0.5); z-index: 99999; display: none; max-width: 320px; cursor: pointer; animation: slideIn 0.3s ease; }
+        .in-app-notif { position: fixed; top: 50px; right: 20px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(139,92,246,0.5); z-index: 99999; display: none; max-width: 320px; cursor: pointer; animation: slideIn 0.3s ease; }
         .in-app-notif.show { display: block; }
         .in-app-notif .title { font-weight: bold; margin-bottom: 5px; font-size: 14px; }
         .in-app-notif .body { font-size: 12px; opacity: 0.95; }
@@ -114,10 +134,39 @@
         
         #imageModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: pointer; padding: 20px; }
         #imageModal img { max-width: 95%; max-height: 95%; border-radius: 8px; }
+        
+        /* ============ نمایش موقعیت ============ */
+        .location-info { font-size: 10px; color: #94a3b8; display: flex; align-items: center; gap: 5px; }
+        .server-status { display: flex; align-items: center; gap: 5px; }
     </style>
 </head>
 <body>
 
+    <!-- ============ نوار وضعیت بالا ============ -->
+    <div class="status-bar">
+        <div class="status-item server-status" id="serverStatusBox">
+            <span class="status-dot" id="serverDot"></span>
+            <span id="serverStatusText">سرور: در حال اتصال...</span>
+        </div>
+        <div class="status-item location-info" id="locationBox">
+            <span>📍</span>
+            <span id="locationText">در حال شناسایی...</span>
+        </div>
+        <div class="status-item">
+            <span id="netIcon">📶</span>
+            <span id="netStatus" class="status-good">نت: خوب</span>
+        </div>
+    </div>
+
+    <!-- ============ صفحه خطای نت ============ -->
+    <div id="offlineScreen" class="offline-screen">
+        <div class="emoji">😔</div>
+        <h1>اتصال اینترنت قطع شد</h1>
+        <p>لطفاً اتصال اینترنت خود را بررسی کنید<br>و دوباره تلاش کنید.</p>
+        <button class="retry-btn" onclick="retryConnection()">🔄 تلاش مجدد</button>
+    </div>
+
+    <!-- ============ صفحه اصلی ============ -->
     <div id="homeScreen" class="container">
         <h1>🔥 خوش آمدی</h1>
         <button class="btn1" onclick="showScreen('gj')">🔥 گروه جنگی</button>
@@ -222,7 +271,6 @@
         <span style="margin-right: 10px;">در حال ضبط...</span>
     </div>
 
-    <!-- اعلان داخلی -->
     <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()">
         <div class="title" id="notifTitle">پیام جدید</div>
         <div class="body" id="notifBody">...</div>
@@ -333,16 +381,243 @@
         let myGroups = [];
         let chatList = [];
         let fetchInterval = null;
-        let notifInterval = null;
         let onlineUsers = new Set();
         let pendingScreen = null;
+        let realtimeChannel = null;
+        let currentScreenName = 'home';
         
         // اعلان‌ها
         let notificationsEnabled = localStorage.getItem('notif_enabled') !== 'false';
-        let knownMsgIds = new Set();
-        let lastCheckTime = new Date().toISOString();
-        let unreadCounts = {};  // { chatKey: count }
-        let currentScreenName = 'home';
+        let unreadCounts = {};
+
+        // ============ تشخیص وضعیت نت ============
+        let netTestInterval = null;
+        let isOnline = navigator.onLine;
+
+        function updateNetStatus() {
+            const icon = document.getElementById('netIcon');
+            const status = document.getElementById('netStatus');
+            const dot = document.getElementById('serverDot');
+            
+            if (!navigator.onLine) {
+                icon.innerText = '📵';
+                status.innerText = 'نت: قطع';
+                status.className = 'status-bad';
+                showOfflineScreen();
+                return;
+            }
+            
+            // تست سرعت با اندازه‌گیری زمان پاسخ
+            const start = performance.now();
+            fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
+                method: 'HEAD',
+                headers: { 'apikey': SUPABASE_KEY },
+                cache: 'no-store'
+            }).then(() => {
+                const time = performance.now() - start;
+                if (time < 300) {
+                    icon.innerText = '📶';
+                    status.innerText = 'نت: قوی';
+                    status.className = 'status-good';
+                    dot.className = 'status-dot';
+                    document.getElementById('serverStatusText').innerText = 'سرور: عالی';
+                } else if (time < 1000) {
+                    icon.innerText = '📶';
+                    status.innerText = 'نت: متوسط';
+                    status.className = 'status-mid';
+                    dot.className = 'status-dot weak';
+                    document.getElementById('serverStatusText').innerText = 'سرور: متوسط';
+                } else {
+                    icon.innerText = '📶';
+                    status.innerText = 'نت: ضعیف';
+                    status.className = 'status-bad';
+                    dot.className = 'status-dot weak';
+                    document.getElementById('serverStatusText').innerText = 'سرور: ضعیف';
+                }
+                hideOfflineScreen();
+            }).catch(() => {
+                icon.innerText = '📵';
+                status.innerText = 'نت: قطع';
+                status.className = 'status-bad';
+                dot.className = 'status-dot offline';
+                document.getElementById('serverStatusText').innerText = 'سرور: قطع';
+                showOfflineScreen();
+            });
+        }
+
+        function showOfflineScreen() {
+            document.getElementById('offlineScreen').classList.add('show');
+        }
+
+        function hideOfflineScreen() {
+            document.getElementById('offlineScreen').classList.remove('show');
+        }
+
+        function retryConnection() {
+            updateNetStatus();
+            if (navigator.onLine) {
+                hideOfflineScreen();
+                setTimeout(() => updateNetStatus(), 1000);
+            }
+        }
+
+        // وقتی نت وصل یا قطع شد
+        window.addEventListener('online', () => {
+            isOnline = true;
+            hideOfflineScreen();
+            updateNetStatus();
+        });
+        window.addEventListener('offline', () => {
+            isOnline = false;
+            showOfflineScreen();
+            updateNetStatus();
+        });
+
+        // ============ تشخیص موقعیت ============
+        async function detectLocation() {
+            try {
+                // از IP برای تشخیص موقعیت استفاده می‌کنیم (سریع‌تر از GPS)
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                
+                if (data.country_name && data.city) {
+                    const country = data.country_name;
+                    const city = data.city;
+                    document.getElementById('locationText').innerText = city + ' - ' + country;
+                    
+                    // بررسی کیفیت اتصال به سرور از این منطقه
+                    checkServerQuality(data.country_code);
+                } else {
+                    document.getElementById('locationText').innerText = 'موقعیت نامشخص';
+                }
+            } catch(e) {
+                document.getElementById('locationText').innerText = 'موقعیت نامشخص';
+            }
+        }
+
+        async function checkServerQuality(countryCode) {
+            const start = performance.now();
+            try {
+                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
+                    method: 'HEAD',
+                    headers: { 'apikey': SUPABASE_KEY },
+                    cache: 'no-store'
+                });
+                const time = performance.now() - start;
+                
+                const serverText = document.getElementById('serverStatusText');
+                if (time < 300) {
+                    serverText.innerText = 'سرور: عالی در ' + (countryCode || 'منطقه شما');
+                } else if (time < 1000) {
+                    serverText.innerText = 'سرور: متوسط';
+                } else {
+                    serverText.innerText = 'سرور: ضعیف';
+                }
+            } catch(e) {
+                document.getElementById('serverStatusText').innerText = 'سرور: قطع';
+            }
+        }
+
+        // ============ Real-time ============
+        function startRealtime() {
+            if (realtimeChannel) {
+                supabaseClient.removeChannel(realtimeChannel);
+            }
+            
+            realtimeChannel = supabaseClient
+                .channel('all-messages')
+                .on('postgres_changes', 
+                    { event: 'INSERT', schema: 'public', table: 'messages' },
+                    (payload) => {
+                        handleNewMessageRealtime(payload.new);
+                    }
+                )
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'users' },
+                    () => { loadAllUsers(); }
+                )
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'groups' },
+                    () => { loadMyGroups(); }
+                )
+                .subscribe((status) => {
+                    console.log('📡 وضعیت Real-time:', status);
+                });
+        }
+
+        function handleNewMessageRealtime(msg) {
+            // اگه پیام خودم باشه، نادیده بگیر
+            if (msg.sender === myUsername) return;
+            
+            let text = LZString.decompressFromUTF16(msg.content) || msg.content;
+            let preview = text;
+            if (text.startsWith('AUDIO:')) preview = '🎤 پیام صوتی';
+            if (text.startsWith('IMAGE:')) preview = '🖼️ تصویر';
+            preview = preview.substring(0, 60);
+            
+            const receiver = msg.receiver;
+            let chatKey = '', notifBody = '', notifTitle = '';
+            
+            if (receiver === 'GROUP:' + GROUP_NAME) {
+                chatKey = 'gj';
+                notifTitle = '🔥 گروه جنگی';
+                notifBody = msg.sender + ': ' + preview;
+                
+                if (currentScreenName !== 'gj') {
+                    unreadCounts['gj'] = (unreadCounts['gj'] || 0) + 1;
+                    showBrowserNotif(notifTitle, notifBody, 'group-gj');
+                    showInAppNotif(notifTitle, notifBody);
+                    playNotifSound();
+                    vibrate();
+                } else {
+                    loadGjMessages();
+                }
+            } else if (receiver.startsWith('PRIVATE:')) {
+                const parts = receiver.replace('PRIVATE:', '').split('|');
+                if (!parts.includes(myUsername)) return;
+                const other = parts.find(p => p !== myUsername);
+                if (!other) return;
+                
+                chatKey = 'private-' + other;
+                notifTitle = '💬 پیام از ' + other;
+                notifBody = preview;
+                
+                const isInThisChat = currentScreenName === 'chat' && currentChat.type === 'private' && currentChat.target === other;
+                
+                if (!isInThisChat) {
+                    unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
+                    showBrowserNotif(notifTitle, notifBody, 'private-' + other);
+                    showInAppNotif(notifTitle, notifBody);
+                    playNotifSound();
+                    vibrate();
+                } else {
+                    loadChatMessages();
+                }
+            } else if (receiver.startsWith('GROUP:')) {
+                const gname = receiver.replace('GROUP:', '');
+                const isMyGroup = myGroups.find(g => g.group_name === gname);
+                if (!isMyGroup) return;
+                
+                chatKey = 'group-' + gname;
+                notifTitle = '👥 ' + gname;
+                notifBody = msg.sender + ': ' + preview;
+                
+                const isInThisGroup = currentScreenName === 'chat' && currentChat.type === 'group' && currentChat.target === gname;
+                
+                if (!isInThisGroup) {
+                    unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
+                    showBrowserNotif(notifTitle, notifBody, 'group-' + gname);
+                    showInAppNotif(notifTitle, notifBody);
+                    playNotifSound();
+                    vibrate();
+                } else {
+                    loadChatMessages();
+                }
+            }
+            
+            updateUnreadBadges();
+            loadChatList();
+        }
 
         // ============ اعلان‌ها ============
         function requestNotifPermission() {
@@ -357,10 +632,8 @@
                     updateNotifButtons();
                     document.getElementById('notifPermBtn').innerText = '✅ اعلان‌ها فعال هستند';
                     document.getElementById('notifPermBtn').style.background = '#22c55e';
-                    showInAppNotif('✅ اعلان‌ها فعال شد', 'حالا پیام‌های جدید بهت اعلان داده میشه');
+                    showInAppNotif('✅ اعلان‌ها فعال شد', 'حالا پیام‌های جدید اعلان می‌گیری');
                     playNotifSound();
-                } else {
-                    alert('اجازه اعلان داده نشد!');
                 }
             });
         }
@@ -370,10 +643,7 @@
             localStorage.setItem('notif_enabled', notificationsEnabled.toString());
             updateNotifButtons();
             if (notificationsEnabled) {
-                showInAppNotif('🔔 اعلان‌ها فعال', 'پیام‌های جدید بهت اعلان داده میشه');
-                if ('Notification' in window && Notification.permission !== 'granted') {
-                    Notification.requestPermission();
-                }
+                showInAppNotif('🔔 اعلان‌ها فعال', 'پیام‌های جدید اعلان می‌گیرن');
             } else {
                 showInAppNotif('🔕 اعلان‌ها غیرفعال', 'دیگه اعلان نمی‌بینی');
             }
@@ -404,31 +674,20 @@
             if (!notificationsEnabled) return;
             if (!('Notification' in window)) return;
             if (Notification.permission !== 'granted') return;
-            
             try {
                 const notif = new Notification(title, {
                     body: body,
-                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔥</text></svg>',
                     tag: tag || 'chat-msg',
-                    requireInteraction: false
+                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔥</text></svg>'
                 });
-                notif.onclick = () => {
-                    window.focus();
-                    notif.close();
-                    if (tag && tag.startsWith('private-')) {
-                        const user = tag.replace('private-', '');
-                        showScreen('msg');
-                        setTimeout(() => openChat('private', user), 1000);
-                    }
-                };
+                notif.onclick = () => { window.focus(); notif.close(); };
                 setTimeout(() => notif.close(), 5000);
-            } catch(e) { console.log(e); }
+            } catch(e) {}
         }
 
         function playNotifSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                // صدای دو تون
                 const osc1 = ctx.createOscillator();
                 const gain1 = ctx.createGain();
                 osc1.connect(gain1); gain1.connect(ctx.destination);
@@ -455,110 +714,8 @@
             }
         }
 
-        // ============ چک پیام‌های جدید ============
-        async function checkNewMessages() {
-            if (!myUsername) return;
-            
-            try {
-                // گرفتن پیام‌های جدید که من گیرنده‌شون هستم
-                const { data } = await supabaseClient
-                    .from('messages')
-                    .select('*')
-                    .gt('created_at', lastCheckTime)
-                    .neq('sender', myUsername)
-                    .order('created_at', { ascending: true });
-                
-                if (!data || data.length === 0) return;
-                
-                lastCheckTime = new Date().toISOString();
-                
-                for (let msg of data) {
-                    if (knownMsgIds.has(msg.id)) continue;
-                    knownMsgIds.add(msg.id);
-                    
-                    let text = LZString.decompressFromUTF16(msg.content) || msg.content;
-                    let preview = text;
-                    if (text.startsWith('AUDIO:')) preview = '🎤 پیام صوتی';
-                    if (text.startsWith('IMAGE:')) preview = '🖼️ تصویر';
-                    preview = preview.substring(0, 60);
-                    
-                    const receiver = msg.receiver;
-                    let chatKey = '';
-                    let chatTitle = '';
-                    let notifBody = '';
-                    
-                    if (receiver === 'GROUP:' + GROUP_NAME) {
-                        // پیام گروه جنگی
-                        chatKey = 'gj';
-                        chatTitle = '🔥 گروه جنگی';
-                        notifBody = msg.sender + ': ' + preview;
-                        
-                        // اگه توی گروه جنگی نیستی، اعلان بده
-                        if (currentScreenName !== 'gj') {
-                            unreadCounts['gj'] = (unreadCounts['gj'] || 0) + 1;
-                            showBrowserNotif('🔥 گروه جنگی', notifBody, 'group-gj');
-                            showInAppNotif('🔥 گروه جنگی', notifBody);
-                            playNotifSound();
-                            vibrate();
-                        }
-                    } else if (receiver.startsWith('PRIVATE:')) {
-                        const parts = receiver.replace('PRIVATE:', '').split('|');
-                        if (!parts.includes(myUsername)) continue;
-                        const other = parts.find(p => p !== myUsername);
-                        if (!other) continue;
-                        
-                        chatKey = 'private-' + other;
-                        chatTitle = '💬 ' + other;
-                        notifBody = preview;
-                        
-                        // چک کن توی همین چت هستی یا نه
-                        const isInThisChat = currentScreenName === 'chat' && currentChat.type === 'private' && currentChat.target === other;
-                        
-                        if (!isInThisChat) {
-                            unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
-                            showBrowserNotif('💬 پیام از ' + other, notifBody, 'private-' + other);
-                            showInAppNotif('💬 پیام از ' + other, notifBody);
-                            playNotifSound();
-                            vibrate();
-                        }
-                    } else if (receiver.startsWith('GROUP:')) {
-                        // پیام گروه‌های دیگه
-                        const gname = receiver.replace('GROUP:', '');
-                        const isMyGroup = myGroups.find(g => g.group_name === gname);
-                        if (!isMyGroup) continue;
-                        
-                        chatKey = 'group-' + gname;
-                        chatTitle = '👥 ' + gname;
-                        notifBody = msg.sender + ': ' + preview;
-                        
-                        const isInThisGroup = currentScreenName === 'chat' && currentChat.type === 'group' && currentChat.target === gname;
-                        
-                        if (!isInThisGroup) {
-                            unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
-                            showBrowserNotif('👥 ' + gname, notifBody, 'group-' + gname);
-                            showInAppNotif('👥 ' + gname, notifBody);
-                            playNotifSound();
-                            vibrate();
-                        }
-                    }
-                }
-                
-                // آپدیت نشان‌های unread
-                updateUnreadBadges();
-                
-            } catch(e) { console.log(e); }
-        }
-
         function updateUnreadBadges() {
-            // پاک کردن همه badge ها
             document.querySelectorAll('.unread-badge').forEach(b => b.remove());
-            
-            // برای گروه جنگی
-            if (unreadCounts['gj'] && currentScreenName !== 'gj') {
-                // میشه توی دکمه گروه جنگی نشون داد
-            }
-            
-            // برای چت‌ها
             chatList.forEach((c, i) => {
                 const key = c.type === 'private' ? 'private-' + c.name : 'group-' + c.name;
                 const count = unreadCounts[key];
@@ -576,7 +733,6 @@
 
         function clearUnread(key) {
             if (unreadCounts[key]) {
-                unreadCounts[key] = 0;
                 delete unreadCounts[key];
                 updateUnreadBadges();
             }
@@ -669,7 +825,6 @@
                 sender: myUsername, receiver: 'GROUP:' + GROUP_NAME,
                 content: LZString.compressToUTF16(content)
             }]);
-            await loadGjMessages();
         }
 
         async function sendChAudio(base64) {
@@ -678,7 +833,6 @@
                 sender: myUsername, receiver: getReceiverForChat(),
                 content: LZString.compressToUTF16(content)
             }]);
-            await loadChatMessages();
         }
 
         function renderMessageContent(text) {
@@ -708,8 +862,6 @@
             document.getElementById('msgScreen').style.display = 'none';
             document.getElementById('chatScreen').style.display = 'none';
             
-            if (fetchInterval) clearInterval(fetchInterval);
-            
             currentScreenName = name;
             
             if (name === 'home') {
@@ -722,7 +874,6 @@
                 loadGameData();
                 updateGjCoin();
                 loadGjMessages();
-                startGjRefresh();
             } else if (name === 'msg') {
                 if (!myUsername) { pendingScreen = 'msg'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('msgScreen').style.display = 'flex';
@@ -747,9 +898,7 @@
                 loadGameData();
                 document.getElementById('loginModal').style.display = 'none';
                 
-                // شروع چک اعلان‌ها
-                lastCheckTime = new Date().toISOString();
-                startNotifChecker();
+                startRealtime();
                 
                 if (pendingScreen === 'gj') showScreen('gj');
                 else if (pendingScreen === 'msg') showScreen('msg');
@@ -814,7 +963,7 @@
                 sender: myUsername, receiver: 'GROUP:' + GROUP_NAME,
                 content: LZString.compressToUTF16(text)
             }]);
-            await loadGjMessages();
+            loadGjMessages();
             if (text.startsWith('!')) setTimeout(() => processBot(text, myUsername), 300);
         }
         async function sendGjBot(text) {
@@ -822,7 +971,6 @@
                 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
                 content: LZString.compressToUTF16(text)
             }]);
-            await loadGjMessages();
         }
         async function loadGjMessages() {
             const { data } = await supabaseClient.from('messages').select('*')
@@ -862,7 +1010,7 @@
             if (cmd === '!شروع') { await sendGjBot('🎮 بازی شروع شد!\n\n💰 500 سکه\n\n!موجودی\n!فروشگاه\n!خرید [سلاح]\n!حمله [اسم]'); return; }
             if (cmd === '!موجودی') {
                 const wi = myWeapon ? (WEAPONS[myWeapon].emoji + ' ' + myWeapon) : 'هیچ';
-                await sendGjBot('💰 ' + sender + ':\nسکه: ' + myCoins + '\nسلاح: ' + wi + '\nبرد: ' + myWins + ' | باخت: ' + myLosses);
+                await sendGjBot('💰 ' + sender + ':\nسکه: ' + myCoins + '\nسلاح: ' + wi);
                 return;
             }
             if (cmd === '!فروشگاه') {
@@ -878,7 +1026,7 @@
                 myCoins -= WEAPONS[wn].price;
                 myWeapon = wn;
                 saveGameData();
-                await sendGjBot('✅ ' + sender + ' سلاح ' + WEAPONS[wn].emoji + ' ' + wn + ' خرید!\n💰 ' + myCoins + ' سکه مونده');
+                await sendGjBot('✅ ' + sender + ' سلاح ' + WEAPONS[wn].emoji + ' ' + wn + ' خرید!');
                 return;
             }
             if (cmd.startsWith('!حمله ')) {
@@ -890,10 +1038,10 @@
                 const dP = tW ? WEAPONS[tW].power : 0;
                 if (aP + Math.random()*50 > dP + Math.random()*50) {
                     myCoins += 100; myWins++; saveGameData();
-                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + sender + '!\n💰 +100 سکه');
+                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + sender + '!');
                 } else {
                     myCoins = Math.max(0, myCoins-100); myLosses++; saveGameData();
-                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + target + '!\n💀 ' + sender + ' -100 سکه');
+                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + target + '!');
                 }
                 return;
             }
@@ -901,21 +1049,16 @@
                 await loadAllUsers();
                 let ranks = allUsers.map(u => ({
                     name: u.username,
-                    coins: parseInt(localStorage.getItem('game_coins_' + u.username) || '500'),
-                    wins: parseInt(localStorage.getItem('game_wins_' + u.username) || '0')
+                    coins: parseInt(localStorage.getItem('game_coins_' + u.username) || '500')
                 })).sort((a,b) => b.coins - a.coins);
                 let s = '🏆 جدول:\n\n';
                 ranks.forEach((r, i) => {
                     const m = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
-                    s += m + ' ' + r.name + ' — 💰' + r.coins + ' — 🏆' + r.wins + '\n';
+                    s += m + ' ' + r.name + ' — 💰' + r.coins + '\n';
                 });
                 await sendGjBot(s);
                 return;
             }
-        }
-        function startGjRefresh() {
-            if (fetchInterval) clearInterval(fetchInterval);
-            fetchInterval = setInterval(() => loadGjMessages(), 2000);
         }
 
         // ============ پیام‌رسان ============
@@ -924,19 +1067,6 @@
             await loadAllUsers();
             await loadMyGroups();
             await loadChatList();
-            if (fetchInterval) clearInterval(fetchInterval);
-            fetchInterval = setInterval(msRefresh, 2500);
-        }
-
-        async function msRefresh() {
-            await loadAllUsers();
-            if (document.getElementById('chatScreen').style.display === 'flex') {
-                await loadChatMessages();
-                if (currentChat.type === 'group') await updateGroupStats(currentChat.target);
-            } else if (document.getElementById('msgScreen').style.display === 'flex') {
-                await loadChatList();
-                await loadMyGroups();
-            }
         }
 
         async function loadAllUsers() {
@@ -1002,7 +1132,7 @@
             const list = document.getElementById('chatsList');
             if (!list) return;
             if (chatList.length === 0) {
-                list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:30px;font-size:13px;">📭 هنوز چتی نداری<br><span style="font-size:11px;">از پایین چت جدید یا گروه بساز</span></div>';
+                list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:30px;font-size:13px;">📭 هنوز چتی نداری</div>';
                 return;
             }
             list.innerHTML = chatList.map(c => {
@@ -1061,7 +1191,6 @@
             document.getElementById('chatTitleName').innerText = name;
             currentScreenName = 'chat';
             
-            // پاک کردن unread این چت
             const key = type === 'private' ? 'private-' + name : 'group-' + name;
             clearUnread(key);
             
@@ -1118,7 +1247,7 @@
                 sender: myUsername, receiver: getReceiverForChat(),
                 content: LZString.compressToUTF16(text)
             }]);
-            await loadChatMessages();
+            loadChatMessages();
         }
 
         async function loadChatMessages() {
@@ -1163,7 +1292,6 @@
             loadMyGroups();
         }
 
-        // ============ مودال چت جدید ============
         async function openNewChatModal() {
             await loadAllUsers();
             document.getElementById('newChatModal').style.display = 'flex';
@@ -1191,7 +1319,6 @@
             await openChat('private', u);
         }
 
-        // ============ مودال ساخت گروه ============
         function openCreateGroupModal() {
             document.getElementById('createGroupModal').style.display = 'flex';
             document.getElementById('newGroupName').value = '';
@@ -1213,17 +1340,12 @@
                 } else {
                     await supabaseClient.from('groups').insert([{ group_name: name, members: myUsername }]);
                 }
-                await supabaseClient.from('messages').insert([{
-                    sender: 'system', receiver: 'GROUP:' + name,
-                    content: LZString.compressToUTF16('👋 گروه "' + name + '" ساخته شد!')
-                }]);
                 closeCreateGroupModal();
                 await loadMyGroups();
                 await openChat('group', name);
             } catch(e) { err.innerText = 'خطا: ' + e.message; err.style.display = 'block'; }
         }
 
-        // ============ لینک گروه ============
         function shareGroupLink() {
             if (currentChat.type !== 'group') return;
             const link = window.location.origin + window.location.pathname + '?join=' + encodeURIComponent(currentChat.target);
@@ -1241,7 +1363,6 @@
             } catch(e) { prompt('کپی کن:', input.value); }
         }
 
-        // ============ پنل سرور ============
         function openServerPanel() { document.getElementById('serverPassModal').style.display = 'flex'; }
         function closeServerPass() { document.getElementById('serverPassModal').style.display = 'none'; }
         async function checkServerPass() {
@@ -1267,22 +1388,22 @@
             closeServerPanel();
         }
 
-        // ============ چک اعلان‌ها ============
-        function startNotifChecker() {
-            if (notifInterval) clearInterval(notifInterval);
-            notifInterval = setInterval(checkNewMessages, 2000);
-        }
-
         // ============ لود ============
         window.addEventListener('load', () => {
             updateNotifButtons();
+            updateNetStatus();
+            
+            // چک نت هر 10 ثانیه
+            netTestInterval = setInterval(updateNetStatus, 10000);
+            
+            // تشخیص موقعیت
+            detectLocation();
+            
             if (myUsername) {
                 loadGameData();
-                lastCheckTime = new Date().toISOString();
-                startNotifChecker();
+                startRealtime();
             }
             
-            // چک کن اعلان‌ها قبلاً فعال شدن
             if ('Notification' in window && Notification.permission === 'granted') {
                 const btn = document.getElementById('notifPermBtn');
                 if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
@@ -1296,11 +1417,9 @@
             }
         });
 
-        // وقتی کاربر برگشت به صفحه
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
-                lastCheckTime = new Date().toISOString();
-                updateUnreadBadges();
+                updateNetStatus();
             }
         });
 
@@ -1312,10 +1431,6 @@
                     if (!mem.includes(myUsername)) {
                         mem.push(myUsername);
                         await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', groupName);
-                        await supabaseClient.from('messages').insert([{
-                            sender: 'system', receiver: 'GROUP:' + groupName,
-                            content: LZString.compressToUTF16('👋 ' + myUsername + ' به گروه پیوست!')
-                        }]);
                     }
                     await loadMyGroups();
                     await openChat('group', groupName);
