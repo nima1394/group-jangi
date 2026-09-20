@@ -17,50 +17,18 @@
             z-index: 999999; transition: opacity 0.6s ease; padding: 20px;
         }
         #loadingScreen.hide { opacity: 0; pointer-events: none; }
-        
-        .loading-emoji {
-            font-size: 100px; animation: emojiFloat 2s ease-in-out infinite; margin-bottom: 20px;
-            filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6));
-        }
-        @keyframes emojiFloat {
-            0%, 100% { transform: translateY(0) scale(1) rotate(-5deg); }
-            50% { transform: translateY(-20px) scale(1.1) rotate(5deg); }
-        }
-        
-        .loading-title {
-            font-size: 28px; font-weight: bold;
-            background: linear-gradient(90deg, #facc15, #f59e0b, #facc15);
-            background-size: 200% auto; -webkit-background-clip: text;
-            background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 2s linear infinite; margin-bottom: 40px; text-align: center;
-        }
+        .loading-emoji { font-size: 100px; animation: emojiFloat 2s ease-in-out infinite; margin-bottom: 20px; filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6)); }
+        @keyframes emojiFloat { 0%, 100% { transform: translateY(0) scale(1) rotate(-5deg); } 50% { transform: translateY(-20px) scale(1.1) rotate(5deg); } }
+        .loading-title { font-size: 28px; font-weight: bold; background: linear-gradient(90deg, #facc15, #f59e0b, #facc15); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 2s linear infinite; margin-bottom: 40px; text-align: center; }
         @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
-        
-        .loading-bar-container {
-            width: 100%; max-width: 320px; height: 8px;
-            background: rgba(51, 65, 85, 0.5); border-radius: 10px;
-            overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(71, 85, 105, 0.5);
-        }
-        .loading-bar {
-            height: 100%; width: 0%;
-            background: linear-gradient(90deg, #facc15, #f59e0b, #facc15);
-            background-size: 200% auto; border-radius: 10px;
-            transition: width 0.3s ease; animation: shimmer 2s linear infinite;
-            box-shadow: 0 0 20px rgba(250, 204, 21, 0.7);
-        }
+        .loading-bar-container { width: 100%; max-width: 320px; height: 8px; background: rgba(51, 65, 85, 0.5); border-radius: 10px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(71, 85, 105, 0.5); }
+        .loading-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #facc15, #f59e0b, #facc15); background-size: 200% auto; border-radius: 10px; transition: width 0.3s ease; animation: shimmer 2s linear infinite; box-shadow: 0 0 20px rgba(250, 204, 21, 0.7); }
         .loading-percent { color: #facc15; font-size: 16px; font-weight: bold; margin-bottom: 10px; font-family: monospace; }
         .loading-text { color: #94a3b8; font-size: 14px; letter-spacing: 1px; }
         .loading-text .dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
         @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: ''; } }
         
-        /* ============ نوار وضعیت ============ */
-        .status-bar {
-            position: fixed; top: 0; left: 0; right: 0; height: 32px;
-            background: linear-gradient(90deg, #0f172a, #1e293b);
-            border-bottom: 1px solid #334155; display: flex; align-items: center;
-            justify-content: space-between; padding: 0 15px; z-index: 9999;
-            font-size: 11px; font-weight: bold;
-        }
+        .status-bar { position: fixed; top: 0; left: 0; right: 0; height: 32px; background: linear-gradient(90deg, #0f172a, #1e293b); border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 9999; font-size: 11px; font-weight: bold; }
         .status-item { display: flex; align-items: center; gap: 5px; }
         .status-good { color: #22c55e; }
         .status-mid { color: #f59e0b; }
@@ -70,24 +38,12 @@
         .status-dot.offline { background: #ef4444; animation: none; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
-        /* ============ نوار صف پیام ============ */
-        .queue-bar {
-            position: fixed; top: 32px; left: 0; right: 0; height: 28px;
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-            display: none; align-items: center; justify-content: center;
-            z-index: 9998; font-size: 11px; font-weight: bold; color: #fff;
-            animation: queueSlide 0.3s ease;
-        }
+        .queue-bar { position: fixed; top: 32px; left: 0; right: 0; height: 28px; background: linear-gradient(90deg, #f59e0b, #d97706); display: none; align-items: center; justify-content: center; z-index: 9998; font-size: 11px; font-weight: bold; color: #fff; }
         .queue-bar.show { display: flex; }
-        @keyframes queueSlide { from { transform: translateY(-100%); } to { transform: translateY(0); } }
         .queue-bar .icon { animation: rotate 2s linear infinite; margin-left: 5px; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        .offline-screen {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #0f172a; display: none; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 99998; text-align: center; padding: 20px;
-        }
+        .offline-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0f172a; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 99998; text-align: center; padding: 20px; }
         .offline-screen.show { display: flex; }
         .offline-screen .emoji { font-size: 100px; margin-bottom: 20px; animation: sadFloat 2s infinite; }
         @keyframes sadFloat { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
@@ -116,6 +72,7 @@
         .server-btn { background: #ef4444; color: #fff; }
         .notif-btn { background: #f59e0b; color: #fff; }
         .notif-btn.on { background: #22c55e; }
+        .info-btn { background: #06b6d4; color: #fff; }
         .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
         
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
@@ -129,7 +86,7 @@
         .msg.pending::after { content: '⏳'; position: absolute; top: 5px; left: 5px; font-size: 14px; }
         .msg-sender { font-size: 10px; color: #facc15; margin-bottom: 3px; font-weight: bold; }
         .msg.bot .msg-sender { color: #fff; }
-        .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+        .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
         .msg-status { font-size: 10px; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
         
@@ -211,6 +168,26 @@
         
         #imageModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: pointer; padding: 20px; }
         #imageModal img { max-width: 95%; max-height: 95%; border-radius: 8px; }
+        
+        /* ============ نمایش نسخه ============ */
+        .version-footer {
+            position: fixed; bottom: 5px; left: 0; right: 0; text-align: center;
+            font-size: 10px; color: #475569; z-index: 9996;
+            pointer-events: none;
+        }
+        .version-footer b { color: #facc15; }
+        
+        /* ============ صفحه درباره ============ */
+        .about-section { background: #0f172a; border-radius: 12px; padding: 15px; margin: 10px 0; text-align: right; border: 1px solid #334155; }
+        .about-section h4 { color: #facc15; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+        .version-badge { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+        .changelog-item { padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 12px; color: #cbd5e1; line-height: 1.7; }
+        .changelog-item:last-child { border-bottom: none; }
+        .changelog-item .ver { color: #38bdf8; font-weight: bold; margin-left: 5px; }
+        .changelog-item .date { color: #64748b; font-size: 10px; }
+        .changelog-item .added { color: #22c55e; }
+        .changelog-item .improved { color: #f59e0b; }
+        .changelog-item .fixed { color: #ef4444; }
     </style>
 </head>
 <body>
@@ -219,9 +196,7 @@
     <div id="loadingScreen">
         <div class="loading-emoji" id="loadingEmoji">🚀</div>
         <div class="loading-title" id="loadingTitle">پیام‌رسان</div>
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="loadingBar"></div>
-        </div>
+        <div class="loading-bar-container"><div class="loading-bar" id="loadingBar"></div></div>
         <div class="loading-percent" id="loadingPercent">0%</div>
         <div class="loading-text">در حال بارگذاری<span class="dots"></span></div>
     </div>
@@ -255,11 +230,13 @@
         <button class="retry-btn" onclick="retryConnection()">🔄 تلاش مجدد</button>
     </div>
 
+    <!-- ============ صفحه اصلی ============ -->
     <div id="homeScreen" class="container">
         <h1>🔥 خوش آمدی</h1>
         <button class="btn1" onclick="showScreen('gj')">💬 چت عمومی</button>
         <button class="btn2" onclick="showScreen('msg')">💬 پیام‌رسان</button>
         <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
+        <button onclick="openAboutModal()" style="margin-top: 10px; background: #06b6d4; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;">ℹ️ درباره برنامه</button>
     </div>
 
     <!-- چت عمومی -->
@@ -268,6 +245,7 @@
             <div class="user-info">
                 <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
                 <div class="top-btns">
+                    <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
                     <button class="top-btn game-btn" onclick="openGamePanel()">🎮</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
@@ -296,6 +274,7 @@
             <div class="user-info">
                 <span>👤 <b id="msgUserLabel">...</b></span>
                 <div class="top-btns">
+                    <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="msNotifBtn">🔕</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
@@ -325,6 +304,7 @@
             <div class="user-info">
                 <span id="chatHeaderIcon">💬</span>
                 <div class="top-btns">
+                    <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="chNotifBtn">🔕</button>
                     <button class="top-btn" onclick="shareGroupLink()" id="shareLinkBtn" style="display:none; background:#22c55e; color:#fff;">🔗</button>
                     <button class="back-btn" onclick="backToMessenger()">← بازگشت</button>
@@ -374,6 +354,12 @@
         <img id="fullImage" src="">
     </div>
 
+    <!-- ============ نمایش نسخه در پایین ============ -->
+    <div class="version-footer">
+        💬 پیام‌رسان — نسخه <b>2.0</b> | آخرین آپدیت: <b>1404/06/30</b>
+    </div>
+
+    <!-- مودال‌ها -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #facc15;">👋 ورود</h3>
@@ -399,6 +385,75 @@
             <button onclick="createNewGroup()" style="background: #22c55e; color: #fff;">ساخت گروه 🔥</button>
             <button onclick="closeCreateGroupModal()" style="background: #475569; color: #fff;">بستن</button>
             <div id="createGroupError" style="color:#ef4444; font-size:12px; margin-top:8px; display:none;"></div>
+        </div>
+    </div>
+
+    <!-- مودال درباره برنامه -->
+    <div id="aboutModal" class="modal" style="display: none;">
+        <div class="modal-box" style="text-align: right; max-width: 450px;">
+            <h3 style="color: #06b6d4; text-align: center; margin-bottom: 20px;">ℹ️ درباره برنامه</h3>
+            
+            <div class="about-section" style="text-align: center;">
+                <div style="font-size: 60px; margin-bottom: 10px;">💬</div>
+                <h3 style="color: #facc15; margin-bottom: 10px;">پیام‌رسان</h3>
+                <div class="version-badge">نسخه 2.0</div>
+                <p style="color: #94a3b8; font-size: 12px; margin-top: 10px;">آخرین آپدیت: 1404/06/30</p>
+            </div>
+            
+            <div class="about-section">
+                <h4>🎯 قابلیت‌ها</h4>
+                <div style="font-size: 12px; line-height: 2; color: #cbd5e1;">
+                    ✅ چت گروهی و خصوصی<br>
+                    ✅ ارسال عکس و صدا<br>
+                    ✅ بازی جنگی با سلاح<br>
+                    ✅ اعلان مثل ایتا<br>
+                    ✅ صف پیام آفلاین<br>
+                    ✅ ایموجی متحرک<br>
+                    ✅ پنل مدیریت سرور
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <h4>📝 تاریخچه تغییرات</h4>
+                <div class="changelog-item">
+                    <span class="ver">v2.0</span> <span class="date">1404/06/30</span><br>
+                    <span class="added">✅ اضافه شد:</span> صفحه درباره برنامه<br>
+                    <span class="added">✅ اضافه شد:</span> نمایش نسخه در پایین<br>
+                    <span class="improved">🔧 بهبود:</span> لینک گروه خودکار باز میشه
+                </div>
+                <div class="changelog-item">
+                    <span class="ver">v1.9</span> <span class="date">1404/06/28</span><br>
+                    <span class="added">✅ اضافه شد:</span> صف پیام آفلاین<br>
+                    <span class="added">✅ اضافه شد:</span> ارسال خودکار وقتی نت وصل شد
+                </div>
+                <div class="changelog-item">
+                    <span class="ver">v1.8</span> <span class="date">1404/06/25</span><br>
+                    <span class="added">✅ اضافه شد:</span> ایموجی متحرک<br>
+                    <span class="added">✅ اضافه شد:</span> صفحه لودینگ<br>
+                    <span class="added">✅ اضافه شد:</span> وضعیت نت و سرور
+                </div>
+                <div class="changelog-item">
+                    <span class="ver">v1.5</span> <span class="date">1404/06/20</span><br>
+                    <span class="added">✅ اضافه شد:</span> بازی جنگی با ربات<br>
+                    <span class="added">✅ اضافه شد:</span> فروشگاه سلاح<br>
+                    <span class="added">✅ اضافه شد:</span> رتبه‌بندی
+                </div>
+                <div class="changelog-item">
+                    <span class="ver">v1.0</span> <span class="date">1404/06/15</span><br>
+                    <span class="added">✅ نسخه اول:</span> چت خصوصی و گروهی<br>
+                    <span class="added">✅ نسخه اول:</span> ساخت گروه
+                </div>
+            </div>
+            
+            <div class="about-section" style="text-align: center;">
+                <h4>🔗 لینک‌های مفید</h4>
+                <div style="font-size: 12px; line-height: 2;">
+                    🌐 <a href="https://nima1394.github.io/group-jangi/" style="color: #38bdf8; text-decoration: none;" target="_blank">سایت اصلی</a><br>
+                    📦 <a href="https://github.com/nima1394/group-jangi" style="color: #38bdf8; text-decoration: none;" target="_blank">گیت‌هاب</a>
+                </div>
+            </div>
+            
+            <button onclick="closeAboutModal()" style="background: #06b6d4; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px;">بستن</button>
         </div>
     </div>
 
@@ -446,23 +501,26 @@
     <div id="shareLinkModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">این لینک رو برای دوستات بفرست تا بیان تو گروه:</p>
             <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 11px; direction: ltr;">
-            <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی</button>
+            <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی لینک</button>
+            <button onclick="testGroupLink()" style="background: #06b6d4; color: #fff;">🧪 تست لینک</button>
             <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
 
     <script>
+        // ============ نسخه ============
+        const APP_VERSION = '2.0';
+        const APP_UPDATE = '1404/06/30';
+        
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
         
-        // ============ 📦 صف پیام‌ها (Offline Queue) ============
-        // این تابع پیام رو در حافظه موقت (localStorage) ذخیره می‌کنه
-        // هیچ فایلی توی سرور ساخته نمیشه!
-        
+        // ============ 📦 صف پیام ============
         function savePendingMessage(message) {
             try {
                 const pending = getPendingMessages();
@@ -475,8 +533,7 @@
                 });
                 localStorage.setItem('pending_messages', JSON.stringify(pending));
                 updateQueueBar();
-                console.log('📦 پیام در صف ذخیره شد');
-            } catch(e) { console.error('خطا در ذخیره صف:', e); }
+            } catch(e) { console.error('خطا:', e); }
         }
         
         function getPendingMessages() {
@@ -486,79 +543,48 @@
             } catch(e) { return []; }
         }
         
-        function clearPendingMessages() {
-            localStorage.removeItem('pending_messages');
-            updateQueueBar();
-        }
-        
         function updateQueueBar() {
             const pending = getPendingMessages();
             const bar = document.getElementById('queueBar');
             const text = document.getElementById('queueText');
-            
             if (pending.length > 0) {
                 bar.classList.add('show');
                 text.innerText = pending.length + ' پیام در انتظار ارسال';
-            } else {
-                bar.classList.remove('show');
-            }
+            } else bar.classList.remove('show');
         }
         
         async function sendPendingMessages() {
             const pending = getPendingMessages();
             if (pending.length === 0) return;
-            
-            console.log('📤 در حال ارسال ' + pending.length + ' پیام در صف...');
             const failed = [];
-            
             for (let msg of pending) {
                 try {
                     const result = await supabaseClient.from('messages').insert([{
-                        sender: msg.sender,
-                        receiver: msg.receiver,
-                        content: msg.content
+                        sender: msg.sender, receiver: msg.receiver, content: msg.content
                     }]);
-                    
-                    if (result.error) {
-                        failed.push(msg);
-                        console.log('❌ خطا:', result.error.message);
-                    } else {
-                        console.log('✅ پیام ارسال شد');
-                    }
-                } catch(e) {
-                    failed.push(msg);
-                }
+                    if (result.error) failed.push(msg);
+                } catch(e) { failed.push(msg); }
             }
-            
             localStorage.setItem('pending_messages', JSON.stringify(failed));
             updateQueueBar();
-            
-            // رفرش پیام‌ها
             if (currentScreenName === 'gj') loadGjMessages();
             else if (currentScreenName === 'chat') loadChatMessages();
-            
-            if (failed.length === 0) {
-                showInAppNotif('✅ پیام‌ها ارسال شد', 'همه پیام‌های در صف ارسال شدن');
-            }
+            if (failed.length === 0) showInAppNotif('✅ پیام‌ها ارسال شد', 'همه پیام‌های صف ارسال شدن');
         }
         
         // ============ صفحه لودینگ ============
         const LOADING_EMOJIS = ['🚀', '💬', '🔥', '⚡', '🎉', '💎', '🌟', '✨'];
-        let loadingProgress = 0;
-        let loadingDone = false;
+        let loadingProgress = 0, loadingDone = false;
         
         function initLoading() {
             const loadingBar = document.getElementById('loadingBar');
             const loadingPercent = document.getElementById('loadingPercent');
             const loadingEmoji = document.getElementById('loadingEmoji');
-            
             let emojiIndex = 0;
             const emojiInterval = setInterval(() => {
                 emojiIndex = (emojiIndex + 1) % LOADING_EMOJIS.length;
                 loadingEmoji.innerText = LOADING_EMOJIS[emojiIndex];
             }, 500);
-            
-            const startTime = Date.now();
             
             function updateProgress() {
                 if (loadingDone) return;
@@ -566,10 +592,7 @@
                 let increment = 0.5 * speed;
                 if (speed < 0.5) increment = 0.3;
                 else if (speed > 1.5) increment = 0.8;
-                else increment = 0.5;
-                
                 loadingProgress += increment + Math.random() * 0.3;
-                
                 if (loadingProgress >= 100) {
                     loadingProgress = 100;
                     loadingBar.style.width = '100%';
@@ -584,14 +607,11 @@
                     loadingDone = true;
                     return;
                 }
-                
                 loadingBar.style.width = loadingProgress + '%';
                 loadingPercent.innerText = Math.floor(loadingProgress) + '%';
-                
                 let delay = 80;
                 if (speed > 1.5) delay = 40;
                 else if (speed < 0.5) delay = 150;
-                
                 setTimeout(updateProgress, delay);
             }
             updateProgress();
@@ -641,9 +661,12 @@
         let realtimeChannel = null;
         let currentScreenName = 'home';
         let emojiPickerTarget = null;
-        
         let notificationsEnabled = localStorage.getItem('notif_enabled') !== 'false';
         let unreadCounts = {};
+
+        // ============ درباره ============
+        function openAboutModal() { document.getElementById('aboutModal').style.display = 'flex'; }
+        function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
 
         function initEmojiGrids() {
             const html = ANIMATED_EMOJIS.map(e => 
@@ -705,21 +728,14 @@
             return '<div style="white-space:pre-wrap; word-break:break-word;">' + animateEmojis(text) + '</div>';
         }
 
-        let netTestInterval = null;
-
         function updateNetStatus() {
             const icon = document.getElementById('netIcon');
             const status = document.getElementById('netStatus');
             const dot = document.getElementById('serverDot');
-            
             if (!navigator.onLine) {
-                icon.innerText = '📵';
-                status.innerText = 'نت: قطع';
-                status.className = 'status-bad';
-                showOfflineScreen();
-                return;
+                icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad';
+                showOfflineScreen(); return;
             }
-            
             const start = performance.now();
             fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
                 method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
@@ -749,17 +765,9 @@
 
         function showOfflineScreen() { document.getElementById('offlineScreen').classList.add('show'); }
         function hideOfflineScreen() { document.getElementById('offlineScreen').classList.remove('show'); }
-        function retryConnection() {
-            updateNetStatus();
-            if (navigator.onLine) { hideOfflineScreen(); setTimeout(updateNetStatus, 1000); }
-        }
+        function retryConnection() { updateNetStatus(); if (navigator.onLine) { hideOfflineScreen(); setTimeout(updateNetStatus, 1000); } }
 
-        // ⭐ نکته مهم: وقتی نت وصل میشه، پیام‌های در صف رو بفرست
-        window.addEventListener('online', () => { 
-            hideOfflineScreen(); 
-            updateNetStatus();
-            setTimeout(() => sendPendingMessages(), 1500);  // بعد از 1.5 ثانیه پیام‌های صف رو بفرست
-        });
+        window.addEventListener('online', () => { hideOfflineScreen(); updateNetStatus(); setTimeout(() => sendPendingMessages(), 1500); });
         window.addEventListener('offline', () => { showOfflineScreen(); updateNetStatus(); });
 
         async function detectLocation() {
@@ -768,23 +776,8 @@
                 const data = await res.json();
                 if (data.country_name && data.city) {
                     document.getElementById('locationText').innerText = data.city + ' - ' + data.country_name;
-                    checkServerQuality(data.country_code);
                 } else document.getElementById('locationText').innerText = 'موقعیت نامشخص';
             } catch(e) { document.getElementById('locationText').innerText = 'موقعیت نامشخص'; }
-        }
-
-        async function checkServerQuality(countryCode) {
-            const start = performance.now();
-            try {
-                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
-                    method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
-                });
-                const time = performance.now() - start;
-                const serverText = document.getElementById('serverStatusText');
-                if (time < 300) serverText.innerText = 'سرور: عالی در ' + (countryCode || 'منطقه شما');
-                else if (time < 1000) serverText.innerText = 'سرور: متوسط';
-                else serverText.innerText = 'سرور: ضعیف';
-            } catch(e) { document.getElementById('serverStatusText').innerText = 'سرور: قطع'; }
         }
 
         function startRealtime() {
@@ -793,10 +786,8 @@
                 .channel('all-messages')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
                     (payload) => handleNewMessageRealtime(payload.new))
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'users' },
-                    () => loadAllUsers())
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'groups' },
-                    () => loadMyGroups())
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => loadAllUsers())
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'groups' }, () => loadMyGroups())
                 .subscribe();
         }
 
@@ -809,7 +800,6 @@
             preview = preview.substring(0, 60);
             const receiver = msg.receiver;
             let chatKey = '', notifBody = '', notifTitle = '';
-            
             if (receiver === 'GROUP:' + GROUP_NAME) {
                 chatKey = 'gj'; notifTitle = '💬 چت عمومی'; notifBody = msg.sender + ': ' + preview;
                 if (currentScreenName !== 'gj') {
@@ -936,10 +926,7 @@
         let mediaRecorder = null, audioChunks = [], isRecording = false;
         let recordingTimer = null, recordingSeconds = 0, recordingContext = '';
 
-        function formatTime(s) {
-            const m = Math.floor(s/60), sec = s%60;
-            return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
-        }
+        function formatTime(s) { const m = Math.floor(s/60), sec = s%60; return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec; }
 
         async function startRecording(context) {
             try {
@@ -984,47 +971,30 @@
         async function sendGjAudio(base64) {
             const content = 'AUDIO:' + base64;
             const receiver = 'GROUP:' + GROUP_NAME;
-            
             if (!navigator.onLine) {
-                // نت قطعه - ذخیره در صف
                 savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
                 showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadGjMessages();
-                return;
+                loadGjMessages(); return;
             }
-            
             const result = await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver,
-                content: LZString.compressToUTF16(content)
+                sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content)
             }]);
-            
-            if (result.error) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
-                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود، بعداً تلاش می‌کنیم');
-            }
+            if (result.error) savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
             loadGjMessages();
         }
 
         async function sendChAudio(base64) {
             const content = 'AUDIO:' + base64;
             const receiver = getReceiverForChat();
-            
             if (!navigator.onLine) {
                 savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
                 showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadChatMessages();
-                return;
+                loadChatMessages(); return;
             }
-            
             const result = await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver,
-                content: LZString.compressToUTF16(content)
+                sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content)
             }]);
-            
-            if (result.error) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
-                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
-            }
+            if (result.error) savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
             loadChatMessages();
         }
 
@@ -1039,7 +1009,6 @@
             currentScreenName = name;
             document.getElementById('emojiPickerGj').classList.remove('show');
             document.getElementById('emojiPickerCh').classList.remove('show');
-            
             if (name === 'home') {
                 document.getElementById('homeScreen').style.display = 'block';
             } else if (name === 'gj') {
@@ -1067,9 +1036,12 @@
                 document.getElementById('loginModal').style.display = 'none';
                 startRealtime();
                 updateQueueBar();
-                // سعی کن پیام‌های صف رو بفرست
                 setTimeout(() => sendPendingMessages(), 1000);
-                if (pendingScreen === 'gj') showScreen('gj');
+                // ⭐ اگه از لینک اومده، بره تو گروه
+                const params = new URLSearchParams(window.location.search);
+                const jg = params.get('join');
+                if (jg) { showScreen('msg'); setTimeout(() => joinGroupByLink(jg), 1500); }
+                else if (pendingScreen === 'gj') showScreen('gj');
                 else if (pendingScreen === 'msg') showScreen('msg');
                 pendingScreen = null;
             } catch(e) { alert('خطا: ' + e.message); }
@@ -1111,43 +1083,32 @@
         function buyWeapon(name) {
             if (!WEAPONS[name]) return;
             if (myCoins < WEAPONS[name].price) return alert('سکه کافی نداری!');
-            myCoins -= WEAPONS[name].price;
-            myWeapon = name;
+            myCoins -= WEAPONS[name].price; myWeapon = name;
             saveGameData();
             alert('✅ ' + name + ' خریداری شد!');
             openGamePanel();
         }
 
-        // ============ 📤 ارسال پیام (با پشتیبانی از صف) ============
         async function sendGj() {
             const input = document.getElementById('gjInput');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
             document.getElementById('emojiPickerGj').classList.remove('show');
-            
             const content = LZString.compressToUTF16(text);
             const receiver = 'GROUP:' + GROUP_NAME;
-            
-            // اگه نت قطع بود، ذخیره در صف
             if (!navigator.onLine) {
                 savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
                 showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadGjMessages();
-                return;
+                loadGjMessages(); return;
             }
-            
-            // اگه نت وصل بود، مستقیم بفرست
             const result = await supabaseClient.from('messages').insert([{
                 sender: myUsername, receiver: receiver, content: content
             }]);
-            
             if (result.error) {
-                // خطا داد، ذخیره در صف
                 savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
-                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود، بعداً تلاش می‌کنیم');
+                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
             }
-            
             loadGjMessages();
             if (text.startsWith('!')) setTimeout(() => processBot(text, myUsername), 300);
         }
@@ -1166,16 +1127,10 @@
             const box = document.getElementById('gjMessages');
             if (!box) return;
             box.innerHTML = '';
-            
-            // پیام‌های صف
             const pending = getPendingMessages().filter(p => p.receiver === 'GROUP:' + GROUP_NAME);
-            
             if ((!data || data.length === 0) && pending.length === 0) { 
-                box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; 
-                return; 
+                box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; return; 
             }
-            
-            // پیام‌های قبلی
             (data || []).forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
@@ -1194,8 +1149,6 @@
                 div.innerHTML = sh + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
-            
-            // پیام‌های صف (با استایل خاص)
             pending.forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const div = document.createElement('div');
@@ -1205,7 +1158,6 @@
                     '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
                 box.appendChild(div);
             });
-            
             box.scrollTop = box.scrollHeight;
         }
         
@@ -1419,33 +1371,26 @@
             return 'PRIVATE:' + u[0] + '|' + u[1];
         }
 
-        // ============ 📤 ارسال پیام چت خصوصی (با پشتیبانی صف) ============
         async function sendChatMessage() {
             const input = document.getElementById('chatMsgInput');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
             document.getElementById('emojiPickerCh').classList.remove('show');
-            
             const content = LZString.compressToUTF16(text);
             const receiver = getReceiverForChat();
-            
             if (!navigator.onLine) {
                 savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
                 showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadChatMessages();
-                return;
+                loadChatMessages(); return;
             }
-            
             const result = await supabaseClient.from('messages').insert([{
                 sender: myUsername, receiver: receiver, content: content
             }]);
-            
             if (result.error) {
                 savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
                 showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
             }
-            
             loadChatMessages();
         }
         
@@ -1457,14 +1402,10 @@
             const box = document.getElementById('chatMessagesBox');
             if (!box) return;
             box.innerHTML = '';
-            
             const pending = getPendingMessages().filter(p => p.receiver === getReceiverForChat());
-            
             if ((!data || data.length === 0) && pending.length === 0) { 
-                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; 
-                return; 
+                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; return; 
             }
-            
             (data || []).forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
@@ -1482,7 +1423,6 @@
                 div.innerHTML = sH + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
-            
             pending.forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const div = document.createElement('div');
@@ -1494,7 +1434,6 @@
                     '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
                 box.appendChild(div);
             });
-            
             box.scrollTop = box.scrollHeight;
         }
 
@@ -1560,6 +1499,7 @@
             } catch(e) { err.innerText = 'خطا: ' + e.message; err.style.display = 'block'; }
         }
 
+        // ============ اشتراک لینک گروه ============
         function shareGroupLink() {
             if (currentChat.type !== 'group') return;
             const link = window.location.origin + window.location.pathname + '?join=' + encodeURIComponent(currentChat.target);
@@ -1573,8 +1513,15 @@
             try {
                 document.execCommand('copy');
                 navigator.clipboard.writeText(input.value).catch(() => {});
-                alert('✅ لینک کپی شد!');
+                alert('✅ لینک کپی شد!\n\nبرای دوستت بفرست');
             } catch(e) { prompt('کپی کن:', input.value); }
+        }
+        // ⭐ تست لینک
+        function testGroupLink() {
+            const link = document.getElementById('groupLinkInput').value;
+            if (!link) return;
+            if (!confirm('می‌خوای لینک رو تست کنی؟\n\nبرنامه باز میشه و میره تو گروه')) return;
+            window.location.href = link;
         }
 
         function openServerPanel() { document.getElementById('serverPassModal').style.display = 'flex'; }
@@ -1605,48 +1552,64 @@
             closeServerPanel();
         }
 
+        // ============ شروع ============
         window.addEventListener('load', () => {
             initEmojiGrids();
             updateNotifButtons();
             updateNetStatus();
-            updateQueueBar();  // نمایش صف
-            netTestInterval = setInterval(updateNetStatus, 10000);
+            updateQueueBar();
+            setInterval(updateNetStatus, 10000);
             detectLocation();
             if (myUsername) { 
                 loadGameData(); 
                 startRealtime(); 
-                // سعی کن پیام‌های صف رو بفرست
                 setTimeout(() => sendPendingMessages(), 2000);
             }
             if ('Notification' in window && Notification.permission === 'granted') {
                 const btn = document.getElementById('notifPermBtn');
                 if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
             }
+            // ⭐ اگه از لینک اومده، خودکار بره تو گروه
             const params = new URLSearchParams(window.location.search);
             const jg = params.get('join');
-            if (jg && myUsername) {
-                showScreen('msg');
-                setTimeout(() => joinGroupByLink(jg), 2000);
+            if (jg) {
+                if (myUsername) {
+                    showScreen('msg');
+                    setTimeout(() => joinGroupByLink(jg), 1500);
+                }
+                // اگه لاگین نکرده، بعد از ثبت نام میره
             }
         });
 
+        // ============ ورود به گروه از لینک ============
         async function joinGroupByLink(groupName) {
             try {
+                showInAppNotif('🔗 دعوت به گروه', 'در حال ورود به "' + groupName + '"...');
                 const { data: ex } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
                 if (ex && ex.length > 0) {
                     const mem = (ex[0].members || '').split(',').filter(m => m);
                     if (!mem.includes(myUsername)) {
                         mem.push(myUsername);
                         await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', groupName);
+                        // پیام سیستمی
+                        await supabaseClient.from('messages').insert([{
+                            sender: 'system', receiver: 'GROUP:' + groupName,
+                            content: LZString.compressToUTF16('👋 ' + myUsername + ' از لینک به گروه پیوست!')
+                        }]);
+                        showInAppNotif('✅ ورود موفق', 'به گروه "' + groupName + '" اضافه شدی!');
+                    } else {
+                        showInAppNotif('✅ در گروه هستی', 'به گروه "' + groupName + '" خوش آمدی!');
                     }
                     await loadMyGroups();
                     await openChat('group', groupName);
                 } else {
+                    // گروه وجود نداره، بساز
                     await supabaseClient.from('groups').insert([{ group_name: groupName, members: myUsername }]);
                     await loadMyGroups();
                     await openChat('group', groupName);
+                    showInAppNotif('✅ گروه ساخته شد', 'گروه "' + groupName + '" ساخته شد!');
                 }
-            } catch(e) { console.log(e); }
+            } catch(e) { console.error('خطا در ورود به گروه:', e); }
         }
     </script>
 </body>
