@@ -38,6 +38,36 @@
         .status-dot.offline { background: #ef4444; animation: none; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
+        /* ⭐ دکمه وضعیت آنلاین/آفلاین */
+        .online-toggle {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+        }
+        .online-toggle:hover { transform: scale(1.05); }
+        .online-toggle.offline {
+            background: linear-gradient(135deg, #64748b, #475569);
+            box-shadow: 0 0 15px rgba(100, 116, 139, 0.5);
+        }
+        .online-toggle .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            animation: pulse 2s infinite;
+        }
+        .online-toggle.offline .dot { animation: none; }
+        
         .queue-bar { position: fixed; top: 32px; left: 0; right: 0; height: 28px; background: linear-gradient(90deg, #f59e0b, #d97706); display: none; align-items: center; justify-content: center; z-index: 9998; font-size: 11px; font-weight: bold; color: #fff; }
         .queue-bar.show { display: flex; }
         .queue-bar .icon { animation: rotate 2s linear infinite; margin-left: 5px; }
@@ -90,7 +120,6 @@
         .msg-status { font-size: 10px; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
         
-        /* ⭐ لینک آبی کلیک‌شدنی */
         .msg-link {
             color: #38bdf8;
             text-decoration: underline;
@@ -257,6 +286,11 @@
             <div class="user-info">
                 <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
                 <div class="top-btns">
+                    <!-- ⭐ دکمه آنلاین/آفلاین -->
+                    <button class="online-toggle" id="gjOnlineToggle" onclick="toggleMyOnlineStatus()">
+                        <span class="dot"></span>
+                        <span id="gjOnlineText">آنلاین</span>
+                    </button>
                     <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
                     <button class="top-btn game-btn" onclick="openGamePanel()">🎮</button>
@@ -286,6 +320,11 @@
             <div class="user-info">
                 <span>👤 <b id="msgUserLabel">...</b></span>
                 <div class="top-btns">
+                    <!-- ⭐ دکمه آنلاین/آفلاین -->
+                    <button class="online-toggle" id="msOnlineToggle" onclick="toggleMyOnlineStatus()">
+                        <span class="dot"></span>
+                        <span id="msOnlineText">آنلاین</span>
+                    </button>
                     <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="msNotifBtn">🔕</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
@@ -366,9 +405,8 @@
         <img id="fullImage" src="">
     </div>
 
-    <!-- ============ نمایش نسخه در پایین ============ -->
     <div class="version-footer">
-        💬 پیام‌رسان — نسخه <b>2.0</b>
+        💬 پیام‌رسان — نسخه <b>2.1</b>
     </div>
 
     <!-- مودال‌ها -->
@@ -408,7 +446,7 @@
             <div class="about-section" style="text-align: center;">
                 <div style="font-size: 60px; margin-bottom: 10px;">💬</div>
                 <h3 style="color: #facc15; margin-bottom: 10px;">پیام‌رسان</h3>
-                <div class="version-badge">نسخه 2.0</div>
+                <div class="version-badge">نسخه 2.1</div>
             </div>
             
             <div class="about-section">
@@ -421,6 +459,7 @@
                     ✅ صف پیام آفلاین<br>
                     ✅ ایموجی متحرک<br>
                     ✅ لینک کلیک‌شدنی گروه<br>
+                    ✅ <b style="color: #22c55e;">دکمه آنلاین/آفلاین</b><br>
                     ✅ پنل مدیریت سرور
                 </div>
             </div>
@@ -428,32 +467,27 @@
             <div class="about-section">
                 <h4>📝 تاریخچه تغییرات</h4>
                 <div class="changelog-item">
+                    <span class="ver">v2.1</span><br>
+                    <span class="added">✅ اضافه شد:</span> دکمه آنلاین/آفلاین<br>
+                    <span class="improved">🔧 بهبود:</span> نمایش وضعیت در همه جا
+                </div>
+                <div class="changelog-item">
                     <span class="ver">v2.0</span><br>
-                    <span class="added">✅ اضافه شد:</span> لینک آبی کلیک‌شدنی برای گروه<br>
-                    <span class="added">✅ اضافه شد:</span> صفحه درباره برنامه<br>
-                    <span class="improved">🔧 بهبود:</span> لینک گروه خودکار باز میشه
+                    <span class="added">✅ اضافه شد:</span> لینک آبی کلیک‌شدنی<br>
+                    <span class="added">✅ اضافه شد:</span> صفحه درباره برنامه
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v1.9</span><br>
-                    <span class="added">✅ اضافه شد:</span> صف پیام آفلاین<br>
-                    <span class="added">✅ اضافه شد:</span> ارسال خودکار وقتی نت وصل شد
+                    <span class="added">✅ اضافه شد:</span> صف پیام آفلاین
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v1.8</span><br>
                     <span class="added">✅ اضافه شد:</span> ایموجی متحرک<br>
-                    <span class="added">✅ اضافه شد:</span> صفحه لودینگ<br>
-                    <span class="added">✅ اضافه شد:</span> وضعیت نت و سرور
+                    <span class="added">✅ اضافه شد:</span> صفحه لودینگ
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v1.5</span><br>
-                    <span class="added">✅ اضافه شد:</span> بازی جنگی با ربات<br>
-                    <span class="added">✅ اضافه شد:</span> فروشگاه سلاح<br>
-                    <span class="added">✅ اضافه شد:</span> رتبه‌بندی
-                </div>
-                <div class="changelog-item">
-                    <span class="ver">v1.0</span><br>
-                    <span class="added">✅ نسخه اول:</span> چت خصوصی و گروهی<br>
-                    <span class="added">✅ نسخه اول:</span> ساخت گروه
+                    <span class="added">✅ اضافه شد:</span> بازی جنگی با ربات
                 </div>
             </div>
             
@@ -501,6 +535,7 @@
             <h3 style="color: #ef4444;">🖥️ سرور</h3>
             <div style="text-align: right; margin-bottom: 15px;">
                 <p>👤 کاربران: <b id="sUsers" style="color:#38bdf8;">0</b></p>
+                <p>🟢 آنلاین: <b id="sOnline" style="color:#22c55e;">0</b></p>
                 <p>📨 پیام‌ها: <b id="sMessages" style="color:#22c55e;">0</b></p>
                 <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
                 <p>⏳ در صف: <b id="sPending" style="color:#f59e0b;">0</b></p>
@@ -522,13 +557,51 @@
     </div>
 
     <script>
-        const APP_VERSION = '2.0';
+        const APP_VERSION = '2.1';
         
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
+        
+        let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';  // پیش‌فرض آنلاین
+        
+        // ============ ⭐ وضعیت آنلاین/آفلاین ============
+        function updateOnlineToggleUI() {
+            const toggles = ['gjOnlineToggle', 'msOnlineToggle'];
+            const texts = ['gjOnlineText', 'msOnlineText'];
+            toggles.forEach((id, i) => {
+                const btn = document.getElementById(id);
+                const text = document.getElementById(texts[i]);
+                if (btn && text) {
+                    if (myOnlineStatus) {
+                        btn.classList.remove('offline');
+                        text.innerText = 'آنلاین';
+                    } else {
+                        btn.classList.add('offline');
+                        text.innerText = 'آفلاین';
+                    }
+                }
+            });
+        }
+        
+        async function toggleMyOnlineStatus() {
+            myOnlineStatus = !myOnlineStatus;
+            localStorage.setItem('my_online_status', myOnlineStatus.toString());
+            updateOnlineToggleUI();
+            
+            // ذخیره در سرور
+            if (myUsername) {
+                try {
+                    await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
+                    showInAppNotif(
+                        myOnlineStatus ? '🟢 آنلاین شدی' : '⚫ آفلاین شدی',
+                        myOnlineStatus ? 'بقیه می‌تونن ببینن آنلاینی' : 'بقیه می‌بینن آفلاینی'
+                    );
+                } catch(e) { console.error(e); }
+            }
+        }
         
         // ============ 📦 صف پیام ============
         function savePendingMessage(message) {
@@ -674,7 +747,6 @@
         let notificationsEnabled = localStorage.getItem('notif_enabled') !== 'false';
         let unreadCounts = {};
 
-        // ============ درباره ============
         function openAboutModal() { document.getElementById('aboutModal').style.display = 'flex'; }
         function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
 
@@ -726,19 +798,15 @@
             return output;
         }
 
-        // ⭐ تبدیل لینک به آبی کلیک‌شدنی
         function linkifyText(text) {
-            // regex برای پیدا کردن URL
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             return text.replace(urlRegex, (url) => {
                 return `<a href="${url}" class="msg-link" onclick="handleLinkClick(event, '${url}')">🔗 ${url}</a>`;
             });
         }
 
-        // ⭐ وقتی روی لینک کلیک میشه
         function handleLinkClick(event, url) {
             event.preventDefault();
-            // چک کن لینک گروه هست یا نه
             if (url.includes('?join=')) {
                 try {
                     const urlParams = new URLSearchParams(url.split('?')[1]);
@@ -750,7 +818,6 @@
                     window.open(url, '_blank');
                 }
             } else {
-                // لینک دیگه، باز کن
                 window.open(url, '_blank');
             }
         }
@@ -764,7 +831,6 @@
                 const data = text.replace('IMAGE:', '');
                 return '<div class="msg-image"><img src="data:image/jpeg;base64,' + data + '" onclick="openImageModal(this.src)"></div>';
             }
-            // ⭐ تبدیل ایموجی و لینک
             const animatedText = animateEmojis(text);
             return '<div style="white-space:pre-wrap; word-break:break-word;">' + linkifyText(animatedText) + '</div>';
         }
@@ -1056,11 +1122,13 @@
                 if (!myUsername) { pendingScreen = 'gj'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('gjScreen').style.display = 'flex';
                 document.getElementById('gjUserLabel').innerText = myUsername;
+                updateOnlineToggleUI();
                 clearUnread('gj'); loadGameData(); updateGjCoin(); loadGjMessages();
             } else if (name === 'msg') {
                 if (!myUsername) { pendingScreen = 'msg'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('msgScreen').style.display = 'flex';
                 document.getElementById('msgUserLabel').innerText = myUsername;
+                updateOnlineToggleUI();
                 initMessenger();
             }
         }
@@ -1070,11 +1138,12 @@
             if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
             try {
                 const { data: ex } = await supabaseClient.from('users').select('id').eq('username', name).limit(1);
-                if (!ex || ex.length === 0) await supabaseClient.from('users').insert([{ username: name, online: true }]);
-                else await supabaseClient.from('users').update({ online: true }).eq('username', name);
+                if (!ex || ex.length === 0) await supabaseClient.from('users').insert([{ username: name, online: myOnlineStatus }]);
+                else await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', name);
                 localStorage.setItem('chat_username', name);
                 myUsername = name; loadGameData();
                 document.getElementById('loginModal').style.display = 'none';
+                updateOnlineToggleUI();
                 startRealtime();
                 updateQueueBar();
                 setTimeout(() => sendPendingMessages(), 1000);
@@ -1252,7 +1321,7 @@
         }
 
         async function initMessenger() {
-            await supabaseClient.from('users').update({ online: true }).eq('username', myUsername);
+            await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
             await loadAllUsers(); await loadMyGroups(); await loadChatList();
         }
 
@@ -1402,7 +1471,7 @@
             const members = (g[0].members || '').split(',').filter(m => m);
             await loadAllUsers();
             document.getElementById('membersPanel').innerHTML = '<div style="font-weight:bold;font-size:12px;margin-bottom:5px;color:#facc15;">👥 اعضا:</div>' +
-                members.map(m => `<div class="member-row"><span>${m}</span><span>${onlineUsers.has(m) ? '🟢' : '⚫'}</span></div>`).join('');
+                members.map(m => `<div class="member-row"><span>${m}</span><span>${onlineUsers.has(m) ? '🟢 آنلاین' : '⚫ آفلاین'}</span></div>`).join('');
         }
 
         function getReceiverForChat() {
@@ -1497,7 +1566,7 @@
             const fl = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(f.toLowerCase()));
             if (fl.length === 0) { l.innerHTML = '<div style="color:#64748b;padding:10px;text-align:center;font-size:12px;">کاربری یافت نشد</div>'; return; }
             l.innerHTML = fl.map(u => `<div class="user-item" onclick="document.getElementById('newChatUsername').value='${u.username}'">
-                <span>👤 ${u.username}</span>${u.online ? '<span style="font-size:10px;color:#22c55e;">🟢</span>' : '<span style="font-size:10px;color:#64748b;">⚫</span>'}
+                <span>👤 ${u.username}</span>${u.online ? '<span style="font-size:10px;color:#22c55e;">🟢 آنلاین</span>' : '<span style="font-size:10px;color:#64748b;">⚫ آفلاین</span>'}
             </div>`).join('');
         }
         function filterNewChatUsers() { renderNewChatUsers(document.getElementById('newChatUsername').value); }
@@ -1539,7 +1608,6 @@
             } catch(e) { err.innerText = 'خطا: ' + e.message; err.style.display = 'block'; }
         }
 
-        // ============ اشتراک لینک گروه ============
         function shareGroupLink() {
             if (currentChat.type !== 'group') return;
             const link = window.location.origin + window.location.pathname + '?join=' + encodeURIComponent(currentChat.target);
@@ -1570,10 +1638,11 @@
             if (p !== 'nimaaslani1234A') { alert('رمز اشتباه!'); return; }
             closeServerPass();
             document.getElementById('serverPanelModal').style.display = 'flex';
-            const u = await supabaseClient.from('users').select('id');
+            const u = await supabaseClient.from('users').select('id, online');
             const m = await supabaseClient.from('messages').select('id');
             const g = await supabaseClient.from('groups').select('id');
             document.getElementById('sUsers').innerText = u.data?.length || 0;
+            document.getElementById('sOnline').innerText = u.data ? u.data.filter(x => x.online).length : 0;
             document.getElementById('sMessages').innerText = m.data?.length || 0;
             document.getElementById('sGroups').innerText = g.data?.length || 0;
             document.getElementById('sPending').innerText = getPendingMessages().length;
@@ -1591,10 +1660,10 @@
             closeServerPanel();
         }
 
-        // ============ شروع ============
         window.addEventListener('load', () => {
             initEmojiGrids();
             updateNotifButtons();
+            updateOnlineToggleUI();
             updateNetStatus();
             updateQueueBar();
             setInterval(updateNetStatus, 10000);
