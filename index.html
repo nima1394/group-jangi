@@ -10,136 +10,57 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
         body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; overflow: hidden; }
         
-        /* ============ صفحه لودینگ ============ */
         #loadingScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 999999;
-            transition: opacity 0.6s ease;
-            padding: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 999999; transition: opacity 0.6s ease; padding: 20px;
         }
+        #loadingScreen.hide { opacity: 0; pointer-events: none; }
         
-        #loadingScreen.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        /* لوگوی متحرک */
         .loading-emoji {
-            font-size: 100px;
-            animation: emojiFloat 2s ease-in-out infinite;
-            margin-bottom: 20px;
+            font-size: 100px; animation: emojiFloat 2s ease-in-out infinite; margin-bottom: 20px;
             filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6));
         }
-        
         @keyframes emojiFloat {
-            0%, 100% { 
-                transform: translateY(0) scale(1) rotate(-5deg);
-                filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6));
-            }
-            50% { 
-                transform: translateY(-20px) scale(1.1) rotate(5deg);
-                filter: drop-shadow(0 0 50px rgba(250, 204, 21, 0.9));
-            }
+            0%, 100% { transform: translateY(0) scale(1) rotate(-5deg); }
+            50% { transform: translateY(-20px) scale(1.1) rotate(5deg); }
         }
         
         .loading-title {
-            font-size: 28px;
-            font-weight: bold;
+            font-size: 28px; font-weight: bold;
             background: linear-gradient(90deg, #facc15, #f59e0b, #facc15);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 2s linear infinite;
-            margin-bottom: 40px;
-            text-align: center;
+            background-size: 200% auto; -webkit-background-clip: text;
+            background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 2s linear infinite; margin-bottom: 40px; text-align: center;
         }
+        @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
         
-        @keyframes shimmer {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-        
-        /* نوار پیشرفت */
         .loading-bar-container {
-            width: 100%;
-            max-width: 320px;
-            height: 8px;
-            background: rgba(51, 65, 85, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            border: 1px solid rgba(71, 85, 105, 0.5);
-            position: relative;
+            width: 100%; max-width: 320px; height: 8px;
+            background: rgba(51, 65, 85, 0.5); border-radius: 10px;
+            overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(71, 85, 105, 0.5);
         }
-        
         .loading-bar {
-            height: 100%;
-            width: 0%;
+            height: 100%; width: 0%;
             background: linear-gradient(90deg, #facc15, #f59e0b, #facc15);
-            background-size: 200% auto;
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            animation: shimmer 2s linear infinite;
+            background-size: 200% auto; border-radius: 10px;
+            transition: width 0.3s ease; animation: shimmer 2s linear infinite;
             box-shadow: 0 0 20px rgba(250, 204, 21, 0.7);
         }
-        
-        .loading-percent {
-            color: #facc15;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-family: monospace;
-        }
-        
-        .loading-text {
-            color: #94a3b8;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-        
-        .loading-text .dots::after {
-            content: '';
-            animation: dots 1.5s steps(4, end) infinite;
-        }
-        
-        @keyframes dots {
-            0% { content: ''; }
-            25% { content: '.'; }
-            50% { content: '..'; }
-            75% { content: '...'; }
-            100% { content: ''; }
-        }
-        
-        /* نقطه‌های تزئینی */
-        .deco-dot {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #facc15;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: dotMove 8s linear infinite;
-        }
-        
-        @keyframes dotMove {
-            0% { transform: translate(0, 0); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translate(100px, -100px); opacity: 0; }
-        }
+        .loading-percent { color: #facc15; font-size: 16px; font-weight: bold; margin-bottom: 10px; font-family: monospace; }
+        .loading-text { color: #94a3b8; font-size: 14px; letter-spacing: 1px; }
+        .loading-text .dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
+        @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: ''; } }
         
         /* ============ نوار وضعیت ============ */
-        .status-bar { position: fixed; top: 0; left: 0; right: 0; height: 32px; background: linear-gradient(90deg, #0f172a, #1e293b); border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 9999; font-size: 11px; font-weight: bold; }
+        .status-bar {
+            position: fixed; top: 0; left: 0; right: 0; height: 32px;
+            background: linear-gradient(90deg, #0f172a, #1e293b);
+            border-bottom: 1px solid #334155; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 15px; z-index: 9999;
+            font-size: 11px; font-weight: bold;
+        }
         .status-item { display: flex; align-items: center; gap: 5px; }
         .status-good { color: #22c55e; }
         .status-mid { color: #f59e0b; }
@@ -149,7 +70,24 @@
         .status-dot.offline { background: #ef4444; animation: none; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
-        .offline-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0f172a; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 99998; text-align: center; padding: 20px; }
+        /* ============ نوار صف پیام ============ */
+        .queue-bar {
+            position: fixed; top: 32px; left: 0; right: 0; height: 28px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            display: none; align-items: center; justify-content: center;
+            z-index: 9998; font-size: 11px; font-weight: bold; color: #fff;
+            animation: queueSlide 0.3s ease;
+        }
+        .queue-bar.show { display: flex; }
+        @keyframes queueSlide { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        .queue-bar .icon { animation: rotate 2s linear infinite; margin-left: 5px; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        .offline-screen {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: #0f172a; display: none; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 99998; text-align: center; padding: 20px;
+        }
         .offline-screen.show { display: flex; }
         .offline-screen .emoji { font-size: 100px; margin-bottom: 20px; animation: sadFloat 2s infinite; }
         @keyframes sadFloat { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
@@ -157,13 +95,13 @@
         .offline-screen p { color: #94a3b8; font-size: 14px; margin-bottom: 30px; max-width: 400px; line-height: 1.7; }
         .offline-screen .retry-btn { background: #38bdf8; color: #0f172a; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
         
-        .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 32px; }
+        .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 60px; }
         .container h1 { color: #facc15; margin-bottom: 20px; }
         .btn1, .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
         .btn1 { background: #facc15; color: #0f172a; }
         .btn2 { background: #8b5cf6; color: #fff; }
         
-        .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: calc(95vh - 32px); margin-top: 32px; }
+        .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: calc(95vh - 60px); margin-top: 60px; }
         .header { padding: 12px; background: #0f172a; border-bottom: 1px solid #334155; }
         .user-info { font-size: 12px; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
@@ -181,15 +119,18 @@
         .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
         
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
-        .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; }
+        .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; position: relative; }
         .msg.sent { align-self: flex-end; background: #0284c7; color: #fff; border-bottom-left-radius: 0; }
         .msg.received { align-self: flex-start; background: #334155; color: #e2e8f0; border-bottom-right-radius: 0; }
         .msg.private-sent { align-self: flex-end; background: #8b5cf6; color: #fff; border-bottom-left-radius: 0; }
         .msg.private-received { align-self: flex-start; background: #6d28d9; color: #fff; border-bottom-right-radius: 0; }
         .msg.bot { align-self: flex-start; background: #f59e0b; color: #fff; border-bottom-right-radius: 0; border: 2px solid #fbbf24; }
+        .msg.pending { opacity: 0.7; border: 2px dashed #f59e0b; }
+        .msg.pending::after { content: '⏳'; position: absolute; top: 5px; left: 5px; font-size: 14px; }
         .msg-sender { font-size: 10px; color: #facc15; margin-bottom: 3px; font-weight: bold; }
         .msg.bot .msg-sender { color: #fff; }
-        .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; }
+        .msg-time { font-size: 9px; opacity: 0.7; margin-top: 4px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+        .msg-status { font-size: 10px; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
         
         .msg-audio audio { max-width: 220px; height: 40px; border-radius: 20px; outline: none; }
@@ -257,12 +198,12 @@
         .user-item { background: #0f172a; padding: 10px 15px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; font-size: 13px; }
         .user-item:hover { background: #1e293b; }
         
-        .recording-indicator { position: fixed; top: 50px; left: 50%; transform: translateX(-50%); background: #dc2626; color: #fff; padding: 15px 25px; border-radius: 30px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 5px 20px rgba(220,38,38,0.5); }
+        .recording-indicator { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: #dc2626; color: #fff; padding: 15px 25px; border-radius: 30px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 5px 20px rgba(220,38,38,0.5); }
         .recording-indicator.show { display: flex; align-items: center; gap: 10px; }
         .rec-dot { width: 12px; height: 12px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.2; } }
         
-        .in-app-notif { position: fixed; top: 50px; right: 20px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(139,92,246,0.5); z-index: 99999; display: none; max-width: 320px; cursor: pointer; animation: slideIn 0.3s ease; }
+        .in-app-notif { position: fixed; top: 70px; right: 20px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(139,92,246,0.5); z-index: 99999; display: none; max-width: 320px; cursor: pointer; animation: slideIn 0.3s ease; }
         .in-app-notif.show { display: block; }
         .in-app-notif .title { font-weight: bold; margin-bottom: 5px; font-size: 14px; }
         .in-app-notif .body { font-size: 12px; opacity: 0.95; }
@@ -278,17 +219,14 @@
     <div id="loadingScreen">
         <div class="loading-emoji" id="loadingEmoji">🚀</div>
         <div class="loading-title" id="loadingTitle">پیام‌رسان</div>
-        
         <div class="loading-bar-container">
             <div class="loading-bar" id="loadingBar"></div>
         </div>
-        
         <div class="loading-percent" id="loadingPercent">0%</div>
-        <div class="loading-text">
-            در حال بارگذاری<span class="dots"></span>
-        </div>
+        <div class="loading-text">در حال بارگذاری<span class="dots"></span></div>
     </div>
 
+    <!-- ============ نوار وضعیت ============ -->
     <div class="status-bar">
         <div class="status-item">
             <span class="status-dot" id="serverDot"></span>
@@ -304,10 +242,16 @@
         </div>
     </div>
 
+    <!-- ============ نوار صف پیام ============ -->
+    <div class="queue-bar" id="queueBar">
+        <span class="icon">🔄</span>
+        <span id="queueText">0 پیام در انتظار ارسال</span>
+    </div>
+
     <div id="offlineScreen" class="offline-screen">
         <div class="emoji">😔</div>
         <h1>اتصال اینترنت قطع شد</h1>
-        <p>لطفاً اتصال اینترنت خود را بررسی کنید</p>
+        <p>پیام‌هایی که می‌فرستی ذخیره می‌شن و وقتی نت وصل شد، خودکار ارسال می‌شن</p>
         <button class="retry-btn" onclick="retryConnection()">🔄 تلاش مجدد</button>
     </div>
 
@@ -318,7 +262,7 @@
         <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
     </div>
 
-    <!-- چت عمومی (گروه جنگی قبلی) -->
+    <!-- چت عمومی -->
     <div id="gjScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
@@ -492,6 +436,7 @@
                 <p>👤 کاربران: <b id="sUsers" style="color:#38bdf8;">0</b></p>
                 <p>📨 پیام‌ها: <b id="sMessages" style="color:#22c55e;">0</b></p>
                 <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
+                <p>⏳ در صف: <b id="sPending" style="color:#f59e0b;">0</b></p>
             </div>
             <button onclick="deleteAllData()" style="background: #ef4444; color: #fff;">🗑️ پاک کردن همه</button>
             <button onclick="closeServerPanel()" style="background: #475569; color: #fff;">بستن</button>
@@ -514,6 +459,89 @@
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
         
+        // ============ 📦 صف پیام‌ها (Offline Queue) ============
+        // این تابع پیام رو در حافظه موقت (localStorage) ذخیره می‌کنه
+        // هیچ فایلی توی سرور ساخته نمیشه!
+        
+        function savePendingMessage(message) {
+            try {
+                const pending = getPendingMessages();
+                pending.push({
+                    id: 'pending_' + Date.now() + '_' + Math.random(),
+                    sender: message.sender,
+                    receiver: message.receiver,
+                    content: message.content,
+                    created_at: new Date().toISOString()
+                });
+                localStorage.setItem('pending_messages', JSON.stringify(pending));
+                updateQueueBar();
+                console.log('📦 پیام در صف ذخیره شد');
+            } catch(e) { console.error('خطا در ذخیره صف:', e); }
+        }
+        
+        function getPendingMessages() {
+            try {
+                const val = localStorage.getItem('pending_messages');
+                return val ? JSON.parse(val) : [];
+            } catch(e) { return []; }
+        }
+        
+        function clearPendingMessages() {
+            localStorage.removeItem('pending_messages');
+            updateQueueBar();
+        }
+        
+        function updateQueueBar() {
+            const pending = getPendingMessages();
+            const bar = document.getElementById('queueBar');
+            const text = document.getElementById('queueText');
+            
+            if (pending.length > 0) {
+                bar.classList.add('show');
+                text.innerText = pending.length + ' پیام در انتظار ارسال';
+            } else {
+                bar.classList.remove('show');
+            }
+        }
+        
+        async function sendPendingMessages() {
+            const pending = getPendingMessages();
+            if (pending.length === 0) return;
+            
+            console.log('📤 در حال ارسال ' + pending.length + ' پیام در صف...');
+            const failed = [];
+            
+            for (let msg of pending) {
+                try {
+                    const result = await supabaseClient.from('messages').insert([{
+                        sender: msg.sender,
+                        receiver: msg.receiver,
+                        content: msg.content
+                    }]);
+                    
+                    if (result.error) {
+                        failed.push(msg);
+                        console.log('❌ خطا:', result.error.message);
+                    } else {
+                        console.log('✅ پیام ارسال شد');
+                    }
+                } catch(e) {
+                    failed.push(msg);
+                }
+            }
+            
+            localStorage.setItem('pending_messages', JSON.stringify(failed));
+            updateQueueBar();
+            
+            // رفرش پیام‌ها
+            if (currentScreenName === 'gj') loadGjMessages();
+            else if (currentScreenName === 'chat') loadChatMessages();
+            
+            if (failed.length === 0) {
+                showInAppNotif('✅ پیام‌ها ارسال شد', 'همه پیام‌های در صف ارسال شدن');
+            }
+        }
+        
         // ============ صفحه لودینگ ============
         const LOADING_EMOJIS = ['🚀', '💬', '🔥', '⚡', '🎉', '💎', '🌟', '✨'];
         let loadingProgress = 0;
@@ -524,27 +552,17 @@
             const loadingPercent = document.getElementById('loadingPercent');
             const loadingEmoji = document.getElementById('loadingEmoji');
             
-            // چرخش ایموجی هر 500 میلی‌ثانیه
             let emojiIndex = 0;
             const emojiInterval = setInterval(() => {
                 emojiIndex = (emojiIndex + 1) % LOADING_EMOJIS.length;
                 loadingEmoji.innerText = LOADING_EMOJIS[emojiIndex];
             }, 500);
             
-            // شبیه‌سازی لود بر اساس سرعت اینترنت
-            // هر 50ms یه کم اضافه میشه - سرعت بر اساس واقعیت
             const startTime = Date.now();
             
             function updateProgress() {
                 if (loadingDone) return;
-                
-                const elapsed = Date.now() - startTime;
-                
-                // محاسبه سرعت بر اساس زمان پاسخ سرور
-                // اگه نت قویه سریع‌تر پر میشه
-                const speed = window.netSpeed || 1;  // پیش‌فرض 1
-                
-                // سرعت پر شدن: نت قوی 8%/100ms، نت ضعیف 2%/100ms
+                const speed = window.netSpeed || 1;
                 let increment = 0.5 * speed;
                 if (speed < 0.5) increment = 0.3;
                 else if (speed > 1.5) increment = 0.8;
@@ -556,8 +574,6 @@
                     loadingProgress = 100;
                     loadingBar.style.width = '100%';
                     loadingPercent.innerText = '100%';
-                    
-                    // صبر 500ms بعد مخفی کن
                     setTimeout(() => {
                         document.getElementById('loadingScreen').classList.add('hide');
                         setTimeout(() => {
@@ -572,18 +588,15 @@
                 loadingBar.style.width = loadingProgress + '%';
                 loadingPercent.innerText = Math.floor(loadingProgress) + '%';
                 
-                // زمان بر اساس سرعت
                 let delay = 80;
                 if (speed > 1.5) delay = 40;
                 else if (speed < 0.5) delay = 150;
                 
                 setTimeout(updateProgress, delay);
             }
-            
             updateProgress();
         }
 
-        // ============ اندازه‌گیری سرعت نت ============
         async function measureNetSpeed() {
             const start = performance.now();
             try {
@@ -591,19 +604,14 @@
                     method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
                 });
                 const time = performance.now() - start;
-                // سرعت: هرچی کمتر بهتر
-                if (time < 300) window.netSpeed = 2;      // خیلی سریع
-                else if (time < 800) window.netSpeed = 1;  // متوسط
-                else window.netSpeed = 0.3;                // کند
-            } catch(e) {
-                window.netSpeed = 0.3;
-            }
+                if (time < 300) window.netSpeed = 2;
+                else if (time < 800) window.netSpeed = 1;
+                else window.netSpeed = 0.3;
+            } catch(e) { window.netSpeed = 0.3; }
         }
 
-        // شروع لودینگ
         measureNetSpeed().then(() => initLoading());
 
-        // ============ بقیه کدها ============
         const ANIMATED_EMOJIS = [
             '😊', '😂', '❤️', '🔥', '👍', '👏', '🎉', '💪', '😍', '🤣',
             '😎', '🙏', '💯', '✨', '🤔', '😴', '🥺', '😭', '🥰', '😘',
@@ -697,7 +705,6 @@
             return '<div style="white-space:pre-wrap; word-break:break-word;">' + animateEmojis(text) + '</div>';
         }
 
-        // ============ تشخیص وضعیت نت ============
         let netTestInterval = null;
 
         function updateNetStatus() {
@@ -747,7 +754,12 @@
             if (navigator.onLine) { hideOfflineScreen(); setTimeout(updateNetStatus, 1000); }
         }
 
-        window.addEventListener('online', () => { hideOfflineScreen(); updateNetStatus(); });
+        // ⭐ نکته مهم: وقتی نت وصل میشه، پیام‌های در صف رو بفرست
+        window.addEventListener('online', () => { 
+            hideOfflineScreen(); 
+            updateNetStatus();
+            setTimeout(() => sendPendingMessages(), 1500);  // بعد از 1.5 ثانیه پیام‌های صف رو بفرست
+        });
         window.addEventListener('offline', () => { showOfflineScreen(); updateNetStatus(); });
 
         async function detectLocation() {
@@ -775,7 +787,6 @@
             } catch(e) { document.getElementById('serverStatusText').innerText = 'سرور: قطع'; }
         }
 
-        // ============ Real-time ============
         function startRealtime() {
             if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
             realtimeChannel = supabaseClient
@@ -971,17 +982,50 @@
         function toggleChRecording() { isRecording ? stopRecording() : startRecording('ch'); }
 
         async function sendGjAudio(base64) {
-            await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: 'GROUP:' + GROUP_NAME,
-                content: LZString.compressToUTF16('AUDIO:' + base64)
+            const content = 'AUDIO:' + base64;
+            const receiver = 'GROUP:' + GROUP_NAME;
+            
+            if (!navigator.onLine) {
+                // نت قطعه - ذخیره در صف
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
+                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
+                loadGjMessages();
+                return;
+            }
+            
+            const result = await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: receiver,
+                content: LZString.compressToUTF16(content)
             }]);
+            
+            if (result.error) {
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
+                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود، بعداً تلاش می‌کنیم');
+            }
+            loadGjMessages();
         }
 
         async function sendChAudio(base64) {
-            await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: getReceiverForChat(),
-                content: LZString.compressToUTF16('AUDIO:' + base64)
+            const content = 'AUDIO:' + base64;
+            const receiver = getReceiverForChat();
+            
+            if (!navigator.onLine) {
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
+                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
+                loadChatMessages();
+                return;
+            }
+            
+            const result = await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: receiver,
+                content: LZString.compressToUTF16(content)
             }]);
+            
+            if (result.error) {
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
+                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
+            }
+            loadChatMessages();
         }
 
         function openImageModal(src) { document.getElementById('fullImage').src = src; document.getElementById('imageModal').style.display = 'flex'; }
@@ -1022,6 +1066,9 @@
                 myUsername = name; loadGameData();
                 document.getElementById('loginModal').style.display = 'none';
                 startRealtime();
+                updateQueueBar();
+                // سعی کن پیام‌های صف رو بفرست
+                setTimeout(() => sendPendingMessages(), 1000);
                 if (pendingScreen === 'gj') showScreen('gj');
                 else if (pendingScreen === 'msg') showScreen('msg');
                 pendingScreen = null;
@@ -1071,25 +1118,47 @@
             openGamePanel();
         }
 
+        // ============ 📤 ارسال پیام (با پشتیبانی از صف) ============
         async function sendGj() {
             const input = document.getElementById('gjInput');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
             document.getElementById('emojiPickerGj').classList.remove('show');
-            await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: 'GROUP:' + GROUP_NAME,
-                content: LZString.compressToUTF16(text)
+            
+            const content = LZString.compressToUTF16(text);
+            const receiver = 'GROUP:' + GROUP_NAME;
+            
+            // اگه نت قطع بود، ذخیره در صف
+            if (!navigator.onLine) {
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
+                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
+                loadGjMessages();
+                return;
+            }
+            
+            // اگه نت وصل بود، مستقیم بفرست
+            const result = await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: receiver, content: content
             }]);
+            
+            if (result.error) {
+                // خطا داد، ذخیره در صف
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
+                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود، بعداً تلاش می‌کنیم');
+            }
+            
             loadGjMessages();
             if (text.startsWith('!')) setTimeout(() => processBot(text, myUsername), 300);
         }
+        
         async function sendGjBot(text) {
             await supabaseClient.from('messages').insert([{
                 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
                 content: LZString.compressToUTF16(text)
             }]);
         }
+        
         async function loadGjMessages() {
             const { data } = await supabaseClient.from('messages').select('*')
                 .eq('receiver', 'GROUP:' + GROUP_NAME)
@@ -1097,8 +1166,17 @@
             const box = document.getElementById('gjMessages');
             if (!box) return;
             box.innerHTML = '';
-            if (!data || data.length === 0) { box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; return; }
-            data.forEach(msg => {
+            
+            // پیام‌های صف
+            const pending = getPendingMessages().filter(p => p.receiver === 'GROUP:' + GROUP_NAME);
+            
+            if ((!data || data.length === 0) && pending.length === 0) { 
+                box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; 
+                return; 
+            }
+            
+            // پیام‌های قبلی
+            (data || []).forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
                 const isBot = msg.sender === BOT_NAME;
@@ -1116,8 +1194,21 @@
                 div.innerHTML = sh + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
+            
+            // پیام‌های صف (با استایل خاص)
+            pending.forEach(msg => {
+                let text = LZString.decompressFromUTF16(msg.content) || msg.content;
+                const div = document.createElement('div');
+                div.className = 'msg sent pending';
+                div.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + 
+                    renderMessageContent(text) + 
+                    '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
+                box.appendChild(div);
+            });
+            
             box.scrollTop = box.scrollHeight;
         }
+        
         async function processBot(cmd, sender) {
             cmd = cmd.trim();
             if (cmd === '!شروع') { await sendGjBot('🎮 بازی شروع شد!\n\n💰 500 سکه\n\n!موجودی\n!فروشگاه\n!خرید [سلاح]\n!حمله [اسم]'); return; }
@@ -1328,19 +1419,36 @@
             return 'PRIVATE:' + u[0] + '|' + u[1];
         }
 
+        // ============ 📤 ارسال پیام چت خصوصی (با پشتیبانی صف) ============
         async function sendChatMessage() {
             const input = document.getElementById('chatMsgInput');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
             document.getElementById('emojiPickerCh').classList.remove('show');
-            await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: getReceiverForChat(),
-                content: LZString.compressToUTF16(text)
+            
+            const content = LZString.compressToUTF16(text);
+            const receiver = getReceiverForChat();
+            
+            if (!navigator.onLine) {
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
+                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
+                loadChatMessages();
+                return;
+            }
+            
+            const result = await supabaseClient.from('messages').insert([{
+                sender: myUsername, receiver: receiver, content: content
             }]);
+            
+            if (result.error) {
+                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
+                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
+            }
+            
             loadChatMessages();
         }
-
+        
         async function loadChatMessages() {
             if (!currentChat.target) return;
             const { data } = await supabaseClient.from('messages')
@@ -1349,8 +1457,15 @@
             const box = document.getElementById('chatMessagesBox');
             if (!box) return;
             box.innerHTML = '';
-            if (!data || data.length === 0) { box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; return; }
-            data.forEach(msg => {
+            
+            const pending = getPendingMessages().filter(p => p.receiver === getReceiverForChat());
+            
+            if ((!data || data.length === 0) && pending.length === 0) { 
+                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; 
+                return; 
+            }
+            
+            (data || []).forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
                 if (msg.sender === 'system') {
@@ -1367,6 +1482,19 @@
                 div.innerHTML = sH + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
                 box.appendChild(div);
             });
+            
+            pending.forEach(msg => {
+                let text = LZString.decompressFromUTF16(msg.content) || msg.content;
+                const div = document.createElement('div');
+                let cls = 'sent';
+                if (currentChat.type === 'private') cls = 'private-sent';
+                div.className = 'msg ' + cls + ' pending';
+                div.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + 
+                    renderMessageContent(text) + 
+                    '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
+                box.appendChild(div);
+            });
+            
             box.scrollTop = box.scrollHeight;
         }
 
@@ -1462,6 +1590,7 @@
             document.getElementById('sUsers').innerText = u.data?.length || 0;
             document.getElementById('sMessages').innerText = m.data?.length || 0;
             document.getElementById('sGroups').innerText = g.data?.length || 0;
+            document.getElementById('sPending').innerText = getPendingMessages().length;
         }
         function closeServerPanel() { document.getElementById('serverPanelModal').style.display = 'none'; }
         async function deleteAllData() {
@@ -1470,6 +1599,8 @@
             await supabaseClient.from('messages').delete().neq('id', 0);
             await supabaseClient.from('groups').delete().neq('id', 0);
             await supabaseClient.from('users').delete().neq('id', 0);
+            localStorage.removeItem('pending_messages');
+            updateQueueBar();
             alert('✅ پاک شد!');
             closeServerPanel();
         }
@@ -1478,9 +1609,15 @@
             initEmojiGrids();
             updateNotifButtons();
             updateNetStatus();
+            updateQueueBar();  // نمایش صف
             netTestInterval = setInterval(updateNetStatus, 10000);
             detectLocation();
-            if (myUsername) { loadGameData(); startRealtime(); }
+            if (myUsername) { 
+                loadGameData(); 
+                startRealtime(); 
+                // سعی کن پیام‌های صف رو بفرست
+                setTimeout(() => sendPendingMessages(), 2000);
+            }
             if ('Notification' in window && Notification.permission === 'granted') {
                 const btn = document.getElementById('notifPermBtn');
                 if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
