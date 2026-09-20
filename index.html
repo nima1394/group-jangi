@@ -90,6 +90,22 @@
         .msg-status { font-size: 10px; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
         
+        /* ⭐ لینک آبی کلیک‌شدنی */
+        .msg-link {
+            color: #38bdf8;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: bold;
+            word-break: break-all;
+            transition: all 0.2s;
+        }
+        .msg-link:hover {
+            color: #0ea5e9;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 1px 3px;
+            border-radius: 3px;
+        }
+        
         .msg-audio audio { max-width: 220px; height: 40px; border-radius: 20px; outline: none; }
         .msg-image img { max-width: 200px; max-height: 200px; border-radius: 8px; cursor: pointer; }
         
@@ -169,7 +185,6 @@
         #imageModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: pointer; padding: 20px; }
         #imageModal img { max-width: 95%; max-height: 95%; border-radius: 8px; }
         
-        /* ============ نمایش نسخه ============ */
         .version-footer {
             position: fixed; bottom: 5px; left: 0; right: 0; text-align: center;
             font-size: 10px; color: #475569; z-index: 9996;
@@ -177,17 +192,14 @@
         }
         .version-footer b { color: #facc15; }
         
-        /* ============ صفحه درباره ============ */
         .about-section { background: #0f172a; border-radius: 12px; padding: 15px; margin: 10px 0; text-align: right; border: 1px solid #334155; }
         .about-section h4 { color: #facc15; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
         .version-badge { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
         .changelog-item { padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 12px; color: #cbd5e1; line-height: 1.7; }
         .changelog-item:last-child { border-bottom: none; }
         .changelog-item .ver { color: #38bdf8; font-weight: bold; margin-left: 5px; }
-        .changelog-item .date { color: #64748b; font-size: 10px; }
         .changelog-item .added { color: #22c55e; }
         .changelog-item .improved { color: #f59e0b; }
-        .changelog-item .fixed { color: #ef4444; }
     </style>
 </head>
 <body>
@@ -356,7 +368,7 @@
 
     <!-- ============ نمایش نسخه در پایین ============ -->
     <div class="version-footer">
-        💬 پیام‌رسان — نسخه <b>2.0</b> | آخرین آپدیت: <b>1404/06/30</b>
+        💬 پیام‌رسان — نسخه <b>2.0</b>
     </div>
 
     <!-- مودال‌ها -->
@@ -397,7 +409,6 @@
                 <div style="font-size: 60px; margin-bottom: 10px;">💬</div>
                 <h3 style="color: #facc15; margin-bottom: 10px;">پیام‌رسان</h3>
                 <div class="version-badge">نسخه 2.0</div>
-                <p style="color: #94a3b8; font-size: 12px; margin-top: 10px;">آخرین آپدیت: 1404/06/30</p>
             </div>
             
             <div class="about-section">
@@ -409,6 +420,7 @@
                     ✅ اعلان مثل ایتا<br>
                     ✅ صف پیام آفلاین<br>
                     ✅ ایموجی متحرک<br>
+                    ✅ لینک کلیک‌شدنی گروه<br>
                     ✅ پنل مدیریت سرور
                 </div>
             </div>
@@ -416,30 +428,30 @@
             <div class="about-section">
                 <h4>📝 تاریخچه تغییرات</h4>
                 <div class="changelog-item">
-                    <span class="ver">v2.0</span> <span class="date">1404/06/30</span><br>
+                    <span class="ver">v2.0</span><br>
+                    <span class="added">✅ اضافه شد:</span> لینک آبی کلیک‌شدنی برای گروه<br>
                     <span class="added">✅ اضافه شد:</span> صفحه درباره برنامه<br>
-                    <span class="added">✅ اضافه شد:</span> نمایش نسخه در پایین<br>
                     <span class="improved">🔧 بهبود:</span> لینک گروه خودکار باز میشه
                 </div>
                 <div class="changelog-item">
-                    <span class="ver">v1.9</span> <span class="date">1404/06/28</span><br>
+                    <span class="ver">v1.9</span><br>
                     <span class="added">✅ اضافه شد:</span> صف پیام آفلاین<br>
                     <span class="added">✅ اضافه شد:</span> ارسال خودکار وقتی نت وصل شد
                 </div>
                 <div class="changelog-item">
-                    <span class="ver">v1.8</span> <span class="date">1404/06/25</span><br>
+                    <span class="ver">v1.8</span><br>
                     <span class="added">✅ اضافه شد:</span> ایموجی متحرک<br>
                     <span class="added">✅ اضافه شد:</span> صفحه لودینگ<br>
                     <span class="added">✅ اضافه شد:</span> وضعیت نت و سرور
                 </div>
                 <div class="changelog-item">
-                    <span class="ver">v1.5</span> <span class="date">1404/06/20</span><br>
+                    <span class="ver">v1.5</span><br>
                     <span class="added">✅ اضافه شد:</span> بازی جنگی با ربات<br>
                     <span class="added">✅ اضافه شد:</span> فروشگاه سلاح<br>
                     <span class="added">✅ اضافه شد:</span> رتبه‌بندی
                 </div>
                 <div class="changelog-item">
-                    <span class="ver">v1.0</span> <span class="date">1404/06/15</span><br>
+                    <span class="ver">v1.0</span><br>
                     <span class="added">✅ نسخه اول:</span> چت خصوصی و گروهی<br>
                     <span class="added">✅ نسخه اول:</span> ساخت گروه
                 </div>
@@ -502,7 +514,7 @@
         <div class="modal-box">
             <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
             <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">این لینک رو برای دوستات بفرست تا بیان تو گروه:</p>
-            <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 11px; direction: ltr;">
+            <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #38bdf8; font-size: 11px; direction: ltr; text-decoration: underline;">
             <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی لینک</button>
             <button onclick="testGroupLink()" style="background: #06b6d4; color: #fff;">🧪 تست لینک</button>
             <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
@@ -510,9 +522,7 @@
     </div>
 
     <script>
-        // ============ نسخه ============
         const APP_VERSION = '2.0';
-        const APP_UPDATE = '1404/06/30';
         
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
@@ -716,6 +726,35 @@
             return output;
         }
 
+        // ⭐ تبدیل لینک به آبی کلیک‌شدنی
+        function linkifyText(text) {
+            // regex برای پیدا کردن URL
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, (url) => {
+                return `<a href="${url}" class="msg-link" onclick="handleLinkClick(event, '${url}')">🔗 ${url}</a>`;
+            });
+        }
+
+        // ⭐ وقتی روی لینک کلیک میشه
+        function handleLinkClick(event, url) {
+            event.preventDefault();
+            // چک کن لینک گروه هست یا نه
+            if (url.includes('?join=')) {
+                try {
+                    const urlParams = new URLSearchParams(url.split('?')[1]);
+                    const groupName = decodeURIComponent(urlParams.get('join'));
+                    if (groupName && confirm('می‌خوای بری تو گروه "' + groupName + '"؟')) {
+                        joinGroupByLink(groupName);
+                    }
+                } catch(e) {
+                    window.open(url, '_blank');
+                }
+            } else {
+                // لینک دیگه، باز کن
+                window.open(url, '_blank');
+            }
+        }
+
         function renderMessageContent(text) {
             if (text.startsWith('AUDIO:')) {
                 const data = text.replace('AUDIO:', '');
@@ -725,7 +764,9 @@
                 const data = text.replace('IMAGE:', '');
                 return '<div class="msg-image"><img src="data:image/jpeg;base64,' + data + '" onclick="openImageModal(this.src)"></div>';
             }
-            return '<div style="white-space:pre-wrap; word-break:break-word;">' + animateEmojis(text) + '</div>';
+            // ⭐ تبدیل ایموجی و لینک
+            const animatedText = animateEmojis(text);
+            return '<div style="white-space:pre-wrap; word-break:break-word;">' + linkifyText(animatedText) + '</div>';
         }
 
         function updateNetStatus() {
@@ -1037,7 +1078,6 @@
                 startRealtime();
                 updateQueueBar();
                 setTimeout(() => sendPendingMessages(), 1000);
-                // ⭐ اگه از لینک اومده، بره تو گروه
                 const params = new URLSearchParams(window.location.search);
                 const jg = params.get('join');
                 if (jg) { showScreen('msg'); setTimeout(() => joinGroupByLink(jg), 1500); }
@@ -1513,10 +1553,9 @@
             try {
                 document.execCommand('copy');
                 navigator.clipboard.writeText(input.value).catch(() => {});
-                alert('✅ لینک کپی شد!\n\nبرای دوستت بفرست');
+                alert('✅ لینک کپی شد!\n\nبرای دوستت بفرست:\n' + input.value);
             } catch(e) { prompt('کپی کن:', input.value); }
         }
-        // ⭐ تست لینک
         function testGroupLink() {
             const link = document.getElementById('groupLinkInput').value;
             if (!link) return;
@@ -1569,7 +1608,6 @@
                 const btn = document.getElementById('notifPermBtn');
                 if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
             }
-            // ⭐ اگه از لینک اومده، خودکار بره تو گروه
             const params = new URLSearchParams(window.location.search);
             const jg = params.get('join');
             if (jg) {
@@ -1577,11 +1615,9 @@
                     showScreen('msg');
                     setTimeout(() => joinGroupByLink(jg), 1500);
                 }
-                // اگه لاگین نکرده، بعد از ثبت نام میره
             }
         });
 
-        // ============ ورود به گروه از لینک ============
         async function joinGroupByLink(groupName) {
             try {
                 showInAppNotif('🔗 دعوت به گروه', 'در حال ورود به "' + groupName + '"...');
@@ -1591,7 +1627,6 @@
                     if (!mem.includes(myUsername)) {
                         mem.push(myUsername);
                         await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', groupName);
-                        // پیام سیستمی
                         await supabaseClient.from('messages').insert([{
                             sender: 'system', receiver: 'GROUP:' + groupName,
                             content: LZString.compressToUTF16('👋 ' + myUsername + ' از لینک به گروه پیوست!')
@@ -1603,7 +1638,6 @@
                     await loadMyGroups();
                     await openChat('group', groupName);
                 } else {
-                    // گروه وجود نداره، بساز
                     await supabaseClient.from('groups').insert([{ group_name: groupName, members: myUsername }]);
                     await loadMyGroups();
                     await openChat('group', groupName);
