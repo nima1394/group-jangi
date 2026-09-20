@@ -3,13 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گروه جنگی 🔥</title>
+    <title>💬 پیام‌رسان</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; overflow: hidden; }
         
+        /* ============ صفحه لودینگ ============ */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+            transition: opacity 0.6s ease;
+            padding: 20px;
+        }
+        
+        #loadingScreen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* لوگوی متحرک */
+        .loading-emoji {
+            font-size: 100px;
+            animation: emojiFloat 2s ease-in-out infinite;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6));
+        }
+        
+        @keyframes emojiFloat {
+            0%, 100% { 
+                transform: translateY(0) scale(1) rotate(-5deg);
+                filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6));
+            }
+            50% { 
+                transform: translateY(-20px) scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 0 50px rgba(250, 204, 21, 0.9));
+            }
+        }
+        
+        .loading-title {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #facc15, #f59e0b, #facc15);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 2s linear infinite;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        /* نوار پیشرفت */
+        .loading-bar-container {
+            width: 100%;
+            max-width: 320px;
+            height: 8px;
+            background: rgba(51, 65, 85, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            position: relative;
+        }
+        
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #facc15, #f59e0b, #facc15);
+            background-size: 200% auto;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            animation: shimmer 2s linear infinite;
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.7);
+        }
+        
+        .loading-percent {
+            color: #facc15;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        
+        .loading-text {
+            color: #94a3b8;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .loading-text .dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+        
+        /* نقطه‌های تزئینی */
+        .deco-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #facc15;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: dotMove 8s linear infinite;
+        }
+        
+        @keyframes dotMove {
+            0% { transform: translate(0, 0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translate(100px, -100px); opacity: 0; }
+        }
+        
+        /* ============ نوار وضعیت ============ */
         .status-bar { position: fixed; top: 0; left: 0; right: 0; height: 32px; background: linear-gradient(90deg, #0f172a, #1e293b); border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 9999; font-size: 11px; font-weight: bold; }
         .status-item { display: flex; align-items: center; gap: 5px; }
         .status-good { color: #22c55e; }
@@ -66,60 +195,16 @@
         .msg-audio audio { max-width: 220px; height: 40px; border-radius: 20px; outline: none; }
         .msg-image img { max-width: 200px; max-height: 200px; border-radius: 8px; cursor: pointer; }
         
-        /* ============ ایموجی متحرک ============ */
-        .emoji-animated {
-            display: inline-block;
-            font-size: 28px;
-            animation: emojiBounce 1.5s infinite;
-            vertical-align: middle;
-            margin: 0 2px;
-        }
-        @keyframes emojiBounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-5px) scale(1.15); }
-        }
-        .emoji-spin { animation: emojiSpin 2s linear infinite; }
-        @keyframes emojiSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .emoji-pulse { animation: emojiPulse 1s infinite; }
-        @keyframes emojiPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
-        .emoji-shake { animation: emojiShake 0.5s infinite; }
-        @keyframes emojiShake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-15deg); } 75% { transform: rotate(15deg); } }
-        .emoji-heartbeat { animation: emojiHeartbeat 0.8s infinite; }
-        @keyframes emojiHeartbeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.3); } 30% { transform: scale(1); } 45% { transform: scale(1.2); } }
+        .emoji-animated { display: inline-block; font-size: 28px; animation: emojiBounce 1.5s infinite; vertical-align: middle; margin: 0 2px; }
+        @keyframes emojiBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.15); } }
         
-        /* ============ پنل ایموجی ============ */
         .emoji-btn { background: #facc15; color: #0f172a; padding: 8px 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 18px; }
-        .emoji-picker {
-            display: none;
-            position: absolute;
-            bottom: 70px;
-            right: 15px;
-            background: #1e293b;
-            border: 2px solid #facc15;
-            border-radius: 12px;
-            padding: 12px;
-            width: 320px;
-            max-width: 90vw;
-            z-index: 999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        }
+        .emoji-picker { display: none; position: absolute; bottom: 70px; right: 15px; background: #1e293b; border: 2px solid #facc15; border-radius: 12px; padding: 12px; width: 320px; max-width: 90vw; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
         .emoji-picker.show { display: block; }
         .emoji-picker h4 { color: #facc15; font-size: 12px; margin-bottom: 8px; text-align: right; }
         .emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-height: 250px; overflow-y: auto; padding: 4px; }
-        .emoji-grid span {
-            font-size: 26px;
-            cursor: pointer;
-            text-align: center;
-            padding: 6px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .emoji-grid span:hover {
-            background: #334155;
-            transform: scale(1.3);
-            animation: emojiBounce 0.6s infinite;
-        }
+        .emoji-grid span { font-size: 26px; cursor: pointer; text-align: center; padding: 6px; border-radius: 8px; transition: all 0.2s; user-select: none; }
+        .emoji-grid span:hover { background: #334155; transform: scale(1.3); animation: emojiBounce 0.6s infinite; }
         
         .input-box { padding: 10px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 6px; align-items: center; position: relative; }
         input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; min-width: 80px; }
@@ -189,6 +274,21 @@
 </head>
 <body>
 
+    <!-- ============ صفحه لودینگ ============ -->
+    <div id="loadingScreen">
+        <div class="loading-emoji" id="loadingEmoji">🚀</div>
+        <div class="loading-title" id="loadingTitle">پیام‌رسان</div>
+        
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        
+        <div class="loading-percent" id="loadingPercent">0%</div>
+        <div class="loading-text">
+            در حال بارگذاری<span class="dots"></span>
+        </div>
+    </div>
+
     <div class="status-bar">
         <div class="status-item">
             <span class="status-dot" id="serverDot"></span>
@@ -213,12 +313,12 @@
 
     <div id="homeScreen" class="container">
         <h1>🔥 خوش آمدی</h1>
-        <button class="btn1" onclick="showScreen('gj')">🔥 گروه جنگی</button>
+        <button class="btn1" onclick="showScreen('gj')">💬 چت عمومی</button>
         <button class="btn2" onclick="showScreen('msg')">💬 پیام‌رسان</button>
         <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
     </div>
 
-    <!-- گروه جنگی -->
+    <!-- چت عمومی (گروه جنگی قبلی) -->
     <div id="gjScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
@@ -231,12 +331,12 @@
                 </div>
             </div>
             <div class="group-title">
-                <h2>🔥 گروه جنگی</h2>
+                <h2>💬 چت عمومی</h2>
                 <span>بنویس !شروع</span>
             </div>
         </div>
         <div class="messages-box" id="gjMessages">
-            <div class="msg-system">🔥 خوش آمدی! بنویس <b>!شروع</b></div>
+            <div class="msg-system">💬 خوش آمدی! بنویس <b>!شروع</b></div>
         </div>
         <div class="input-box">
             <button class="emoji-btn" onclick="toggleEmojiPicker('gj')">😊</button>
@@ -303,7 +403,6 @@
             <button class="voice-btn" id="chVoiceBtn" onclick="toggleChRecording()">🎤</button>
             <input type="text" id="chatMsgInput" placeholder="پیام..." onkeypress="if(event.key==='Enter')sendChatMessage()">
             <button class="send-btn" onclick="sendChatMessage()">ارسال</button>
-            <!-- پنل ایموجی داخل چت -->
             <div class="emoji-picker" id="emojiPickerCh">
                 <h4>🎬 ایموجی متحرک</h4>
                 <div class="emoji-grid" id="emojiGridCh"></div>
@@ -311,7 +410,6 @@
         </div>
     </div>
 
-    <!-- پنل ایموجی گروه جنگی (بیرون از چت، در سطح اپ) -->
     <div class="emoji-picker" id="emojiPickerGj" style="position: fixed; bottom: 80px; right: 50%; transform: translateX(50%);">
         <h4>🎬 ایموجی متحرک</h4>
         <div class="emoji-grid" id="emojiGridGj"></div>
@@ -416,7 +514,96 @@
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
         
-        // ============ لیست ایموجی‌های متحرک ============
+        // ============ صفحه لودینگ ============
+        const LOADING_EMOJIS = ['🚀', '💬', '🔥', '⚡', '🎉', '💎', '🌟', '✨'];
+        let loadingProgress = 0;
+        let loadingDone = false;
+        
+        function initLoading() {
+            const loadingBar = document.getElementById('loadingBar');
+            const loadingPercent = document.getElementById('loadingPercent');
+            const loadingEmoji = document.getElementById('loadingEmoji');
+            
+            // چرخش ایموجی هر 500 میلی‌ثانیه
+            let emojiIndex = 0;
+            const emojiInterval = setInterval(() => {
+                emojiIndex = (emojiIndex + 1) % LOADING_EMOJIS.length;
+                loadingEmoji.innerText = LOADING_EMOJIS[emojiIndex];
+            }, 500);
+            
+            // شبیه‌سازی لود بر اساس سرعت اینترنت
+            // هر 50ms یه کم اضافه میشه - سرعت بر اساس واقعیت
+            const startTime = Date.now();
+            
+            function updateProgress() {
+                if (loadingDone) return;
+                
+                const elapsed = Date.now() - startTime;
+                
+                // محاسبه سرعت بر اساس زمان پاسخ سرور
+                // اگه نت قویه سریع‌تر پر میشه
+                const speed = window.netSpeed || 1;  // پیش‌فرض 1
+                
+                // سرعت پر شدن: نت قوی 8%/100ms، نت ضعیف 2%/100ms
+                let increment = 0.5 * speed;
+                if (speed < 0.5) increment = 0.3;
+                else if (speed > 1.5) increment = 0.8;
+                else increment = 0.5;
+                
+                loadingProgress += increment + Math.random() * 0.3;
+                
+                if (loadingProgress >= 100) {
+                    loadingProgress = 100;
+                    loadingBar.style.width = '100%';
+                    loadingPercent.innerText = '100%';
+                    
+                    // صبر 500ms بعد مخفی کن
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').classList.add('hide');
+                        setTimeout(() => {
+                            document.getElementById('loadingScreen').style.display = 'none';
+                            clearInterval(emojiInterval);
+                        }, 600);
+                    }, 500);
+                    loadingDone = true;
+                    return;
+                }
+                
+                loadingBar.style.width = loadingProgress + '%';
+                loadingPercent.innerText = Math.floor(loadingProgress) + '%';
+                
+                // زمان بر اساس سرعت
+                let delay = 80;
+                if (speed > 1.5) delay = 40;
+                else if (speed < 0.5) delay = 150;
+                
+                setTimeout(updateProgress, delay);
+            }
+            
+            updateProgress();
+        }
+
+        // ============ اندازه‌گیری سرعت نت ============
+        async function measureNetSpeed() {
+            const start = performance.now();
+            try {
+                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
+                    method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
+                });
+                const time = performance.now() - start;
+                // سرعت: هرچی کمتر بهتر
+                if (time < 300) window.netSpeed = 2;      // خیلی سریع
+                else if (time < 800) window.netSpeed = 1;  // متوسط
+                else window.netSpeed = 0.3;                // کند
+            } catch(e) {
+                window.netSpeed = 0.3;
+            }
+        }
+
+        // شروع لودینگ
+        measureNetSpeed().then(() => initLoading());
+
+        // ============ بقیه کدها ============
         const ANIMATED_EMOJIS = [
             '😊', '😂', '❤️', '🔥', '👍', '👏', '🎉', '💪', '😍', '🤣',
             '😎', '🙏', '💯', '✨', '🤔', '😴', '🥺', '😭', '🥰', '😘',
@@ -450,7 +637,6 @@
         let notificationsEnabled = localStorage.getItem('notif_enabled') !== 'false';
         let unreadCounts = {};
 
-        // ============ ایموجی متحرک ============
         function initEmojiGrids() {
             const html = ANIMATED_EMOJIS.map(e => 
                 `<span onclick="insertEmoji('${e}')">${e}</span>`
@@ -462,12 +648,10 @@
         function toggleEmojiPicker(context) {
             emojiPickerTarget = context;
             if (context === 'gj') {
-                const p = document.getElementById('emojiPickerGj');
-                p.classList.toggle('show');
+                document.getElementById('emojiPickerGj').classList.toggle('show');
                 document.getElementById('emojiPickerCh').classList.remove('show');
             } else {
-                const p = document.getElementById('emojiPickerCh');
-                p.classList.toggle('show');
+                document.getElementById('emojiPickerCh').classList.toggle('show');
                 document.getElementById('emojiPickerGj').classList.remove('show');
             }
         }
@@ -475,16 +659,13 @@
         function insertEmoji(emoji) {
             if (emojiPickerTarget === 'gj') {
                 const input = document.getElementById('gjInput');
-                input.value += emoji;
-                input.focus();
+                input.value += emoji; input.focus();
             } else {
                 const input = document.getElementById('chatMsgInput');
-                input.value += emoji;
-                input.focus();
+                input.value += emoji; input.focus();
             }
         }
 
-        // بستن پنل ایموجی وقتی بیرون کلیک شد
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.emoji-picker') && !e.target.closest('.emoji-btn')) {
                 document.getElementById('emojiPickerGj').classList.remove('show');
@@ -492,29 +673,15 @@
             }
         });
 
-        // ============ تبدیل ایموجی به متحرک در پیام ============
         function animateEmojis(text) {
-            // تبدیل همه ایموجی‌ها به نسخه متحرک
-            // با استفاده از regex برای شناسایی ایموجی‌ها
-            
-            // لیست ایموجی‌هایی که باید متحرک شن
             const animatedSet = new Set(ANIMATED_EMOJIS);
-            
-            // تبدیل هر ایموجی به span متحرک
-            let result = text;
-            
-            // استفاده از Array.from برای پشتیبانی از ایموجی‌های چندکاراکتری
             const chars = Array.from(text);
             let output = '';
-            
             chars.forEach(char => {
                 if (animatedSet.has(char)) {
                     output += `<span class="emoji-animated">${char}</span>`;
-                } else {
-                    output += char;
-                }
+                } else output += char;
             });
-            
             return output;
         }
 
@@ -527,9 +694,7 @@
                 const data = text.replace('IMAGE:', '');
                 return '<div class="msg-image"><img src="data:image/jpeg;base64,' + data + '" onclick="openImageModal(this.src)"></div>';
             }
-            // تبدیل ایموجی‌ها به متحرک
-            const animatedText = animateEmojis(text);
-            return '<div style="white-space:pre-wrap; word-break:break-word;">' + animatedText + '</div>';
+            return '<div style="white-space:pre-wrap; word-break:break-word;">' + animateEmojis(text) + '</div>';
         }
 
         // ============ تشخیص وضعیت نت ============
@@ -550,35 +715,25 @@
             
             const start = performance.now();
             fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
-                method: 'HEAD',
-                headers: { 'apikey': SUPABASE_KEY },
-                cache: 'no-store'
+                method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
             }).then(() => {
                 const time = performance.now() - start;
                 if (time < 300) {
-                    icon.innerText = '📶';
-                    status.innerText = 'نت: قوی';
-                    status.className = 'status-good';
+                    icon.innerText = '📶'; status.innerText = 'نت: قوی'; status.className = 'status-good';
                     dot.className = 'status-dot';
                     document.getElementById('serverStatusText').innerText = 'سرور: عالی';
                 } else if (time < 1000) {
-                    icon.innerText = '📶';
-                    status.innerText = 'نت: متوسط';
-                    status.className = 'status-mid';
+                    icon.innerText = '📶'; status.innerText = 'نت: متوسط'; status.className = 'status-mid';
                     dot.className = 'status-dot weak';
                     document.getElementById('serverStatusText').innerText = 'سرور: متوسط';
                 } else {
-                    icon.innerText = '📶';
-                    status.innerText = 'نت: ضعیف';
-                    status.className = 'status-bad';
+                    icon.innerText = '📶'; status.innerText = 'نت: ضعیف'; status.className = 'status-bad';
                     dot.className = 'status-dot weak';
                     document.getElementById('serverStatusText').innerText = 'سرور: ضعیف';
                 }
                 hideOfflineScreen();
             }).catch(() => {
-                icon.innerText = '📵';
-                status.innerText = 'نت: قطع';
-                status.className = 'status-bad';
+                icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad';
                 dot.className = 'status-dot offline';
                 document.getElementById('serverStatusText').innerText = 'سرور: قطع';
                 showOfflineScreen();
@@ -589,16 +744,12 @@
         function hideOfflineScreen() { document.getElementById('offlineScreen').classList.remove('show'); }
         function retryConnection() {
             updateNetStatus();
-            if (navigator.onLine) {
-                hideOfflineScreen();
-                setTimeout(updateNetStatus, 1000);
-            }
+            if (navigator.onLine) { hideOfflineScreen(); setTimeout(updateNetStatus, 1000); }
         }
 
         window.addEventListener('online', () => { hideOfflineScreen(); updateNetStatus(); });
         window.addEventListener('offline', () => { showOfflineScreen(); updateNetStatus(); });
 
-        // ============ تشخیص موقعیت ============
         async function detectLocation() {
             try {
                 const res = await fetch('https://ipapi.co/json/');
@@ -606,12 +757,8 @@
                 if (data.country_name && data.city) {
                     document.getElementById('locationText').innerText = data.city + ' - ' + data.country_name;
                     checkServerQuality(data.country_code);
-                } else {
-                    document.getElementById('locationText').innerText = 'موقعیت نامشخص';
-                }
-            } catch(e) {
-                document.getElementById('locationText').innerText = 'موقعیت نامشخص';
-            }
+                } else document.getElementById('locationText').innerText = 'موقعیت نامشخص';
+            } catch(e) { document.getElementById('locationText').innerText = 'موقعیت نامشخص'; }
         }
 
         async function checkServerQuality(countryCode) {
@@ -625,9 +772,7 @@
                 if (time < 300) serverText.innerText = 'سرور: عالی در ' + (countryCode || 'منطقه شما');
                 else if (time < 1000) serverText.innerText = 'سرور: متوسط';
                 else serverText.innerText = 'سرور: ضعیف';
-            } catch(e) {
-                document.getElementById('serverStatusText').innerText = 'سرور: قطع';
-            }
+            } catch(e) { document.getElementById('serverStatusText').innerText = 'سرور: قطع'; }
         }
 
         // ============ Real-time ============
@@ -635,81 +780,59 @@
             if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
             realtimeChannel = supabaseClient
                 .channel('all-messages')
-                .on('postgres_changes', 
-                    { event: 'INSERT', schema: 'public', table: 'messages' },
-                    (payload) => handleNewMessageRealtime(payload.new)
-                )
-                .on('postgres_changes',
-                    { event: '*', schema: 'public', table: 'users' },
-                    () => loadAllUsers()
-                )
-                .on('postgres_changes',
-                    { event: '*', schema: 'public', table: 'groups' },
-                    () => loadMyGroups()
-                )
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
+                    (payload) => handleNewMessageRealtime(payload.new))
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'users' },
+                    () => loadAllUsers())
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'groups' },
+                    () => loadMyGroups())
                 .subscribe();
         }
 
         function handleNewMessageRealtime(msg) {
             if (msg.sender === myUsername) return;
-            
             let text = LZString.decompressFromUTF16(msg.content) || msg.content;
             let preview = text;
             if (text.startsWith('AUDIO:')) preview = '🎤 پیام صوتی';
             if (text.startsWith('IMAGE:')) preview = '🖼️ تصویر';
             preview = preview.substring(0, 60);
-            
             const receiver = msg.receiver;
             let chatKey = '', notifBody = '', notifTitle = '';
             
             if (receiver === 'GROUP:' + GROUP_NAME) {
-                chatKey = 'gj';
-                notifTitle = '🔥 گروه جنگی';
-                notifBody = msg.sender + ': ' + preview;
+                chatKey = 'gj'; notifTitle = '💬 چت عمومی'; notifBody = msg.sender + ': ' + preview;
                 if (currentScreenName !== 'gj') {
                     unreadCounts['gj'] = (unreadCounts['gj'] || 0) + 1;
                     showBrowserNotif(notifTitle, notifBody, 'group-gj');
-                    showInAppNotif(notifTitle, notifBody);
-                    playNotifSound();
-                    vibrate();
+                    showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate();
                 } else loadGjMessages();
             } else if (receiver.startsWith('PRIVATE:')) {
                 const parts = receiver.replace('PRIVATE:', '').split('|');
                 if (!parts.includes(myUsername)) return;
                 const other = parts.find(p => p !== myUsername);
                 if (!other) return;
-                chatKey = 'private-' + other;
-                notifTitle = '💬 پیام از ' + other;
-                notifBody = preview;
+                chatKey = 'private-' + other; notifTitle = '💬 پیام از ' + other; notifBody = preview;
                 const isInThisChat = currentScreenName === 'chat' && currentChat.type === 'private' && currentChat.target === other;
                 if (!isInThisChat) {
                     unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
                     showBrowserNotif(notifTitle, notifBody, 'private-' + other);
-                    showInAppNotif(notifTitle, notifBody);
-                    playNotifSound();
-                    vibrate();
+                    showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate();
                 } else loadChatMessages();
             } else if (receiver.startsWith('GROUP:')) {
                 const gname = receiver.replace('GROUP:', '');
                 const isMyGroup = myGroups.find(g => g.group_name === gname);
                 if (!isMyGroup) return;
-                chatKey = 'group-' + gname;
-                notifTitle = '👥 ' + gname;
-                notifBody = msg.sender + ': ' + preview;
+                chatKey = 'group-' + gname; notifTitle = '👥 ' + gname; notifBody = msg.sender + ': ' + preview;
                 const isInThisGroup = currentScreenName === 'chat' && currentChat.type === 'group' && currentChat.target === gname;
                 if (!isInThisGroup) {
                     unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
                     showBrowserNotif(notifTitle, notifBody, 'group-' + gname);
-                    showInAppNotif(notifTitle, notifBody);
-                    playNotifSound();
-                    vibrate();
+                    showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate();
                 } else loadChatMessages();
             }
-            updateUnreadBadges();
-            loadChatList();
+            updateUnreadBadges(); loadChatList();
         }
 
-        // ============ اعلان‌ها ============
         function requestNotifPermission() {
             if (!('Notification' in window)) { alert('مرورگر پشتیبانی نمی‌کنه!'); return; }
             Notification.requestPermission().then(perm => {
@@ -719,8 +842,7 @@
                     updateNotifButtons();
                     document.getElementById('notifPermBtn').innerText = '✅ اعلان‌ها فعال هستند';
                     document.getElementById('notifPermBtn').style.background = '#22c55e';
-                    showInAppNotif('✅ اعلان‌ها فعال شد', 'حالا اعلان می‌گیری');
-                    playNotifSound();
+                    showInAppNotif('✅ اعلان‌ها فعال شد', 'حالا اعلان می‌گیری'); playNotifSound();
                 }
             });
         }
@@ -745,8 +867,7 @@
             const n = document.getElementById('inAppNotif');
             document.getElementById('notifTitle').innerText = title;
             document.getElementById('notifBody').innerText = body;
-            n.classList.add('show');
-            setTimeout(() => n.classList.remove('show'), 4000);
+            n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 4000);
         }
 
         function handleNotifClick() { document.getElementById('inAppNotif').classList.remove('show'); }
@@ -757,7 +878,7 @@
             try {
                 const notif = new Notification(title, {
                     body: body, tag: tag || 'chat-msg',
-                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔥</text></svg>'
+                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💬</text></svg>'
                 });
                 notif.onclick = () => { window.focus(); notif.close(); };
                 setTimeout(() => notif.close(), 5000);
@@ -767,14 +888,12 @@
         function playNotifSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc1 = ctx.createOscillator();
-                const gain1 = ctx.createGain();
+                const osc1 = ctx.createOscillator(); const gain1 = ctx.createGain();
                 osc1.connect(gain1); gain1.connect(ctx.destination);
                 osc1.frequency.value = 800; gain1.gain.value = 0.15;
                 osc1.start(); osc1.stop(ctx.currentTime + 0.1);
                 setTimeout(() => {
-                    const osc2 = ctx.createOscillator();
-                    const gain2 = ctx.createGain();
+                    const osc2 = ctx.createOscillator(); const gain2 = ctx.createGain();
                     osc2.connect(gain2); gain2.connect(ctx.destination);
                     osc2.frequency.value = 1200; gain2.gain.value = 0.15;
                     osc2.start(); osc2.stop(ctx.currentTime + 0.15);
@@ -801,11 +920,8 @@
             });
         }
 
-        function clearUnread(key) {
-            if (unreadCounts[key]) { delete unreadCounts[key]; updateUnreadBadges(); }
-        }
+        function clearUnread(key) { if (unreadCounts[key]) { delete unreadCounts[key]; updateUnreadBadges(); } }
 
-        // ============ ضبط صدا ============
         let mediaRecorder = null, audioChunks = [], isRecording = false;
         let recordingTimer = null, recordingSeconds = 0, recordingContext = '';
 
@@ -850,13 +966,7 @@
             } catch(e) { alert('دسترسی به میکروفون ممکن نیست!\n\n' + e.message); isRecording = false; }
         }
 
-        function stopRecording() {
-            if (mediaRecorder && isRecording) {
-                mediaRecorder.stop(); isRecording = false;
-                clearInterval(recordingTimer);
-            }
-        }
-
+        function stopRecording() { if (mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; clearInterval(recordingTimer); } }
         function toggleGjRecording() { isRecording ? stopRecording() : startRecording('gj'); }
         function toggleChRecording() { isRecording ? stopRecording() : startRecording('ch'); }
 
@@ -874,21 +984,15 @@
             }]);
         }
 
-        function openImageModal(src) {
-            document.getElementById('fullImage').src = src;
-            document.getElementById('imageModal').style.display = 'flex';
-        }
+        function openImageModal(src) { document.getElementById('fullImage').src = src; document.getElementById('imageModal').style.display = 'flex'; }
         function closeImageModal() { document.getElementById('imageModal').style.display = 'none'; }
 
-        // ============ ناوبری ============
         function showScreen(name) {
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('gjScreen').style.display = 'none';
             document.getElementById('msgScreen').style.display = 'none';
             document.getElementById('chatScreen').style.display = 'none';
             currentScreenName = name;
-            
-            // بستن پنل ایموجی
             document.getElementById('emojiPickerGj').classList.remove('show');
             document.getElementById('emojiPickerCh').classList.remove('show');
             
@@ -898,8 +1002,7 @@
                 if (!myUsername) { pendingScreen = 'gj'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('gjScreen').style.display = 'flex';
                 document.getElementById('gjUserLabel').innerText = myUsername;
-                clearUnread('gj');
-                loadGameData(); updateGjCoin(); loadGjMessages();
+                clearUnread('gj'); loadGameData(); updateGjCoin(); loadGjMessages();
             } else if (name === 'msg') {
                 if (!myUsername) { pendingScreen = 'msg'; document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('msgScreen').style.display = 'flex';
@@ -908,20 +1011,15 @@
             }
         }
 
-        // ============ ثبت نام ============
         async function registerUser() {
             const name = document.getElementById('usernameInput').value.trim();
             if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
             try {
                 const { data: ex } = await supabaseClient.from('users').select('id').eq('username', name).limit(1);
-                if (!ex || ex.length === 0) {
-                    await supabaseClient.from('users').insert([{ username: name, online: true }]);
-                } else {
-                    await supabaseClient.from('users').update({ online: true }).eq('username', name);
-                }
+                if (!ex || ex.length === 0) await supabaseClient.from('users').insert([{ username: name, online: true }]);
+                else await supabaseClient.from('users').update({ online: true }).eq('username', name);
                 localStorage.setItem('chat_username', name);
-                myUsername = name;
-                loadGameData();
+                myUsername = name; loadGameData();
                 document.getElementById('loginModal').style.display = 'none';
                 startRealtime();
                 if (pendingScreen === 'gj') showScreen('gj');
@@ -930,7 +1028,6 @@
             } catch(e) { alert('خطا: ' + e.message); }
         }
 
-        // ============ بازی ============
         function loadGameData() {
             myCoins = parseInt(localStorage.getItem('game_coins_' + myUsername) || '500');
             myWeapon = localStorage.getItem('game_weapon_' + myUsername) || '';
@@ -944,10 +1041,7 @@
             localStorage.setItem('game_losses_' + myUsername, myLosses);
             updateGjCoin();
         }
-        function updateGjCoin() {
-            const el = document.getElementById('gjCoinLabel');
-            if (el) el.innerText = myCoins;
-        }
+        function updateGjCoin() { const el = document.getElementById('gjCoinLabel'); if (el) el.innerText = myCoins; }
         function openGamePanel() {
             document.getElementById('gCoins').innerText = myCoins;
             document.getElementById('gWeapon').innerText = myWeapon ? (WEAPONS[myWeapon]?.emoji + ' ' + myWeapon) : 'هیچ';
@@ -977,7 +1071,6 @@
             openGamePanel();
         }
 
-        // ============ گروه جنگی ============
         async function sendGj() {
             const input = document.getElementById('gjInput');
             const text = input.value.trim();
@@ -1004,20 +1097,15 @@
             const box = document.getElementById('gjMessages');
             if (!box) return;
             box.innerHTML = '';
-            if (!data || data.length === 0) {
-                box.innerHTML = '<div class="msg-system">🔥 بنویس !شروع</div>';
-                return;
-            }
+            if (!data || data.length === 0) { box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; return; }
             data.forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
                 const isBot = msg.sender === BOT_NAME;
                 if (msg.sender === 'system') {
                     const div = document.createElement('div');
-                    div.className = 'msg-system';
-                    div.innerText = text;
-                    box.appendChild(div);
-                    return;
+                    div.className = 'msg-system'; div.innerText = text;
+                    box.appendChild(div); return;
                 }
                 const div = document.createElement('div');
                 div.className = 'msg ' + (isBot ? 'bot' : (isMe ? 'sent' : 'received'));
@@ -1080,7 +1168,6 @@
             }
         }
 
-        // ============ پیام‌رسان ============
         async function initMessenger() {
             await supabaseClient.from('users').update({ online: true }).eq('username', myUsername);
             await loadAllUsers(); await loadMyGroups(); await loadChatList();
@@ -1262,9 +1349,7 @@
             const box = document.getElementById('chatMessagesBox');
             if (!box) return;
             box.innerHTML = '';
-            if (!data || data.length === 0) {
-                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; return;
-            }
+            if (!data || data.length === 0) { box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; return; }
             data.forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
@@ -1389,7 +1474,6 @@
             closeServerPanel();
         }
 
-        // ============ لود ============
         window.addEventListener('load', () => {
             initEmojiGrids();
             updateNotifButtons();
