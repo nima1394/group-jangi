@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💬 پیام‌رسان</title>
+    <link rel="icon" type="image/jpeg" href="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <style>
@@ -17,13 +18,27 @@
             z-index: 999999; transition: opacity 0.6s ease; padding: 20px;
         }
         #loadingScreen.hide { opacity: 0; pointer-events: none; }
-        .loading-emoji { font-size: 100px; animation: emojiFloat 2s ease-in-out infinite; margin-bottom: 20px; filter: drop-shadow(0 0 30px rgba(250, 204, 21, 0.6)); }
-        @keyframes emojiFloat { 0%, 100% { transform: translateY(0) scale(1) rotate(-5deg); } 50% { transform: translateY(-20px) scale(1.1) rotate(5deg); } }
-        .loading-title { font-size: 28px; font-weight: bold; background: linear-gradient(90deg, #facc15, #f59e0b, #facc15); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 2s linear infinite; margin-bottom: 40px; text-align: center; }
+        
+        /* ⭐ لوگو در صفحه لودینگ */
+        .loading-logo {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            animation: logoFloat 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.6));
+            border-radius: 20px;
+        }
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) scale(1) rotate(-2deg); }
+            50% { transform: translateY(-15px) scale(1.05) rotate(2deg); }
+        }
+        
+        .loading-title { font-size: 28px; font-weight: bold; background: linear-gradient(90deg, #38bdf8, #0ea5e9, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 2s linear infinite; margin-bottom: 40px; text-align: center; }
         @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
         .loading-bar-container { width: 100%; max-width: 320px; height: 8px; background: rgba(51, 65, 85, 0.5); border-radius: 10px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(71, 85, 105, 0.5); }
-        .loading-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #facc15, #f59e0b, #facc15); background-size: 200% auto; border-radius: 10px; transition: width 0.3s ease; animation: shimmer 2s linear infinite; box-shadow: 0 0 20px rgba(250, 204, 21, 0.7); }
-        .loading-percent { color: #facc15; font-size: 16px; font-weight: bold; margin-bottom: 10px; font-family: monospace; }
+        .loading-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #38bdf8, #0ea5e9, #38bdf8); background-size: 200% auto; border-radius: 10px; transition: width 0.3s ease; animation: shimmer 2s linear infinite; box-shadow: 0 0 20px rgba(56, 189, 248, 0.7); }
+        .loading-percent { color: #38bdf8; font-size: 16px; font-weight: bold; margin-bottom: 10px; font-family: monospace; }
         .loading-text { color: #94a3b8; font-size: 14px; letter-spacing: 1px; }
         .loading-text .dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
         @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: ''; } }
@@ -38,19 +53,11 @@
         .status-dot.offline { background: #ef4444; animation: none; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
-        /* ⭐ دکمه وضعیت آنلاین/آفلاین */
         .online-toggle {
             background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            color: #fff; border: none; padding: 6px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; gap: 5px;
             transition: all 0.3s;
             box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
         }
@@ -59,13 +66,7 @@
             background: linear-gradient(135deg, #64748b, #475569);
             box-shadow: 0 0 15px rgba(100, 116, 139, 0.5);
         }
-        .online-toggle .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #fff;
-            animation: pulse 2s infinite;
-        }
+        .online-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: pulse 2s infinite; }
         .online-toggle.offline .dot { animation: none; }
         
         .queue-bar { position: fixed; top: 32px; left: 0; right: 0; height: 28px; background: linear-gradient(90deg, #f59e0b, #d97706); display: none; align-items: center; justify-content: center; z-index: 9998; font-size: 11px; font-weight: bold; color: #fff; }
@@ -81,17 +82,29 @@
         .offline-screen p { color: #94a3b8; font-size: 14px; margin-bottom: 30px; max-width: 400px; line-height: 1.7; }
         .offline-screen .retry-btn { background: #38bdf8; color: #0f172a; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
         
-        .container { background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 60px; }
-        .container h1 { color: #facc15; margin-bottom: 20px; }
+        /* ⭐ صفحه اصلی */
+        .container { background: #1e293b; padding: 40px 30px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 60px; }
+        
+        .home-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+        
+        .container h1 { color: #38bdf8; margin-bottom: 20px; font-size: 22px; }
         .btn1, .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .btn1 { background: #facc15; color: #0f172a; }
+        .btn1 { background: #38bdf8; color: #0f172a; }
         .btn2 { background: #8b5cf6; color: #fff; }
         
         .app-container { background: #1e293b; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; height: calc(95vh - 60px); margin-top: 60px; }
         .header { padding: 12px; background: #0f172a; border-bottom: 1px solid #334155; }
         .user-info { font-size: 12px; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #facc15; }
-        .group-title h2 { color: #facc15; font-size: 18px; }
+        .group-title { text-align: center; padding: 8px; background: #1e293b; border-radius: 8px; margin-bottom: 8px; border: 1px solid #38bdf8; }
+        .group-title h2 { color: #38bdf8; font-size: 18px; }
         .group-title span { color: #94a3b8; font-size: 12px; }
         .group-title.messenger { border-color: #8b5cf6; }
         .group-title.messenger h2 { color: #8b5cf6; }
@@ -120,20 +133,8 @@
         .msg-status { font-size: 10px; }
         .msg-system { align-self: center; background: #475569; color: #94a3b8; font-size: 11px; padding: 4px 12px; border-radius: 20px; max-width: 90%; text-align: center; }
         
-        .msg-link {
-            color: #38bdf8;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: bold;
-            word-break: break-all;
-            transition: all 0.2s;
-        }
-        .msg-link:hover {
-            color: #0ea5e9;
-            background: rgba(56, 189, 248, 0.1);
-            padding: 1px 3px;
-            border-radius: 3px;
-        }
+        .msg-link { color: #38bdf8; text-decoration: underline; cursor: pointer; font-weight: bold; word-break: break-all; transition: all 0.2s; }
+        .msg-link:hover { color: #0ea5e9; background: rgba(56, 189, 248, 0.1); padding: 1px 3px; border-radius: 3px; }
         
         .msg-audio audio { max-width: 220px; height: 40px; border-radius: 20px; outline: none; }
         .msg-image img { max-width: 200px; max-height: 200px; border-radius: 8px; cursor: pointer; }
@@ -214,28 +215,34 @@
         #imageModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: pointer; padding: 20px; }
         #imageModal img { max-width: 95%; max-height: 95%; border-radius: 8px; }
         
-        .version-footer {
-            position: fixed; bottom: 5px; left: 0; right: 0; text-align: center;
-            font-size: 10px; color: #475569; z-index: 9996;
-            pointer-events: none;
-        }
-        .version-footer b { color: #facc15; }
+        .version-footer { position: fixed; bottom: 5px; left: 0; right: 0; text-align: center; font-size: 10px; color: #475569; z-index: 9996; pointer-events: none; }
+        .version-footer b { color: #38bdf8; }
         
         .about-section { background: #0f172a; border-radius: 12px; padding: 15px; margin: 10px 0; text-align: right; border: 1px solid #334155; }
-        .about-section h4 { color: #facc15; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+        .about-section h4 { color: #38bdf8; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
         .version-badge { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
         .changelog-item { padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 12px; color: #cbd5e1; line-height: 1.7; }
         .changelog-item:last-child { border-bottom: none; }
         .changelog-item .ver { color: #38bdf8; font-weight: bold; margin-left: 5px; }
         .changelog-item .added { color: #22c55e; }
         .changelog-item .improved { color: #f59e0b; }
+        
+        /* ⭐ لوگو در صفحه درباره */
+        .about-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
+        }
     </style>
 </head>
 <body>
 
     <!-- ============ صفحه لودینگ ============ -->
     <div id="loadingScreen">
-        <div class="loading-emoji" id="loadingEmoji">🚀</div>
+        <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="loading-logo" alt="لوگو">
         <div class="loading-title" id="loadingTitle">پیام‌رسان</div>
         <div class="loading-bar-container"><div class="loading-bar" id="loadingBar"></div></div>
         <div class="loading-percent" id="loadingPercent">0%</div>
@@ -273,7 +280,8 @@
 
     <!-- ============ صفحه اصلی ============ -->
     <div id="homeScreen" class="container">
-        <h1>🔥 خوش آمدی</h1>
+        <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="home-logo" alt="لوگو">
+        <h1>💬 پیام‌رسان</h1>
         <button class="btn1" onclick="showScreen('gj')">💬 چت عمومی</button>
         <button class="btn2" onclick="showScreen('msg')">💬 پیام‌رسان</button>
         <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
@@ -286,7 +294,6 @@
             <div class="user-info">
                 <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
                 <div class="top-btns">
-                    <!-- ⭐ دکمه آنلاین/آفلاین -->
                     <button class="online-toggle" id="gjOnlineToggle" onclick="toggleMyOnlineStatus()">
                         <span class="dot"></span>
                         <span id="gjOnlineText">آنلاین</span>
@@ -320,7 +327,6 @@
             <div class="user-info">
                 <span>👤 <b id="msgUserLabel">...</b></span>
                 <div class="top-btns">
-                    <!-- ⭐ دکمه آنلاین/آفلاین -->
                     <button class="online-toggle" id="msOnlineToggle" onclick="toggleMyOnlineStatus()">
                         <span class="dot"></span>
                         <span id="msOnlineText">آنلاین</span>
@@ -406,15 +412,16 @@
     </div>
 
     <div class="version-footer">
-        💬 پیام‌رسان — نسخه <b>2.1</b>
+        💬 پیام‌رسان — نسخه <b>2.2</b>
     </div>
 
     <!-- مودال‌ها -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
-            <h3 style="color: #facc15;">👋 ورود</h3>
+            <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
+            <h3 style="color: #38bdf8;">👋 ورود</h3>
             <input type="text" id="usernameInput" placeholder="اسم..." maxlength="20">
-            <button onclick="registerUser()" style="background: #facc15; color: #0f172a;">ورود 🚀</button>
+            <button onclick="registerUser()" style="background: #38bdf8; color: #0f172a;">ورود 🚀</button>
         </div>
     </div>
 
@@ -444,9 +451,9 @@
             <h3 style="color: #06b6d4; text-align: center; margin-bottom: 20px;">ℹ️ درباره برنامه</h3>
             
             <div class="about-section" style="text-align: center;">
-                <div style="font-size: 60px; margin-bottom: 10px;">💬</div>
-                <h3 style="color: #facc15; margin-bottom: 10px;">پیام‌رسان</h3>
-                <div class="version-badge">نسخه 2.1</div>
+                <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
+                <h3 style="color: #38bdf8; margin-bottom: 10px;">پیام‌رسان</h3>
+                <div class="version-badge">نسخه 2.2</div>
             </div>
             
             <div class="about-section">
@@ -459,7 +466,7 @@
                     ✅ صف پیام آفلاین<br>
                     ✅ ایموجی متحرک<br>
                     ✅ لینک کلیک‌شدنی گروه<br>
-                    ✅ <b style="color: #22c55e;">دکمه آنلاین/آفلاین</b><br>
+                    ✅ دکمه آنلاین/آفلاین<br>
                     ✅ پنل مدیریت سرور
                 </div>
             </div>
@@ -467,14 +474,17 @@
             <div class="about-section">
                 <h4>📝 تاریخچه تغییرات</h4>
                 <div class="changelog-item">
+                    <span class="ver">v2.2</span><br>
+                    <span class="added">✅ اضافه شد:</span> لوگوی برنامه (N.A)<br>
+                    <span class="improved">🔧 بهبود:</span> ظاهر آبی و حرفه‌ای
+                </div>
+                <div class="changelog-item">
                     <span class="ver">v2.1</span><br>
-                    <span class="added">✅ اضافه شد:</span> دکمه آنلاین/آفلاین<br>
-                    <span class="improved">🔧 بهبود:</span> نمایش وضعیت در همه جا
+                    <span class="added">✅ اضافه شد:</span> دکمه آنلاین/آفلاین
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v2.0</span><br>
-                    <span class="added">✅ اضافه شد:</span> لینک آبی کلیک‌شدنی<br>
-                    <span class="added">✅ اضافه شد:</span> صفحه درباره برنامه
+                    <span class="added">✅ اضافه شد:</span> لینک آبی کلیک‌شدنی
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v1.9</span><br>
@@ -482,20 +492,7 @@
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v1.8</span><br>
-                    <span class="added">✅ اضافه شد:</span> ایموجی متحرک<br>
-                    <span class="added">✅ اضافه شد:</span> صفحه لودینگ
-                </div>
-                <div class="changelog-item">
-                    <span class="ver">v1.5</span><br>
-                    <span class="added">✅ اضافه شد:</span> بازی جنگی با ربات
-                </div>
-            </div>
-            
-            <div class="about-section" style="text-align: center;">
-                <h4>🔗 لینک‌های مفید</h4>
-                <div style="font-size: 12px; line-height: 2;">
-                    🌐 <a href="https://nima1394.github.io/group-jangi/" style="color: #38bdf8; text-decoration: none;" target="_blank">سایت اصلی</a><br>
-                    📦 <a href="https://github.com/nima1394/group-jangi" style="color: #38bdf8; text-decoration: none;" target="_blank">گیت‌هاب</a>
+                    <span class="added">✅ اضافه شد:</span> ایموجی متحرک
                 </div>
             </div>
             
@@ -557,7 +554,7 @@
     </div>
 
     <script>
-        const APP_VERSION = '2.1';
+        const APP_VERSION = '2.2';
         
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
@@ -565,9 +562,8 @@
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
         
-        let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';  // پیش‌فرض آنلاین
+        let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
         
-        // ============ ⭐ وضعیت آنلاین/آفلاین ============
         function updateOnlineToggleUI() {
             const toggles = ['gjOnlineToggle', 'msOnlineToggle'];
             const texts = ['gjOnlineText', 'msOnlineText'];
@@ -590,8 +586,6 @@
             myOnlineStatus = !myOnlineStatus;
             localStorage.setItem('my_online_status', myOnlineStatus.toString());
             updateOnlineToggleUI();
-            
-            // ذخیره در سرور
             if (myUsername) {
                 try {
                     await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
@@ -603,7 +597,6 @@
             }
         }
         
-        // ============ 📦 صف پیام ============
         function savePendingMessage(message) {
             try {
                 const pending = getPendingMessages();
@@ -655,19 +648,11 @@
             if (failed.length === 0) showInAppNotif('✅ پیام‌ها ارسال شد', 'همه پیام‌های صف ارسال شدن');
         }
         
-        // ============ صفحه لودینگ ============
-        const LOADING_EMOJIS = ['🚀', '💬', '🔥', '⚡', '🎉', '💎', '🌟', '✨'];
         let loadingProgress = 0, loadingDone = false;
         
         function initLoading() {
             const loadingBar = document.getElementById('loadingBar');
             const loadingPercent = document.getElementById('loadingPercent');
-            const loadingEmoji = document.getElementById('loadingEmoji');
-            let emojiIndex = 0;
-            const emojiInterval = setInterval(() => {
-                emojiIndex = (emojiIndex + 1) % LOADING_EMOJIS.length;
-                loadingEmoji.innerText = LOADING_EMOJIS[emojiIndex];
-            }, 500);
             
             function updateProgress() {
                 if (loadingDone) return;
@@ -684,7 +669,6 @@
                         document.getElementById('loadingScreen').classList.add('hide');
                         setTimeout(() => {
                             document.getElementById('loadingScreen').style.display = 'none';
-                            clearInterval(emojiInterval);
                         }, 600);
                     }, 500);
                     loadingDone = true;
@@ -814,12 +798,8 @@
                     if (groupName && confirm('می‌خوای بری تو گروه "' + groupName + '"؟')) {
                         joinGroupByLink(groupName);
                     }
-                } catch(e) {
-                    window.open(url, '_blank');
-                }
-            } else {
-                window.open(url, '_blank');
-            }
+                } catch(e) { window.open(url, '_blank'); }
+            } else { window.open(url, '_blank'); }
         }
 
         function renderMessageContent(text) {
@@ -986,7 +966,7 @@
             try {
                 const notif = new Notification(title, {
                     body: body, tag: tag || 'chat-msg',
-                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💬</text></svg>'
+                    icon: 'https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg'
                 });
                 notif.onclick = () => { window.focus(); notif.close(); };
                 setTimeout(() => notif.close(), 5000);
@@ -1470,7 +1450,7 @@
             if (!g || g.length === 0) return;
             const members = (g[0].members || '').split(',').filter(m => m);
             await loadAllUsers();
-            document.getElementById('membersPanel').innerHTML = '<div style="font-weight:bold;font-size:12px;margin-bottom:5px;color:#facc15;">👥 اعضا:</div>' +
+            document.getElementById('membersPanel').innerHTML = '<div style="font-weight:bold;font-size:12px;margin-bottom:5px;color:#38bdf8;">👥 اعضا:</div>' +
                 members.map(m => `<div class="member-row"><span>${m}</span><span>${onlineUsers.has(m) ? '🟢 آنلاین' : '⚫ آفلاین'}</span></div>`).join('');
         }
 
