@@ -19,11 +19,8 @@
         }
         #loadingScreen.hide { opacity: 0; pointer-events: none; }
         
-        /* ⭐ لوگو در صفحه لودینگ */
         .loading-logo {
-            width: 140px;
-            height: 140px;
-            object-fit: contain;
+            width: 140px; height: 140px; object-fit: contain;
             margin-bottom: 20px;
             animation: logoFloat 2s ease-in-out infinite;
             filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.6));
@@ -82,14 +79,10 @@
         .offline-screen p { color: #94a3b8; font-size: 14px; margin-bottom: 30px; max-width: 400px; line-height: 1.7; }
         .offline-screen .retry-btn { background: #38bdf8; color: #0f172a; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
         
-        /* ⭐ صفحه اصلی */
         .container { background: #1e293b; padding: 40px 30px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 60px; }
         
         .home-logo {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            border-radius: 20px;
+            width: 120px; height: 120px; object-fit: contain; border-radius: 20px;
             margin-bottom: 15px;
             filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
             animation: logoFloat 3s ease-in-out infinite;
@@ -116,6 +109,7 @@
         .notif-btn { background: #f59e0b; color: #fff; }
         .notif-btn.on { background: #22c55e; }
         .info-btn { background: #06b6d4; color: #fff; }
+        .logout-btn { background: #ef4444; color: #fff; }
         .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
         
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
@@ -225,16 +219,20 @@
         .changelog-item:last-child { border-bottom: none; }
         .changelog-item .ver { color: #38bdf8; font-weight: bold; margin-left: 5px; }
         .changelog-item .added { color: #22c55e; }
-        .changelog-item .improved { color: #f59e0b; }
         
-        /* ⭐ لوگو در صفحه درباره */
         .about-logo {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            border-radius: 20px;
+            width: 100px; height: 100px; object-fit: contain; border-radius: 20px;
             margin-bottom: 10px;
             filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
+        }
+        
+        .pin-input {
+            text-align: center;
+            font-size: 28px;
+            letter-spacing: 10px;
+            font-weight: bold;
+            color: #38bdf8;
+            font-family: monospace;
         }
     </style>
 </head>
@@ -243,7 +241,7 @@
     <!-- ============ صفحه لودینگ ============ -->
     <div id="loadingScreen">
         <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="loading-logo" alt="لوگو">
-        <div class="loading-title" id="loadingTitle">پیام‌رسان</div>
+        <div class="loading-title">پیام‌رسان</div>
         <div class="loading-bar-container"><div class="loading-bar" id="loadingBar"></div></div>
         <div class="loading-percent" id="loadingPercent">0%</div>
         <div class="loading-text">در حال بارگذاری<span class="dots"></span></div>
@@ -265,7 +263,6 @@
         </div>
     </div>
 
-    <!-- ============ نوار صف پیام ============ -->
     <div class="queue-bar" id="queueBar">
         <span class="icon">🔄</span>
         <span id="queueText">0 پیام در انتظار ارسال</span>
@@ -302,6 +299,7 @@
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
                     <button class="top-btn game-btn" onclick="openGamePanel()">🎮</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
+                    <button class="top-btn logout-btn" onclick="logoutUser()">🚪</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
                 </div>
             </div>
@@ -334,6 +332,7 @@
                     <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="msNotifBtn">🔕</button>
                     <button class="top-btn server-btn" onclick="openServerPanel()">🖥️</button>
+                    <button class="top-btn logout-btn" onclick="logoutUser()">🚪</button>
                     <button class="back-btn" onclick="showScreen('home')">🏠</button>
                 </div>
             </div>
@@ -363,6 +362,7 @@
                 <div class="top-btns">
                     <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="chNotifBtn">🔕</button>
+                    <button class="top-btn logout-btn" onclick="logoutUser()">🚪</button>
                     <button class="top-btn" onclick="shareGroupLink()" id="shareLinkBtn" style="display:none; background:#22c55e; color:#fff;">🔗</button>
                     <button class="back-btn" onclick="backToMessenger()">← بازگشت</button>
                 </div>
@@ -412,19 +412,65 @@
     </div>
 
     <div class="version-footer">
-        💬 پیام‌رسان — نسخه <b>2.2</b>
+        💬 پیام‌رسان — نسخه <b>3.0</b>
     </div>
 
-    <!-- مودال‌ها -->
+    <!-- ============ مودال ورود ============ -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
             <h3 style="color: #38bdf8;">👋 ورود</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">اسم خود را وارد کن:</p>
             <input type="text" id="usernameInput" placeholder="اسم..." maxlength="20">
-            <button onclick="registerUser()" style="background: #38bdf8; color: #0f172a;">ورود 🚀</button>
+            <button onclick="registerUser()" style="background: #38bdf8; color: #0f172a;">ادامه 🚀</button>
         </div>
     </div>
 
+    <!-- ============ مودال ورود کد PIN ============ -->
+    <div id="pinModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
+            <h3 style="color: #38bdf8;">🔐 ورود به حساب</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 5px;">کاربر:</p>
+            <p style="font-size: 18px; color: #38bdf8; font-weight: bold; margin-bottom: 15px;" id="pinUsername">...</p>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">کد 4 رقمی خود را وارد کن:</p>
+            <input type="tel" id="pinInput" class="pin-input" placeholder="----" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+            <button onclick="verifyPin()" style="background: #38bdf8; color: #0f172a;">ورود 🔓</button>
+            <button onclick="closePinModal()" style="background: #475569; color: #fff;">بازگشت</button>
+            <div id="pinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- ============ مودال تنظیم کد PIN (اولین بار) ============ -->
+    <div id="setPinModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
+            <h3 style="color: #22c55e;">🔐 تنظیم کد امنیتی</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">برای امنیت حساب، یک کد 4 رقمی بساز:</p>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">کد جدید:</p>
+            <input type="tel" id="newPinInput" class="pin-input" placeholder="----" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px; margin-top: 10px;">تکرار کد:</p>
+            <input type="tel" id="newPinConfirm" class="pin-input" placeholder="----" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+            <button onclick="saveNewPin()" style="background: #22c55e; color: #fff;">ذخیره کد ✅</button>
+            <div id="setPinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- ============ مودال تغییر کد PIN ============ -->
+    <div id="changePinModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #f59e0b;">🔑 تغییر کد امنیتی</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">کد قدیم و جدید را وارد کن:</p>
+            <input type="tel" id="oldPinInput" class="pin-input" placeholder="کد قدیم" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="font-size: 20px; letter-spacing: 6px;">
+            <input type="tel" id="changePinInput" class="pin-input" placeholder="کد جدید" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="font-size: 20px; letter-spacing: 6px; margin-top: 10px;">
+            <input type="tel" id="changePinConfirm" class="pin-input" placeholder="تکرار کد" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="font-size: 20px; letter-spacing: 6px; margin-top: 10px;">
+            <button onclick="changePin()" style="background: #f59e0b; color: #fff;">تغییر کد 🔑</button>
+            <button onclick="closeChangePinModal()" style="background: #475569; color: #fff;">بستن</button>
+            <div id="changePinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- ============ مودال‌های دیگر ============ -->
     <div id="newChatModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #8b5cf6;">💬 چت جدید</h3>
@@ -453,7 +499,7 @@
             <div class="about-section" style="text-align: center;">
                 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
                 <h3 style="color: #38bdf8; margin-bottom: 10px;">پیام‌رسان</h3>
-                <div class="version-badge">نسخه 2.2</div>
+                <div class="version-badge">نسخه 3.0</div>
             </div>
             
             <div class="about-section">
@@ -467,33 +513,38 @@
                     ✅ ایموجی متحرک<br>
                     ✅ لینک کلیک‌شدنی گروه<br>
                     ✅ دکمه آنلاین/آفلاین<br>
-                    ✅ پنل مدیریت سرور
+                    ✅ <b style="color: #22c55e;">قفل با کد 4 رقمی</b><br>
+                    ✅ <b style="color: #22c55e;">خروج از حساب</b>
                 </div>
             </div>
             
             <div class="about-section">
                 <h4>📝 تاریخچه تغییرات</h4>
                 <div class="changelog-item">
+                    <span class="ver">v3.0</span><br>
+                    <span class="added">✅ اضافه شد:</span> قفل با کد 4 رقمی (PIN)<br>
+                    <span class="added">✅ اضافه شد:</span> دکمه خروج از حساب<br>
+                    <span class="added">✅ اضافه شد:</span> تغییر کد امنیتی
+                </div>
+                <div class="changelog-item">
                     <span class="ver">v2.2</span><br>
-                    <span class="added">✅ اضافه شد:</span> لوگوی برنامه (N.A)<br>
-                    <span class="improved">🔧 بهبود:</span> ظاهر آبی و حرفه‌ای
+                    <span class="added">✅ اضافه شد:</span> لوگوی برنامه (N.A)
                 </div>
                 <div class="changelog-item">
                     <span class="ver">v2.1</span><br>
                     <span class="added">✅ اضافه شد:</span> دکمه آنلاین/آفلاین
                 </div>
                 <div class="changelog-item">
-                    <span class="ver">v2.0</span><br>
-                    <span class="added">✅ اضافه شد:</span> لینک آبی کلیک‌شدنی
-                </div>
-                <div class="changelog-item">
                     <span class="ver">v1.9</span><br>
                     <span class="added">✅ اضافه شد:</span> صف پیام آفلاین
                 </div>
-                <div class="changelog-item">
-                    <span class="ver">v1.8</span><br>
-                    <span class="added">✅ اضافه شد:</span> ایموجی متحرک
-                </div>
+            </div>
+            
+            <div class="about-section" style="text-align: center;">
+                <h4>🔐 امنیت حساب</h4>
+                <button onclick="closeAboutModal(); openChangePinModal();" style="background: #f59e0b; color: #fff; padding: 12px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-size: 14px;">
+                    🔑 تغییر کد امنیتی
+                </button>
             </div>
             
             <button onclick="closeAboutModal()" style="background: #06b6d4; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px;">بستن</button>
@@ -554,8 +605,6 @@
     </div>
 
     <script>
-        const APP_VERSION = '2.2';
-        
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -563,6 +612,10 @@
         const BOT_NAME = "ربات بازی 🤖";
         
         let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
+        
+        // ============ 🔐 سیستم PIN ============
+        let pendingUsername = '';
+        let pinAttempts = 0;
         
         function updateOnlineToggleUI() {
             const toggles = ['gjOnlineToggle', 'msOnlineToggle'];
@@ -597,6 +650,264 @@
             }
         }
         
+        // ============ 🚪 خروج از حساب ============
+        async function logoutUser() {
+            if (!confirm('از حساب خارج بشی؟')) return;
+            
+            // علامت آفلاین
+            if (myUsername) {
+                try {
+                    await supabaseClient.from('users').update({ online: false }).eq('username', myUsername);
+                } catch(e) {}
+            }
+            
+            // پاک کردن از localStorage
+            localStorage.removeItem('chat_username');
+            myUsername = '';
+            
+            // بستن realtime
+            if (realtimeChannel) {
+                supabaseClient.removeChannel(realtimeChannel);
+                realtimeChannel = null;
+            }
+            
+            // نمایش مودال ورود
+            showScreen('home');
+            setTimeout(() => {
+                document.getElementById('usernameInput').value = '';
+                document.getElementById('loginModal').style.display = 'flex';
+            }, 300);
+            
+            showInAppNotif('🚪 خروج موفق', 'از حساب خارج شدی');
+        }
+        
+        // ============ 📝 ثبت نام / ورود ============
+        async function registerUser() {
+            const name = document.getElementById('usernameInput').value.trim();
+            if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
+            if (name.length > 20) { alert('نام باید حداکثر 20 کاراکتر!'); return; }
+            
+            try {
+                const { data: ex } = await supabaseClient.from('users').select('id, pin').eq('username', name).limit(1);
+                
+                if (ex && ex.length > 0) {
+                    // کاربر وجود داره
+                    if (ex[0].pin) {
+                        // PIN داره → بذار بزنه
+                        openPinModal(name);
+                    } else {
+                        // PIN نداره → بذار بسازه
+                        pendingUsername = name;
+                        document.getElementById('loginModal').style.display = 'none';
+                        document.getElementById('newPinInput').value = '';
+                        document.getElementById('newPinConfirm').value = '';
+                        document.getElementById('setPinError').style.display = 'none';
+                        document.getElementById('setPinModal').style.display = 'flex';
+                    }
+                } else {
+                    // کاربر جدید
+                    await supabaseClient.from('users').insert([{ username: name, online: myOnlineStatus }]);
+                    pendingUsername = name;
+                    document.getElementById('loginModal').style.display = 'none';
+                    document.getElementById('newPinInput').value = '';
+                    document.getElementById('newPinConfirm').value = '';
+                    document.getElementById('setPinError').style.display = 'none';
+                    document.getElementById('setPinModal').style.display = 'flex';
+                }
+            } catch(e) { 
+                alert('خطا: ' + e.message); 
+            }
+        }
+        
+        // ============ 🔐 تنظیم PIN (اولین بار) ============
+        async function saveNewPin() {
+            const pin = document.getElementById('newPinInput').value.trim();
+            const confirm = document.getElementById('newPinConfirm').value.trim();
+            const errDiv = document.getElementById('setPinError');
+            
+            if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
+                errDiv.innerText = 'کد باید 4 رقم عددی باشه!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
+            if (pin !== confirm) {
+                errDiv.innerText = 'کد و تکرارش یکسان نیست!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                await supabaseClient.from('users').update({ pin: pin }).eq('username', pendingUsername);
+                alert('✅ کد امنیتی ذخیره شد!\n\nاز این به بعد با این کد وارد میشی.');
+                document.getElementById('setPinModal').style.display = 'none';
+                completeLogin(pendingUsername);
+            } catch(e) {
+                errDiv.innerText = 'خطا: ' + e.message;
+                errDiv.style.display = 'block';
+            }
+        }
+        
+        // ============ 🔐 ورود با PIN ============
+        function openPinModal(username) {
+            pendingUsername = username;
+            pinAttempts = 0;
+            document.getElementById('pinUsername').innerText = username;
+            document.getElementById('pinInput').value = '';
+            document.getElementById('pinError').style.display = 'none';
+            document.getElementById('pinInput').disabled = false;
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('pinModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('pinInput').focus(), 100);
+        }
+        
+        function closePinModal() {
+            document.getElementById('pinModal').style.display = 'none';
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('usernameInput').value = '';
+        }
+        
+        async function verifyPin() {
+            const pin = document.getElementById('pinInput').value.trim();
+            const errDiv = document.getElementById('pinError');
+            
+            if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
+                errDiv.innerText = 'کد باید 4 رقم عددی باشه!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
+            await new Promise(r => setTimeout(r, 300));
+            
+            try {
+                const { data } = await supabaseClient.from('users').select('pin').eq('username', pendingUsername).limit(1);
+                const savedPin = data && data[0] ? data[0].pin : null;
+                
+                if (pin !== savedPin) {
+                    pinAttempts++;
+                    if (pinAttempts >= 3) {
+                        errDiv.innerText = '⛔ 3 بار اشتباه! 30 ثانیه صبر کن.';
+                        errDiv.style.display = 'block';
+                        document.getElementById('pinInput').disabled = true;
+                        let countdown = 30;
+                        const interval = setInterval(() => {
+                            countdown--;
+                            errDiv.innerText = '⛔ ' + countdown + ' ثانیه صبر کن...';
+                            if (countdown <= 0) {
+                                clearInterval(interval);
+                                pinAttempts = 0;
+                                document.getElementById('pinInput').disabled = false;
+                                document.getElementById('pinInput').value = '';
+                                errDiv.style.display = 'none';
+                            }
+                        }, 1000);
+                        return;
+                    }
+                    errDiv.innerText = '❌ کد اشتباه! (' + pinAttempts + '/3)';
+                    errDiv.style.display = 'block';
+                    document.getElementById('pinInput').value = '';
+                    return;
+                }
+                
+                // کد درسته
+                pinAttempts = 0;
+                document.getElementById('pinModal').style.display = 'none';
+                completeLogin(pendingUsername);
+                
+            } catch(e) {
+                errDiv.innerText = 'خطا: ' + e.message;
+                errDiv.style.display = 'block';
+            }
+        }
+        
+        // ============ 🔑 تغییر PIN ============
+        function openChangePinModal() {
+            document.getElementById('oldPinInput').value = '';
+            document.getElementById('changePinInput').value = '';
+            document.getElementById('changePinConfirm').value = '';
+            document.getElementById('changePinError').style.display = 'none';
+            document.getElementById('changePinModal').style.display = 'flex';
+        }
+        
+        function closeChangePinModal() {
+            document.getElementById('changePinModal').style.display = 'none';
+        }
+        
+        async function changePin() {
+            const oldPin = document.getElementById('oldPinInput').value.trim();
+            const newPin = document.getElementById('changePinInput').value.trim();
+            const confirm = document.getElementById('changePinConfirm').value.trim();
+            const errDiv = document.getElementById('changePinError');
+            
+            if (!oldPin || !newPin || !confirm) {
+                errDiv.innerText = 'همه فیلدها رو پر کن!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
+            if (newPin.length !== 4 || !/^\d+$/.test(newPin)) {
+                errDiv.innerText = 'کد جدید باید 4 رقم عددی باشه!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
+            if (newPin !== confirm) {
+                errDiv.innerText = 'کد جدید و تکرارش یکسان نیست!';
+                errDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const { data } = await supabaseClient.from('users').select('pin').eq('username', myUsername).limit(1);
+                const savedPin = data && data[0] ? data[0].pin : null;
+                
+                if (savedPin && oldPin !== savedPin) {
+                    errDiv.innerText = 'کد قدیم اشتباهه!';
+                    errDiv.style.display = 'block';
+                    return;
+                }
+                
+                await supabaseClient.from('users').update({ pin: newPin }).eq('username', myUsername);
+                alert('✅ کد امنیتی با موفقیت تغییر کرد!');
+                closeChangePinModal();
+            } catch(e) {
+                errDiv.innerText = 'خطا: ' + e.message;
+                errDiv.style.display = 'block';
+            }
+        }
+        
+        // ============ ✅ تکمیل ورود ============
+        async function completeLogin(username) {
+            localStorage.setItem('chat_username', username);
+            myUsername = username;
+            loadGameData();
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('pinModal').style.display = 'none';
+            document.getElementById('setPinModal').style.display = 'none';
+            
+            updateOnlineToggleUI();
+            startRealtime();
+            updateQueueBar();
+            setTimeout(() => sendPendingMessages(), 1000);
+            
+            // علامت آنلاین
+            try {
+                await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
+            } catch(e) {}
+            
+            const params = new URLSearchParams(window.location.search);
+            const jg = params.get('join');
+            if (jg) { 
+                showScreen('msg'); 
+                setTimeout(() => joinGroupByLink(jg), 1500); 
+            } else {
+                showScreen('home');
+            }
+            
+            showInAppNotif('✅ خوش آمدی ' + username + '!', 'ورود موفق بود');
+        }
+        
+        // ============ 📦 صف پیام ============
         function savePendingMessage(message) {
             try {
                 const pending = getPendingMessages();
@@ -648,6 +959,7 @@
             if (failed.length === 0) showInAppNotif('✅ پیام‌ها ارسال شد', 'همه پیام‌های صف ارسال شدن');
         }
         
+        // ============ 📱 لودینگ ============
         let loadingProgress = 0, loadingDone = false;
         
         function initLoading() {
@@ -724,7 +1036,6 @@
         let myGroups = [];
         let chatList = [];
         let onlineUsers = new Set();
-        let pendingScreen = null;
         let realtimeChannel = null;
         let currentScreenName = 'home';
         let emojiPickerTarget = null;
@@ -1099,41 +1410,18 @@
             if (name === 'home') {
                 document.getElementById('homeScreen').style.display = 'block';
             } else if (name === 'gj') {
-                if (!myUsername) { pendingScreen = 'gj'; document.getElementById('loginModal').style.display = 'flex'; return; }
+                if (!myUsername) { document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('gjScreen').style.display = 'flex';
                 document.getElementById('gjUserLabel').innerText = myUsername;
                 updateOnlineToggleUI();
                 clearUnread('gj'); loadGameData(); updateGjCoin(); loadGjMessages();
             } else if (name === 'msg') {
-                if (!myUsername) { pendingScreen = 'msg'; document.getElementById('loginModal').style.display = 'flex'; return; }
+                if (!myUsername) { document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('msgScreen').style.display = 'flex';
                 document.getElementById('msgUserLabel').innerText = myUsername;
                 updateOnlineToggleUI();
                 initMessenger();
             }
-        }
-
-        async function registerUser() {
-            const name = document.getElementById('usernameInput').value.trim();
-            if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
-            try {
-                const { data: ex } = await supabaseClient.from('users').select('id').eq('username', name).limit(1);
-                if (!ex || ex.length === 0) await supabaseClient.from('users').insert([{ username: name, online: myOnlineStatus }]);
-                else await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', name);
-                localStorage.setItem('chat_username', name);
-                myUsername = name; loadGameData();
-                document.getElementById('loginModal').style.display = 'none';
-                updateOnlineToggleUI();
-                startRealtime();
-                updateQueueBar();
-                setTimeout(() => sendPendingMessages(), 1000);
-                const params = new URLSearchParams(window.location.search);
-                const jg = params.get('join');
-                if (jg) { showScreen('msg'); setTimeout(() => joinGroupByLink(jg), 1500); }
-                else if (pendingScreen === 'gj') showScreen('gj');
-                else if (pendingScreen === 'msg') showScreen('msg');
-                pendingScreen = null;
-            } catch(e) { alert('خطا: ' + e.message); }
         }
 
         function loadGameData() {
@@ -1648,11 +1936,18 @@
             updateQueueBar();
             setInterval(updateNetStatus, 10000);
             detectLocation();
+            
             if (myUsername) { 
                 loadGameData(); 
                 startRealtime(); 
                 setTimeout(() => sendPendingMessages(), 2000);
+            } else {
+                // کاربر لاگین نیست → نمایش مودال ورود
+                setTimeout(() => {
+                    document.getElementById('loginModal').style.display = 'flex';
+                }, 500);
             }
+            
             if ('Notification' in window && Notification.permission === 'granted') {
                 const btn = document.getElementById('notifPermBtn');
                 if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
