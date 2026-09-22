@@ -447,14 +447,18 @@
         </div>
     </div>
 
-    <!-- مودال بازیکنان (نیاز به رمز) -->
-    <div id="playersModal" class="modal" style="display: none;">
-        <div class="modal-box" style="max-width: 500px;">
-            <h3 style="color: #f59e0b;">👥 اطلاعات بازیکنان</h3>
-            <div id="playersList" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
-            <button onclick="closePlayersModal()" style="background: #475569; color: #fff;">بستن</button>
-        </div>
+ <!-- مودال بازیکنان (نیاز به رمز) -->
+<div id="playersModal" class="modal" style="display: none;">
+    <div class="modal-box" style="max-width: 500px;">
+        <h3 style="color: #f59e0b;">👥 اطلاعات بازیکنان</h3>
+        <div id="playersList" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
+        
+        <!-- ⚔️ دکمه اعلام جنگ -->
+        <button onclick="openFightModal()" style="background: #ef4444; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 14px;">⚔️ اعلام جنگ</button>
+        
+        <button onclick="closePlayersModal()" style="background: #475569; color: #fff;">بستن</button>
     </div>
+</div>
 
     <!-- مودال رمز بازیکنان -->
     <div id="playersPassModal" class="modal" style="display: none;">
