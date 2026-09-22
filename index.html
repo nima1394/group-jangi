@@ -18,19 +18,8 @@
             z-index: 999999; transition: opacity 0.6s ease; padding: 20px;
         }
         #loadingScreen.hide { opacity: 0; pointer-events: none; }
-        
-        .loading-logo {
-            width: 140px; height: 140px; object-fit: contain;
-            margin-bottom: 20px;
-            animation: logoFloat 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.6));
-            border-radius: 20px;
-        }
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) scale(1) rotate(-2deg); }
-            50% { transform: translateY(-15px) scale(1.05) rotate(2deg); }
-        }
-        
+        .loading-logo { width: 140px; height: 140px; object-fit: contain; margin-bottom: 20px; animation: logoFloat 2s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.6)); border-radius: 20px; }
+        @keyframes logoFloat { 0%, 100% { transform: translateY(0) scale(1) rotate(-2deg); } 50% { transform: translateY(-15px) scale(1.05) rotate(2deg); } }
         .loading-title { font-size: 28px; font-weight: bold; background: linear-gradient(90deg, #38bdf8, #0ea5e9, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 2s linear infinite; margin-bottom: 40px; text-align: center; }
         @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
         .loading-bar-container { width: 100%; max-width: 320px; height: 8px; background: rgba(51, 65, 85, 0.5); border-radius: 10px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(71, 85, 105, 0.5); }
@@ -42,27 +31,14 @@
         
         .status-bar { position: fixed; top: 0; left: 0; right: 0; height: 32px; background: linear-gradient(90deg, #0f172a, #1e293b); border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 9999; font-size: 11px; font-weight: bold; }
         .status-item { display: flex; align-items: center; gap: 5px; }
-        .status-good { color: #22c55e; }
-        .status-mid { color: #f59e0b; }
-        .status-bad { color: #ef4444; }
+        .status-good { color: #22c55e; } .status-mid { color: #f59e0b; } .status-bad { color: #ef4444; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
-        .status-dot.weak { background: #f59e0b; }
-        .status-dot.offline { background: #ef4444; animation: none; }
+        .status-dot.weak { background: #f59e0b; } .status-dot.offline { background: #ef4444; animation: none; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
-        .online-toggle {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #fff; border: none; padding: 6px 12px; border-radius: 20px;
-            font-size: 11px; font-weight: bold; cursor: pointer;
-            display: flex; align-items: center; gap: 5px;
-            transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
-        }
+        .online-toggle { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border: none; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.3s; box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); }
         .online-toggle:hover { transform: scale(1.05); }
-        .online-toggle.offline {
-            background: linear-gradient(135deg, #64748b, #475569);
-            box-shadow: 0 0 15px rgba(100, 116, 139, 0.5);
-        }
+        .online-toggle.offline { background: linear-gradient(135deg, #64748b, #475569); box-shadow: 0 0 15px rgba(100, 116, 139, 0.5); }
         .online-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: pulse 2s infinite; }
         .online-toggle.offline .dot { animation: none; }
         
@@ -80,14 +56,7 @@
         .offline-screen .retry-btn { background: #38bdf8; color: #0f172a; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
         
         .container { background: #1e293b; padding: 40px 30px; border-radius: 16px; border: 1px solid #334155; max-width: 400px; width: 100%; text-align: center; margin-top: 60px; }
-        
-        .home-logo {
-            width: 120px; height: 120px; object-fit: contain; border-radius: 20px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-        
+        .home-logo { width: 120px; height: 120px; object-fit: contain; border-radius: 20px; margin-bottom: 15px; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5)); animation: logoFloat 3s ease-in-out infinite; }
         .container h1 { color: #38bdf8; margin-bottom: 20px; font-size: 22px; }
         .btn1, .btn2 { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
         .btn1 { background: #38bdf8; color: #0f172a; }
@@ -102,7 +71,7 @@
         .group-title.messenger { border-color: #8b5cf6; }
         .group-title.messenger h2 { color: #8b5cf6; }
         
-        .top-btns { display: flex; gap: 6px; align-items: center; }
+        .top-btns { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
         .top-btn { background: #38bdf8; color: #0f172a; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
         .game-btn { background: #22c55e; color: #fff; }
         .server-btn { background: #ef4444; color: #fff; }
@@ -110,6 +79,7 @@
         .notif-btn.on { background: #22c55e; }
         .info-btn { background: #06b6d4; color: #fff; }
         .logout-btn { background: #ef4444; color: #fff; }
+        .stats-btn { background: #f59e0b; color: #fff; }
         .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
         
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
@@ -151,7 +121,7 @@
         .voice-btn.recording { background: #dc2626; animation: pulse 1s infinite; }
         
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
-        .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
         .modal-box h3 { margin-bottom: 15px; }
         .modal-box input { width: 100%; margin-bottom: 10px; }
         .modal-box button { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 8px; font-size: 14px; }
@@ -220,19 +190,51 @@
         .changelog-item .ver { color: #38bdf8; font-weight: bold; margin-left: 5px; }
         .changelog-item .added { color: #22c55e; }
         
-        .about-logo {
-            width: 100px; height: 100px; object-fit: contain; border-radius: 20px;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
-        }
+        .about-logo { width: 100px; height: 100px; object-fit: contain; border-radius: 20px; margin-bottom: 10px; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5)); }
         
-        .pin-input {
-            text-align: center;
-            font-size: 28px;
-            letter-spacing: 10px;
-            font-weight: bold;
+        .pin-input { text-align: center; font-size: 28px; letter-spacing: 10px; font-weight: bold; color: #38bdf8; font-family: monospace; }
+        
+        /* ============ لیست بازیکنان ============ */
+        .player-row {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .player-info {
+            text-align: right;
+            flex: 1;
+        }
+        .player-name {
             color: #38bdf8;
-            font-family: monospace;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .player-stats {
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .player-stats span { color: #fff; font-weight: bold; }
+        .player-actions { display: flex; gap: 4px; flex-direction: column; }
+        .fight-btn { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        
+        .fight-result {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .fight-result.loss {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
         }
     </style>
 </head>
@@ -247,26 +249,13 @@
         <div class="loading-text">در حال بارگذاری<span class="dots"></span></div>
     </div>
 
-    <!-- ============ نوار وضعیت ============ -->
     <div class="status-bar">
-        <div class="status-item">
-            <span class="status-dot" id="serverDot"></span>
-            <span id="serverStatusText">سرور: در حال اتصال...</span>
-        </div>
-        <div class="status-item">
-            <span>📍</span>
-            <span id="locationText">در حال شناسایی...</span>
-        </div>
-        <div class="status-item">
-            <span id="netIcon">📶</span>
-            <span id="netStatus" class="status-good">نت: خوب</span>
-        </div>
+        <div class="status-item"><span class="status-dot" id="serverDot"></span><span id="serverStatusText">سرور: در حال اتصال...</span></div>
+        <div class="status-item"><span>📍</span><span id="locationText">در حال شناسایی...</span></div>
+        <div class="status-item"><span id="netIcon">📶</span><span id="netStatus" class="status-good">نت: خوب</span></div>
     </div>
 
-    <div class="queue-bar" id="queueBar">
-        <span class="icon">🔄</span>
-        <span id="queueText">0 پیام در انتظار ارسال</span>
-    </div>
+    <div class="queue-bar" id="queueBar"><span class="icon">🔄</span><span id="queueText">0 پیام در انتظار ارسال</span></div>
 
     <div id="offlineScreen" class="offline-screen">
         <div class="emoji">😔</div>
@@ -275,7 +264,7 @@
         <button class="retry-btn" onclick="retryConnection()">🔄 تلاش مجدد</button>
     </div>
 
-    <!-- ============ صفحه اصلی ============ -->
+    <!-- صفحه اصلی -->
     <div id="homeScreen" class="container">
         <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="home-logo" alt="لوگو">
         <h1>💬 پیام‌رسان</h1>
@@ -289,12 +278,13 @@
     <div id="gjScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
-                <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">500</b></span>
+                <span>👤 <b id="gjUserLabel">...</b>💰 <b id="gjCoinLabel" style="color:#facc15;">1000</b></span>
                 <div class="top-btns">
                     <button class="online-toggle" id="gjOnlineToggle" onclick="toggleMyOnlineStatus()">
                         <span class="dot"></span>
                         <span id="gjOnlineText">آنلاین</span>
                     </button>
+                    <button class="top-btn stats-btn" onclick="openPlayersModal()">👥 بازیکنان</button>
                     <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
                     <button class="top-btn game-btn" onclick="openGamePanel()">🎮</button>
@@ -384,10 +374,7 @@
             <button class="voice-btn" id="chVoiceBtn" onclick="toggleChRecording()">🎤</button>
             <input type="text" id="chatMsgInput" placeholder="پیام..." onkeypress="if(event.key==='Enter')sendChatMessage()">
             <button class="send-btn" onclick="sendChatMessage()">ارسال</button>
-            <div class="emoji-picker" id="emojiPickerCh">
-                <h4>🎬 ایموجی متحرک</h4>
-                <div class="emoji-grid" id="emojiGridCh"></div>
-            </div>
+            <div class="emoji-picker" id="emojiPickerCh"><h4>🎬 ایموجی متحرک</h4><div class="emoji-grid" id="emojiGridCh"></div></div>
         </div>
     </div>
 
@@ -396,26 +383,18 @@
         <div class="emoji-grid" id="emojiGridGj"></div>
     </div>
 
-    <div id="recordingIndicator" class="recording-indicator">
-        <div class="rec-dot"></div>
-        <span id="recordingTime">00:00</span>
-        <span style="margin-right: 10px;">در حال ضبط...</span>
-    </div>
+    <div id="recordingIndicator" class="recording-indicator"><div class="rec-dot"></div><span id="recordingTime">00:00</span><span style="margin-right: 10px;">در حال ضبط...</span></div>
 
     <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()">
         <div class="title" id="notifTitle">پیام جدید</div>
         <div class="body" id="notifBody">...</div>
     </div>
 
-    <div id="imageModal" onclick="closeImageModal()">
-        <img id="fullImage" src="">
-    </div>
+    <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
 
-    <div class="version-footer">
-        💬 پیام‌رسان — نسخه <b>3.0</b>
-    </div>
+    <div class="version-footer">💬 پیام‌رسان — نسخه <b>4.0</b></div>
 
-    <!-- ============ مودال ورود ============ -->
+    <!-- مودال ورود -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
@@ -426,7 +405,7 @@
         </div>
     </div>
 
-    <!-- ============ مودال ورود کد PIN ============ -->
+    <!-- مودال PIN -->
     <div id="pinModal" class="modal" style="display: none;">
         <div class="modal-box">
             <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
@@ -441,22 +420,20 @@
         </div>
     </div>
 
-    <!-- ============ مودال تنظیم کد PIN (اولین بار) ============ -->
+    <!-- مودال تنظیم PIN -->
     <div id="setPinModal" class="modal" style="display: none;">
         <div class="modal-box">
             <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
             <h3 style="color: #22c55e;">🔐 تنظیم کد امنیتی</h3>
             <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">برای امنیت حساب، یک کد 4 رقمی بساز:</p>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">کد جدید:</p>
             <input type="tel" id="newPinInput" class="pin-input" placeholder="----" maxlength="4" pattern="[0-9]*" inputmode="numeric">
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px; margin-top: 10px;">تکرار کد:</p>
-            <input type="tel" id="newPinConfirm" class="pin-input" placeholder="----" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+            <input type="tel" id="newPinConfirm" class="pin-input" placeholder="----" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="margin-top: 10px;">
             <button onclick="saveNewPin()" style="background: #22c55e; color: #fff;">ذخیره کد ✅</button>
             <div id="setPinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
 
-    <!-- ============ مودال تغییر کد PIN ============ -->
+    <!-- مودال تغییر PIN -->
     <div id="changePinModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #f59e0b;">🔑 تغییر کد امنیتی</h3>
@@ -470,7 +447,43 @@
         </div>
     </div>
 
-    <!-- ============ مودال‌های دیگر ============ -->
+    <!-- مودال بازیکنان (نیاز به رمز) -->
+    <div id="playersModal" class="modal" style="display: none;">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: #f59e0b;">👥 اطلاعات بازیکنان</h3>
+            <div id="playersList" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
+            <button onclick="closePlayersModal()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <!-- مودال رمز بازیکنان -->
+    <div id="playersPassModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #f59e0b;">🔐 ورود به اطلاعات بازیکنان</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">رمز را وارد کن:</p>
+            <input type="password" id="playersPass" placeholder="رمز...">
+            <button onclick="checkPlayersPass()" style="background: #f59e0b; color: #fff;">ورود</button>
+            <button onclick="closePlayersPassModal()" style="background: #475569; color: #fff;">بستن</button>
+            <div id="playersPassError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- مودال جنگ -->
+    <div id="fightModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #ef4444;">⚔️ اعلام جنگ</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">اسم حمله‌کننده و مدافع رو وارد کن:</p>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">حمله‌کننده:</p>
+            <input type="text" id="attackerInput" placeholder="اسم حمله‌کننده...">
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px; margin-top: 10px;">مدافع:</p>
+            <input type="text" id="defenderInput" placeholder="اسم مدافع...">
+            <button onclick="startFight()" style="background: #ef4444; color: #fff;">شروع جنگ ⚔️</button>
+            <button onclick="closeFightModal()" style="background: #475569; color: #fff;">بستن</button>
+            <div id="fightError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+            <div id="fightResultBox" style="display: none;"></div>
+        </div>
+    </div>
+
     <div id="newChatModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #8b5cf6;">💬 چت جدید</h3>
@@ -491,75 +504,60 @@
         </div>
     </div>
 
-    <!-- مودال درباره برنامه -->
+    <!-- درباره -->
     <div id="aboutModal" class="modal" style="display: none;">
         <div class="modal-box" style="text-align: right; max-width: 450px;">
             <h3 style="color: #06b6d4; text-align: center; margin-bottom: 20px;">ℹ️ درباره برنامه</h3>
-            
             <div class="about-section" style="text-align: center;">
                 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
                 <h3 style="color: #38bdf8; margin-bottom: 10px;">پیام‌رسان</h3>
-                <div class="version-badge">نسخه 3.0</div>
+                <div class="version-badge">نسخه 4.0</div>
             </div>
-            
             <div class="about-section">
                 <h4>🎯 قابلیت‌ها</h4>
                 <div style="font-size: 12px; line-height: 2; color: #cbd5e1;">
                     ✅ چت گروهی و خصوصی<br>
-                    ✅ ارسال عکس و صدا<br>
-                    ✅ بازی جنگی با سلاح<br>
-                    ✅ اعلان مثل ایتا<br>
-                    ✅ صف پیام آفلاین<br>
-                    ✅ ایموجی متحرک<br>
-                    ✅ لینک کلیک‌شدنی گروه<br>
-                    ✅ دکمه آنلاین/آفلاین<br>
-                    ✅ <b style="color: #22c55e;">قفل با کد 4 رقمی</b><br>
-                    ✅ <b style="color: #22c55e;">خروج از حساب</b>
+                    ✅ بازی جنگی با 1000 سکه<br>
+                    ✅ ذخیره در سرور<br>
+                    ✅ دیدن اطلاعات بازیکنان<br>
+                    ✅ محاسبه خودکار برد/باخت<br>
+                    ✅ قفل با کد 4 رقمی
                 </div>
             </div>
-            
             <div class="about-section">
                 <h4>📝 تاریخچه تغییرات</h4>
                 <div class="changelog-item">
+                    <span class="ver">v4.0</span><br>
+                    <span class="added">✅</span> 1000 سکه اولیه<br>
+                    <span class="added">✅</span> ذخیره بازی در سرور<br>
+                    <span class="added">✅</span> دیدن اطلاعات بازیکنان<br>
+                    <span class="added">✅</span> محاسبه خودکار برد/باخت
+                </div>
+                <div class="changelog-item">
                     <span class="ver">v3.0</span><br>
-                    <span class="added">✅ اضافه شد:</span> قفل با کد 4 رقمی (PIN)<br>
-                    <span class="added">✅ اضافه شد:</span> دکمه خروج از حساب<br>
-                    <span class="added">✅ اضافه شد:</span> تغییر کد امنیتی
-                </div>
-                <div class="changelog-item">
-                    <span class="ver">v2.2</span><br>
-                    <span class="added">✅ اضافه شد:</span> لوگوی برنامه (N.A)
-                </div>
-                <div class="changelog-item">
-                    <span class="ver">v2.1</span><br>
-                    <span class="added">✅ اضافه شد:</span> دکمه آنلاین/آفلاین
-                </div>
-                <div class="changelog-item">
-                    <span class="ver">v1.9</span><br>
-                    <span class="added">✅ اضافه شد:</span> صف پیام آفلاین
+                    <span class="added">✅</span> قفل با کد 4 رقمی<br>
+                    <span class="added">✅</span> دکمه خروج از حساب
                 </div>
             </div>
-            
             <div class="about-section" style="text-align: center;">
                 <h4>🔐 امنیت حساب</h4>
-                <button onclick="closeAboutModal(); openChangePinModal();" style="background: #f59e0b; color: #fff; padding: 12px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-size: 14px;">
-                    🔑 تغییر کد امنیتی
-                </button>
+                <button onclick="closeAboutModal(); openChangePinModal();" style="background: #f59e0b; color: #fff; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px;">🔑 تغییر کد امنیتی</button>
             </div>
-            
-            <button onclick="closeAboutModal()" style="background: #06b6d4; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px;">بستن</button>
+            <button onclick="closeAboutModal()" style="background: #06b6d4; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px;">بستن</button>
         </div>
     </div>
 
+    <!-- پنل بازی -->
     <div id="gameModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🎮 بازی جنگی</h3>
             <div class="game-panel">
-                <div class="game-stat"><span>💰 سکه:</span><b id="gCoins" style="color:#facc15;">500</b></div>
+                <div class="game-stat"><span>💰 سکه:</span><b id="gCoins" style="color:#facc15;">1000</b></div>
                 <div class="game-stat"><span>⚔️ سلاح:</span><b id="gWeapon">هیچ</b></div>
                 <div class="game-stat"><span>💪 قدرت:</span><b id="gPower" style="color:#ef4444;">0</b></div>
                 <div class="game-stat"><span>🏆 برد:</span><b id="gWins" style="color:#22c55e;">0</b></div>
                 <div class="game-stat"><span>💀 باخت:</span><b id="gLosses" style="color:#ef4444;">0</b></div>
+                <div class="game-stat"><span>⚔️ تعداد حمله:</span><b id="gAttacks" style="color:#f59e0b;">0</b></div>
             </div>
             <div class="game-panel">
                 <h3 style="color: #22c55e; font-size: 14px; margin-bottom: 10px;">🛒 فروشگاه</h3>
@@ -586,7 +584,7 @@
                 <p>🟢 آنلاین: <b id="sOnline" style="color:#22c55e;">0</b></p>
                 <p>📨 پیام‌ها: <b id="sMessages" style="color:#22c55e;">0</b></p>
                 <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
-                <p>⏳ در صف: <b id="sPending" style="color:#f59e0b;">0</b></p>
+                <p>⚔️ جنگ‌ها: <b id="sAttacks" style="color:#ef4444;">0</b></p>
             </div>
             <button onclick="deleteAllData()" style="background: #ef4444; color: #fff;">🗑️ پاک کردن همه</button>
             <button onclick="closeServerPanel()" style="background: #475569; color: #fff;">بستن</button>
@@ -596,10 +594,9 @@
     <div id="shareLinkModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">این لینک رو برای دوستات بفرست تا بیان تو گروه:</p>
-            <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #38bdf8; font-size: 11px; direction: ltr; text-decoration: underline;">
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">این لینک رو برای دوستات بفرست:</p>
+            <input type="text" id="groupLinkInput" readonly style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #38bdf8; font-size: 11px; direction: ltr;">
             <button onclick="copyGroupLink()" style="background: #22c55e; color: #fff;">📋 کپی لینک</button>
-            <button onclick="testGroupLink()" style="background: #06b6d4; color: #fff;">🧪 تست لینک</button>
             <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
@@ -610,10 +607,12 @@
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
+        const PLAYERS_PASS = 'nimaaslani1234A';
+        const STARTING_COINS = 1000;
         
         let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
         
-        // ============ 🔐 سیستم PIN ============
+        // ============ 🔐 PIN ============
         let pendingUsername = '';
         let pinAttempts = 0;
         
@@ -624,13 +623,8 @@
                 const btn = document.getElementById(id);
                 const text = document.getElementById(texts[i]);
                 if (btn && text) {
-                    if (myOnlineStatus) {
-                        btn.classList.remove('offline');
-                        text.innerText = 'آنلاین';
-                    } else {
-                        btn.classList.add('offline');
-                        text.innerText = 'آفلاین';
-                    }
+                    if (myOnlineStatus) { btn.classList.remove('offline'); text.innerText = 'آنلاین'; }
+                    else { btn.classList.add('offline'); text.innerText = 'آفلاین'; }
                 }
             });
         }
@@ -642,46 +636,29 @@
             if (myUsername) {
                 try {
                     await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
-                    showInAppNotif(
-                        myOnlineStatus ? '🟢 آنلاین شدی' : '⚫ آفلاین شدی',
-                        myOnlineStatus ? 'بقیه می‌تونن ببینن آنلاینی' : 'بقیه می‌بینن آفلاینی'
-                    );
-                } catch(e) { console.error(e); }
+                    showInAppNotif(myOnlineStatus ? '🟢 آنلاین شدی' : '⚫ آفلاین شدی', '');
+                } catch(e) {}
             }
         }
         
-        // ============ 🚪 خروج از حساب ============
+        // ============ 🚪 خروج ============
         async function logoutUser() {
             if (!confirm('از حساب خارج بشی؟')) return;
-            
-            // علامت آفلاین
             if (myUsername) {
-                try {
-                    await supabaseClient.from('users').update({ online: false }).eq('username', myUsername);
-                } catch(e) {}
+                try { await supabaseClient.from('users').update({ online: false }).eq('username', myUsername); } catch(e) {}
             }
-            
-            // پاک کردن از localStorage
             localStorage.removeItem('chat_username');
             myUsername = '';
-            
-            // بستن realtime
-            if (realtimeChannel) {
-                supabaseClient.removeChannel(realtimeChannel);
-                realtimeChannel = null;
-            }
-            
-            // نمایش مودال ورود
+            if (realtimeChannel) { supabaseClient.removeChannel(realtimeChannel); realtimeChannel = null; }
             showScreen('home');
             setTimeout(() => {
                 document.getElementById('usernameInput').value = '';
                 document.getElementById('loginModal').style.display = 'flex';
             }, 300);
-            
             showInAppNotif('🚪 خروج موفق', 'از حساب خارج شدی');
         }
         
-        // ============ 📝 ثبت نام / ورود ============
+        // ============ 📝 ثبت نام ============
         async function registerUser() {
             const name = document.getElementById('usernameInput').value.trim();
             if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
@@ -691,12 +668,9 @@
                 const { data: ex } = await supabaseClient.from('users').select('id, pin').eq('username', name).limit(1);
                 
                 if (ex && ex.length > 0) {
-                    // کاربر وجود داره
                     if (ex[0].pin) {
-                        // PIN داره → بذار بزنه
                         openPinModal(name);
                     } else {
-                        // PIN نداره → بذار بسازه
                         pendingUsername = name;
                         document.getElementById('loginModal').style.display = 'none';
                         document.getElementById('newPinInput').value = '';
@@ -705,8 +679,17 @@
                         document.getElementById('setPinModal').style.display = 'flex';
                     }
                 } else {
-                    // کاربر جدید
-                    await supabaseClient.from('users').insert([{ username: name, online: myOnlineStatus }]);
+                    // کاربر جدید - 1000 سکه
+                    await supabaseClient.from('users').insert([{ 
+                        username: name, 
+                        online: myOnlineStatus,
+                        coins: STARTING_COINS,
+                        weapon: '',
+                        wins: 0,
+                        losses: 0,
+                        attack_count: 0,
+                        defense_count: 0
+                    }]);
                     pendingUsername = name;
                     document.getElementById('loginModal').style.display = 'none';
                     document.getElementById('newPinInput').value = '';
@@ -714,41 +697,24 @@
                     document.getElementById('setPinError').style.display = 'none';
                     document.getElementById('setPinModal').style.display = 'flex';
                 }
-            } catch(e) { 
-                alert('خطا: ' + e.message); 
-            }
+            } catch(e) { alert('خطا: ' + e.message); }
         }
         
-        // ============ 🔐 تنظیم PIN (اولین بار) ============
+        // ============ 🔐 PIN ============
         async function saveNewPin() {
             const pin = document.getElementById('newPinInput').value.trim();
             const confirm = document.getElementById('newPinConfirm').value.trim();
             const errDiv = document.getElementById('setPinError');
-            
-            if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
-                errDiv.innerText = 'کد باید 4 رقم عددی باشه!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
-            if (pin !== confirm) {
-                errDiv.innerText = 'کد و تکرارش یکسان نیست!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
+            if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) { errDiv.innerText = 'کد باید 4 رقم عددی باشه!'; errDiv.style.display = 'block'; return; }
+            if (pin !== confirm) { errDiv.innerText = 'کد و تکرارش یکسان نیست!'; errDiv.style.display = 'block'; return; }
             try {
                 await supabaseClient.from('users').update({ pin: pin }).eq('username', pendingUsername);
-                alert('✅ کد امنیتی ذخیره شد!\n\nاز این به بعد با این کد وارد میشی.');
+                alert('✅ کد امنیتی ذخیره شد!');
                 document.getElementById('setPinModal').style.display = 'none';
                 completeLogin(pendingUsername);
-            } catch(e) {
-                errDiv.innerText = 'خطا: ' + e.message;
-                errDiv.style.display = 'block';
-            }
+            } catch(e) { errDiv.innerText = 'خطا: ' + e.message; errDiv.style.display = 'block'; }
         }
         
-        // ============ 🔐 ورود با PIN ============
         function openPinModal(username) {
             pendingUsername = username;
             pinAttempts = 0;
@@ -758,7 +724,6 @@
             document.getElementById('pinInput').disabled = false;
             document.getElementById('loginModal').style.display = 'none';
             document.getElementById('pinModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('pinInput').focus(), 100);
         }
         
         function closePinModal() {
@@ -770,37 +735,19 @@
         async function verifyPin() {
             const pin = document.getElementById('pinInput').value.trim();
             const errDiv = document.getElementById('pinError');
-            
-            if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
-                errDiv.innerText = 'کد باید 4 رقم عددی باشه!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
+            if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) { errDiv.innerText = 'کد باید 4 رقم عددی باشه!'; errDiv.style.display = 'block'; return; }
             await new Promise(r => setTimeout(r, 300));
-            
             try {
                 const { data } = await supabaseClient.from('users').select('pin').eq('username', pendingUsername).limit(1);
                 const savedPin = data && data[0] ? data[0].pin : null;
-                
                 if (pin !== savedPin) {
                     pinAttempts++;
                     if (pinAttempts >= 3) {
                         errDiv.innerText = '⛔ 3 بار اشتباه! 30 ثانیه صبر کن.';
                         errDiv.style.display = 'block';
                         document.getElementById('pinInput').disabled = true;
-                        let countdown = 30;
-                        const interval = setInterval(() => {
-                            countdown--;
-                            errDiv.innerText = '⛔ ' + countdown + ' ثانیه صبر کن...';
-                            if (countdown <= 0) {
-                                clearInterval(interval);
-                                pinAttempts = 0;
-                                document.getElementById('pinInput').disabled = false;
-                                document.getElementById('pinInput').value = '';
-                                errDiv.style.display = 'none';
-                            }
-                        }, 1000);
+                        let cd = 30;
+                        const iv = setInterval(() => { cd--; errDiv.innerText = '⛔ ' + cd + ' ثانیه...'; if (cd <= 0) { clearInterval(iv); pinAttempts = 0; document.getElementById('pinInput').disabled = false; document.getElementById('pinInput').value = ''; errDiv.style.display = 'none'; } }, 1000);
                         return;
                     }
                     errDiv.innerText = '❌ کد اشتباه! (' + pinAttempts + '/3)';
@@ -808,19 +755,12 @@
                     document.getElementById('pinInput').value = '';
                     return;
                 }
-                
-                // کد درسته
                 pinAttempts = 0;
                 document.getElementById('pinModal').style.display = 'none';
                 completeLogin(pendingUsername);
-                
-            } catch(e) {
-                errDiv.innerText = 'خطا: ' + e.message;
-                errDiv.style.display = 'block';
-            }
+            } catch(e) { errDiv.innerText = 'خطا: ' + e.message; errDiv.style.display = 'block'; }
         }
         
-        // ============ 🔑 تغییر PIN ============
         function openChangePinModal() {
             document.getElementById('oldPinInput').value = '';
             document.getElementById('changePinInput').value = '';
@@ -828,196 +768,346 @@
             document.getElementById('changePinError').style.display = 'none';
             document.getElementById('changePinModal').style.display = 'flex';
         }
-        
-        function closeChangePinModal() {
-            document.getElementById('changePinModal').style.display = 'none';
-        }
+        function closeChangePinModal() { document.getElementById('changePinModal').style.display = 'none'; }
         
         async function changePin() {
             const oldPin = document.getElementById('oldPinInput').value.trim();
             const newPin = document.getElementById('changePinInput').value.trim();
             const confirm = document.getElementById('changePinConfirm').value.trim();
             const errDiv = document.getElementById('changePinError');
-            
-            if (!oldPin || !newPin || !confirm) {
-                errDiv.innerText = 'همه فیلدها رو پر کن!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
-            if (newPin.length !== 4 || !/^\d+$/.test(newPin)) {
-                errDiv.innerText = 'کد جدید باید 4 رقم عددی باشه!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
-            if (newPin !== confirm) {
-                errDiv.innerText = 'کد جدید و تکرارش یکسان نیست!';
-                errDiv.style.display = 'block';
-                return;
-            }
-            
+            if (!oldPin || !newPin || !confirm) { errDiv.innerText = 'همه فیلدها رو پر کن!'; errDiv.style.display = 'block'; return; }
+            if (newPin.length !== 4 || !/^\d+$/.test(newPin)) { errDiv.innerText = 'کد جدید باید 4 رقم عددی باشه!'; errDiv.style.display = 'block'; return; }
+            if (newPin !== confirm) { errDiv.innerText = 'کد جدید و تکرارش یکسان نیست!'; errDiv.style.display = 'block'; return; }
             try {
                 const { data } = await supabaseClient.from('users').select('pin').eq('username', myUsername).limit(1);
                 const savedPin = data && data[0] ? data[0].pin : null;
-                
-                if (savedPin && oldPin !== savedPin) {
-                    errDiv.innerText = 'کد قدیم اشتباهه!';
-                    errDiv.style.display = 'block';
-                    return;
-                }
-                
+                if (savedPin && oldPin !== savedPin) { errDiv.innerText = 'کد قدیم اشتباهه!'; errDiv.style.display = 'block'; return; }
                 await supabaseClient.from('users').update({ pin: newPin }).eq('username', myUsername);
-                alert('✅ کد امنیتی با موفقیت تغییر کرد!');
+                alert('✅ کد امنیتی تغییر کرد!');
                 closeChangePinModal();
-            } catch(e) {
-                errDiv.innerText = 'خطا: ' + e.message;
-                errDiv.style.display = 'block';
-            }
+            } catch(e) { errDiv.innerText = 'خطا: ' + e.message; errDiv.style.display = 'block'; }
         }
         
-        // ============ ✅ تکمیل ورود ============
         async function completeLogin(username) {
             localStorage.setItem('chat_username', username);
             myUsername = username;
-            loadGameData();
             document.getElementById('loginModal').style.display = 'none';
             document.getElementById('pinModal').style.display = 'none';
             document.getElementById('setPinModal').style.display = 'none';
-            
             updateOnlineToggleUI();
             startRealtime();
             updateQueueBar();
             setTimeout(() => sendPendingMessages(), 1000);
-            
-            // علامت آنلاین
-            try {
-                await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
-            } catch(e) {}
-            
+            try { await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername); } catch(e) {}
+            await loadMyGameData();
             const params = new URLSearchParams(window.location.search);
             const jg = params.get('join');
-            if (jg) { 
-                showScreen('msg'); 
-                setTimeout(() => joinGroupByLink(jg), 1500); 
-            } else {
-                showScreen('home');
+            if (jg) { showScreen('msg'); setTimeout(() => joinGroupByLink(jg), 1500); }
+            else { showScreen('home'); }
+            showInAppNotif('✅ خوش آمدی ' + username + '!', 'موجودی: ' + myCoins + ' سکه');
+        }
+        
+        // ============ 🎮 بازی در سرور ============
+        async function loadMyGameData() {
+            try {
+                const { data } = await supabaseClient.from('users').select('coins, weapon, wins, losses, attack_count, defense_count').eq('username', myUsername).limit(1);
+                if (data && data[0]) {
+                    myCoins = data[0].coins || STARTING_COINS;
+                    myWeapon = data[0].weapon || '';
+                    myWins = data[0].wins || 0;
+                    myLosses = data[0].losses || 0;
+                    myAttacks = data[0].attack_count || 0;
+                    myDefenses = data[0].defense_count || 0;
+                    updateGjCoin();
+                }
+            } catch(e) { console.error(e); }
+        }
+        
+        async function saveMyGameData() {
+            try {
+                await supabaseClient.from('users').update({
+                    coins: myCoins,
+                    weapon: myWeapon,
+                    wins: myWins,
+                    losses: myLosses,
+                    attack_count: myAttacks,
+                    defense_count: myDefenses
+                }).eq('username', myUsername);
+                updateGjCoin();
+            } catch(e) { console.error(e); }
+        }
+        
+        // ============ 👥 اطلاعات بازیکنان ============
+        function openPlayersModal() {
+            document.getElementById('playersPassModal').style.display = 'flex';
+            document.getElementById('playersPass').value = '';
+            document.getElementById('playersPassError').style.display = 'none';
+        }
+        function closePlayersPassModal() { document.getElementById('playersPassModal').style.display = 'none'; }
+        
+        function checkPlayersPass() {
+            const pass = document.getElementById('playersPass').value;
+            const errDiv = document.getElementById('playersPassError');
+            if (pass !== PLAYERS_PASS) {
+                errDiv.innerText = '❌ رمز اشتباه!';
+                errDiv.style.display = 'block';
+                return;
             }
+            closePlayersPassModal();
+            showPlayersList();
+        }
+        
+        async function showPlayersList() {
+            document.getElementById('playersModal').style.display = 'flex';
+            document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
             
-            showInAppNotif('✅ خوش آمدی ' + username + '!', 'ورود موفق بود');
+            try {
+                const { data } = await supabaseClient.from('users').select('username, coins, weapon, wins, losses, attack_count, defense_count, online').order('coins', { ascending: false });
+                if (!data || data.length === 0) {
+                    document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ بازیکنی نیست</div>';
+                    return;
+                }
+                
+                let html = '';
+                data.forEach((u, i) => {
+                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
+                    const weaponInfo = u.weapon ? (WEAPONS[u.weapon]?.emoji + ' ' + u.weapon) : '❌ بدون سلاح';
+                    const online = u.online ? '🟢' : '⚫';
+                    const power = u.weapon ? WEAPONS[u.weapon]?.power : 0;
+                    
+                    html += `
+                        <div class="player-row">
+                            <div class="player-info">
+                                <div class="player-name">${medal} ${u.username} ${online}</div>
+                                <div class="player-stats">
+                                    💰 سکه: <span>${u.coins || 0}</span> | 
+                                    ⚔️ سلاح: <span>${weaponInfo}</span><br>
+                                    💪 قدرت: <span>${power}</span> | 
+                                    🏆 برد: <span>${u.wins || 0}</span> | 
+                                    💀 باخت: <span>${u.losses || 0}</span><br>
+                                    ⚔️ حمله: <span>${u.attack_count || 0}</span> | 
+                                    🛡️ دفاع: <span>${u.defense_count || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('playersList').innerHTML = html;
+            } catch(e) {
+                document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">خطا: ' + e.message + '</div>';
+            }
+        }
+        
+        function closePlayersModal() { document.getElementById('playersModal').style.display = 'none'; }
+        
+        // ============ ⚔️ جنگ ============
+        function openFightModal() {
+            document.getElementById('playersModal').style.display = 'none';
+            document.getElementById('fightModal').style.display = 'flex';
+            document.getElementById('attackerInput').value = '';
+            document.getElementById('defenderInput').value = '';
+            document.getElementById('fightError').style.display = 'none';
+            document.getElementById('fightResultBox').style.display = 'none';
+        }
+        function closeFightModal() { document.getElementById('fightModal').style.display = 'none'; }
+        
+        async function startFight() {
+            const attacker = document.getElementById('attackerInput').value.trim();
+            const defender = document.getElementById('defenderInput').value.trim();
+            const errDiv = document.getElementById('fightError');
+            const resultBox = document.getElementById('fightResultBox');
+            
+            if (!attacker || !defender) { errDiv.innerText = 'هر دو اسم رو وارد کن!'; errDiv.style.display = 'block'; return; }
+            if (attacker === defender) { errDiv.innerText = 'حمله‌کننده و مدافع یکی نباشن!'; errDiv.style.display = 'block'; return; }
+            
+            errDiv.style.display = 'none';
+            resultBox.style.display = 'none';
+            resultBox.innerHTML = '<div style="text-align:center;padding:15px;">⏳ در حال محاسبه...</div>';
+            resultBox.style.display = 'block';
+            
+            try {
+                // گرفتن اطلاعات هر دو
+                const { data: aData } = await supabaseClient.from('users').select('*').eq('username', attacker).limit(1);
+                const { data: dData } = await supabaseClient.from('users').select('*').eq('username', defender).limit(1);
+                
+                if (!aData || aData.length === 0) { errDiv.innerText = 'حمله‌کننده پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
+                if (!dData || dData.length === 0) { errDiv.innerText = 'مدافع پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
+                
+                const a = aData[0];
+                const d = dData[0];
+                
+                const aWeapon = a.weapon || '';
+                const dWeapon = d.weapon || '';
+                const aPower = aWeapon ? (WEAPONS[aWeapon]?.power || 0) : 0;
+                const dPower = dWeapon ? (WEAPONS[dWeapon]?.power || 0) : 0;
+                
+                // شانس
+                const aRoll = aPower + Math.random() * 50;
+                const dRoll = dPower + Math.random() * 50;
+                
+                let winner, loser, winnerCoins, loserCoins, resultText;
+                const prize = 100;
+                
+                if (aRoll > dRoll) {
+                    winner = attacker;
+                    loser = defender;
+                    winnerCoins = (a.coins || 0) + prize;
+                    loserCoins = Math.max(0, (d.coins || 0) - prize);
+                    
+                    // آپدیت آمار
+                    await supabaseClient.from('users').update({
+                        coins: winnerCoins,
+                        wins: (a.wins || 0) + 1,
+                        attack_count: (a.attack_count || 0) + 1
+                    }).eq('username', attacker);
+                    
+                    await supabaseClient.from('users').update({
+                        coins: loserCoins,
+                        losses: (d.losses || 0) + 1,
+                        defense_count: (d.defense_count || 0) + 1
+                    }).eq('username', defender);
+                    
+                    resultText = `🏆 <b>${attacker}</b> برنده شد!`;
+                } else {
+                    winner = defender;
+                    loser = attacker;
+                    winnerCoins = (d.coins || 0) + prize;
+                    loserCoins = Math.max(0, (a.coins || 0) - prize);
+                    
+                    await supabaseClient.from('users').update({
+                        coins: winnerCoins,
+                        wins: (d.wins || 0) + 1,
+                        defense_count: (d.defense_count || 0) + 1
+                    }).eq('username', defender);
+                    
+                    await supabaseClient.from('users').update({
+                        coins: loserCoins,
+                        losses: (a.losses || 0) + 1,
+                        attack_count: (a.attack_count || 0) + 1
+                    }).eq('username', attacker);
+                    
+                    resultText = `🏆 <b>${defender}</b> برنده شد!`;
+                }
+                
+                // ثبت حمله در جدول attacks
+                await supabaseClient.from('attacks').insert([{
+                    attacker: attacker,
+                    defender: defender,
+                    attacker_weapon: aWeapon,
+                    defender_weapon: dWeapon,
+                    attacker_power: aPower,
+                    defender_power: dPower,
+                    winner: winner,
+                    loser: loser,
+                    attacker_wins: (a.wins || 0),
+                    defender_wins: (d.wins || 0),
+                    prize: prize
+                }]);
+                
+                // نمایش نتیجه
+                resultBox.innerHTML = `
+                    <div class="fight-result">
+                        ${resultText}<br><br>
+                        ⚔️ حمله‌کننده: <b>${attacker}</b><br>
+                        ${aWeapon ? WEAPONS[aWeapon].emoji + ' ' + aWeapon + ' (قدرت: ' + aPower + ')' : '❌ بدون سلاح'}<br>
+                        💰 موجودی: ${a.coins || 0} → ${winner === attacker ? winnerCoins : loserCoins}<br><br>
+                        🛡️ مدافع: <b>${defender}</b><br>
+                        ${dWeapon ? WEAPONS[dWeapon].emoji + ' ' + dWeapon + ' (قدرت: ' + dPower + ')' : '❌ بدون سلاح'}<br>
+                        💰 موجودی: ${d.coins || 0} → ${winner === defender ? winnerCoins : loserCoins}<br><br>
+                        🎁 جایزه: <b>${prize} سکه</b>
+                    </div>
+                `;
+                
+                // ارسال پیام نتیجه در چت گروه جنگی
+                const chatMessage = `⚔️ <b>جنگ!</b>\n\n🎯 حمله‌کننده: ${attacker}\n${aWeapon ? WEAPONS[aWeapon].emoji + ' ' + aWeapon + ' (قدرت: ' + aPower + ')' : '❌ بدون سلاح'}\n\n🛡️ مدافع: ${defender}\n${dWeapon ? WEAPONS[dWeapon].emoji + ' ' + dWeapon + ' (قدرت: ' + dPower + ')' : '❌ بدون سلاح'}\n\n🏆 برنده: <b>${winner}</b>\n🎁 جایزه: ${prize} سکه\n\n💰 موجودی‌های جدید:\n${attacker}: ${winner === attacker ? winnerCoins : loserCoins}\n${defender}: ${winner === defender ? winnerCoins : loserCoins}`;
+                
+                await supabaseClient.from('messages').insert([{
+                    sender: BOT_NAME,
+                    receiver: 'GROUP:' + GROUP_NAME,
+                    content: LZString.compressToUTF16(chatMessage)
+                }]);
+                
+                // اگه خودم توش بودم، آپدیت کنم
+                if (attacker === myUsername || defender === myUsername) {
+                    await loadMyGameData();
+                }
+                
+                // اگه توی گروه هستیم، پیام‌ها رو رفرش کن
+                if (currentScreenName === 'gj') loadGjMessages();
+                
+            } catch(e) {
+                errDiv.innerText = 'خطا: ' + e.message;
+                errDiv.style.display = 'block';
+                resultBox.style.display = 'none';
+            }
         }
         
         // ============ 📦 صف پیام ============
         function savePendingMessage(message) {
             try {
                 const pending = getPendingMessages();
-                pending.push({
-                    id: 'pending_' + Date.now() + '_' + Math.random(),
-                    sender: message.sender,
-                    receiver: message.receiver,
-                    content: message.content,
-                    created_at: new Date().toISOString()
-                });
+                pending.push({ id: 'pending_' + Date.now() + '_' + Math.random(), sender: message.sender, receiver: message.receiver, content: message.content, created_at: new Date().toISOString() });
                 localStorage.setItem('pending_messages', JSON.stringify(pending));
                 updateQueueBar();
-            } catch(e) { console.error('خطا:', e); }
+            } catch(e) {}
         }
-        
-        function getPendingMessages() {
-            try {
-                const val = localStorage.getItem('pending_messages');
-                return val ? JSON.parse(val) : [];
-            } catch(e) { return []; }
-        }
-        
+        function getPendingMessages() { try { const v = localStorage.getItem('pending_messages'); return v ? JSON.parse(v) : []; } catch(e) { return []; } }
         function updateQueueBar() {
             const pending = getPendingMessages();
             const bar = document.getElementById('queueBar');
             const text = document.getElementById('queueText');
-            if (pending.length > 0) {
-                bar.classList.add('show');
-                text.innerText = pending.length + ' پیام در انتظار ارسال';
-            } else bar.classList.remove('show');
+            if (pending.length > 0) { bar.classList.add('show'); text.innerText = pending.length + ' پیام در انتظار ارسال'; }
+            else bar.classList.remove('show');
         }
-        
         async function sendPendingMessages() {
             const pending = getPendingMessages();
             if (pending.length === 0) return;
             const failed = [];
             for (let msg of pending) {
                 try {
-                    const result = await supabaseClient.from('messages').insert([{
-                        sender: msg.sender, receiver: msg.receiver, content: msg.content
-                    }]);
-                    if (result.error) failed.push(msg);
+                    const r = await supabaseClient.from('messages').insert([{ sender: msg.sender, receiver: msg.receiver, content: msg.content }]);
+                    if (r.error) failed.push(msg);
                 } catch(e) { failed.push(msg); }
             }
             localStorage.setItem('pending_messages', JSON.stringify(failed));
             updateQueueBar();
-            if (currentScreenName === 'gj') loadGjMessages();
-            else if (currentScreenName === 'chat') loadChatMessages();
-            if (failed.length === 0) showInAppNotif('✅ پیام‌ها ارسال شد', 'همه پیام‌های صف ارسال شدن');
         }
         
-        // ============ 📱 لودینگ ============
+        // ============ لودینگ ============
         let loadingProgress = 0, loadingDone = false;
-        
         function initLoading() {
-            const loadingBar = document.getElementById('loadingBar');
-            const loadingPercent = document.getElementById('loadingPercent');
-            
-            function updateProgress() {
+            const lb = document.getElementById('loadingBar');
+            const lp = document.getElementById('loadingPercent');
+            function up() {
                 if (loadingDone) return;
-                const speed = window.netSpeed || 1;
-                let increment = 0.5 * speed;
-                if (speed < 0.5) increment = 0.3;
-                else if (speed > 1.5) increment = 0.8;
-                loadingProgress += increment + Math.random() * 0.3;
+                const s = window.netSpeed || 1;
+                let inc = 0.5 * s;
+                if (s < 0.5) inc = 0.3; else if (s > 1.5) inc = 0.8;
+                loadingProgress += inc + Math.random() * 0.3;
                 if (loadingProgress >= 100) {
-                    loadingProgress = 100;
-                    loadingBar.style.width = '100%';
-                    loadingPercent.innerText = '100%';
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').classList.add('hide');
-                        setTimeout(() => {
-                            document.getElementById('loadingScreen').style.display = 'none';
-                        }, 600);
-                    }, 500);
-                    loadingDone = true;
-                    return;
+                    loadingProgress = 100; lb.style.width = '100%'; lp.innerText = '100%';
+                    setTimeout(() => { document.getElementById('loadingScreen').classList.add('hide'); setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 600); }, 500);
+                    loadingDone = true; return;
                 }
-                loadingBar.style.width = loadingProgress + '%';
-                loadingPercent.innerText = Math.floor(loadingProgress) + '%';
-                let delay = 80;
-                if (speed > 1.5) delay = 40;
-                else if (speed < 0.5) delay = 150;
-                setTimeout(updateProgress, delay);
+                lb.style.width = loadingProgress + '%';
+                lp.innerText = Math.floor(loadingProgress) + '%';
+                let d = 80; if (s > 1.5) d = 40; else if (s < 0.5) d = 150;
+                setTimeout(up, d);
             }
-            updateProgress();
+            up();
         }
-
         async function measureNetSpeed() {
             const start = performance.now();
             try {
-                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
-                    method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
-                });
-                const time = performance.now() - start;
-                if (time < 300) window.netSpeed = 2;
-                else if (time < 800) window.netSpeed = 1;
-                else window.netSpeed = 0.3;
+                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', { method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' });
+                const t = performance.now() - start;
+                if (t < 300) window.netSpeed = 2; else if (t < 800) window.netSpeed = 1; else window.netSpeed = 0.3;
             } catch(e) { window.netSpeed = 0.3; }
         }
-
         measureNetSpeed().then(() => initLoading());
-
-        const ANIMATED_EMOJIS = [
-            '😊', '😂', '❤️', '🔥', '👍', '👏', '🎉', '💪', '😍', '🤣',
-            '😎', '🙏', '💯', '✨', '🤔', '😴', '🥺', '😭', '🥰', '😘',
-            '🤗', '🫡', '💀', '👀', '🤝', '😜', '🤩', '🥳', '😇', '🤪',
-            '😋', '😅', '🙄', '😱', '😡', '🥶', '🤯', '😳', '🤫', '🤭',
-            '🚀', '⚡', '💥', '🎯', '🏆', '🥇', '💎', '👑', '🎁', '🌈'
-        ];
+        
+        const ANIMATED_EMOJIS = ['😊','😂','❤️','🔥','👍','👏','🎉','💪','😍','🤣','😎','🙏','💯','✨','🤔','😴','🥺','😭','🥰','😘','🤗','🫡','💀','👀','🤝','😜','🤩','🥳','😇','🤪','😋','😅','🙄','😱','😡','🥶','🤯','😳','🤫','🤭','🚀','⚡','💥','🎯','🏆','🥇','💎','👑','🎁','🌈'];
         
         const WEAPONS = {
             'چاقو': { price: 50, power: 10, emoji: '🔪' },
@@ -1030,165 +1120,90 @@
         };
         
         let myUsername = localStorage.getItem('chat_username');
-        let myCoins = 500, myWeapon = '', myWins = 0, myLosses = 0;
+        let myCoins = 1000, myWeapon = '', myWins = 0, myLosses = 0, myAttacks = 0, myDefenses = 0;
         let currentChat = { type: '', target: '' };
-        let allUsers = [];
-        let myGroups = [];
-        let chatList = [];
+        let allUsers = [], myGroups = [], chatList = [];
         let onlineUsers = new Set();
         let realtimeChannel = null;
         let currentScreenName = 'home';
         let emojiPickerTarget = null;
         let notificationsEnabled = localStorage.getItem('notif_enabled') !== 'false';
         let unreadCounts = {};
-
+        
         function openAboutModal() { document.getElementById('aboutModal').style.display = 'flex'; }
         function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
-
+        
         function initEmojiGrids() {
-            const html = ANIMATED_EMOJIS.map(e => 
-                `<span onclick="insertEmoji('${e}')">${e}</span>`
-            ).join('');
+            const html = ANIMATED_EMOJIS.map(e => `<span onclick="insertEmoji('${e}')">${e}</span>`).join('');
             document.getElementById('emojiGridGj').innerHTML = html;
             document.getElementById('emojiGridCh').innerHTML = html;
         }
-
-        function toggleEmojiPicker(context) {
-            emojiPickerTarget = context;
-            if (context === 'gj') {
-                document.getElementById('emojiPickerGj').classList.toggle('show');
-                document.getElementById('emojiPickerCh').classList.remove('show');
-            } else {
-                document.getElementById('emojiPickerCh').classList.toggle('show');
-                document.getElementById('emojiPickerGj').classList.remove('show');
-            }
+        function toggleEmojiPicker(ctx) {
+            emojiPickerTarget = ctx;
+            if (ctx === 'gj') { document.getElementById('emojiPickerGj').classList.toggle('show'); document.getElementById('emojiPickerCh').classList.remove('show'); }
+            else { document.getElementById('emojiPickerCh').classList.toggle('show'); document.getElementById('emojiPickerGj').classList.remove('show'); }
         }
-
-        function insertEmoji(emoji) {
-            if (emojiPickerTarget === 'gj') {
-                const input = document.getElementById('gjInput');
-                input.value += emoji; input.focus();
-            } else {
-                const input = document.getElementById('chatMsgInput');
-                input.value += emoji; input.focus();
-            }
+        function insertEmoji(e) {
+            if (emojiPickerTarget === 'gj') { const i = document.getElementById('gjInput'); i.value += e; i.focus(); }
+            else { const i = document.getElementById('chatMsgInput'); i.value += e; i.focus(); }
         }
-
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.emoji-picker') && !e.target.closest('.emoji-btn')) {
                 document.getElementById('emojiPickerGj').classList.remove('show');
                 document.getElementById('emojiPickerCh').classList.remove('show');
             }
         });
-
         function animateEmojis(text) {
-            const animatedSet = new Set(ANIMATED_EMOJIS);
-            const chars = Array.from(text);
-            let output = '';
-            chars.forEach(char => {
-                if (animatedSet.has(char)) {
-                    output += `<span class="emoji-animated">${char}</span>`;
-                } else output += char;
-            });
-            return output;
+            const s = new Set(ANIMATED_EMOJIS); const c = Array.from(text); let o = '';
+            c.forEach(ch => { if (s.has(ch)) o += `<span class="emoji-animated">${ch}</span>`; else o += ch; });
+            return o;
         }
-
         function linkifyText(text) {
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
-            return text.replace(urlRegex, (url) => {
-                return `<a href="${url}" class="msg-link" onclick="handleLinkClick(event, '${url}')">🔗 ${url}</a>`;
-            });
+            return text.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" class="msg-link" onclick="handleLinkClick(event, '${url}')">🔗 ${url}</a>`);
         }
-
-        function handleLinkClick(event, url) {
-            event.preventDefault();
+        function handleLinkClick(e, url) {
+            e.preventDefault();
             if (url.includes('?join=')) {
-                try {
-                    const urlParams = new URLSearchParams(url.split('?')[1]);
-                    const groupName = decodeURIComponent(urlParams.get('join'));
-                    if (groupName && confirm('می‌خوای بری تو گروه "' + groupName + '"؟')) {
-                        joinGroupByLink(groupName);
-                    }
-                } catch(e) { window.open(url, '_blank'); }
-            } else { window.open(url, '_blank'); }
+                try { const p = new URLSearchParams(url.split('?')[1]); const g = decodeURIComponent(p.get('join')); if (g && confirm('می‌خوای بری تو گروه "' + g + '"؟')) joinGroupByLink(g); } catch(er) { window.open(url, '_blank'); }
+            } else window.open(url, '_blank');
         }
-
         function renderMessageContent(text) {
-            if (text.startsWith('AUDIO:')) {
-                const data = text.replace('AUDIO:', '');
-                return '<div class="msg-audio"><audio controls preload="metadata" src="data:audio/webm;base64,' + data + '"></audio></div>';
-            }
-            if (text.startsWith('IMAGE:')) {
-                const data = text.replace('IMAGE:', '');
-                return '<div class="msg-image"><img src="data:image/jpeg;base64,' + data + '" onclick="openImageModal(this.src)"></div>';
-            }
-            const animatedText = animateEmojis(text);
-            return '<div style="white-space:pre-wrap; word-break:break-word;">' + linkifyText(animatedText) + '</div>';
+            if (text.startsWith('AUDIO:')) return '<div class="msg-audio"><audio controls preload="metadata" src="data:audio/webm;base64,' + text.replace('AUDIO:', '') + '"></audio></div>';
+            if (text.startsWith('IMAGE:')) return '<div class="msg-image"><img src="data:image/jpeg;base64,' + text.replace('IMAGE:', '') + '" onclick="openImageModal(this.src)"></div>';
+            return '<div style="white-space:pre-wrap; word-break:break-word;">' + linkifyText(animateEmojis(text)) + '</div>';
         }
-
         function updateNetStatus() {
-            const icon = document.getElementById('netIcon');
-            const status = document.getElementById('netStatus');
-            const dot = document.getElementById('serverDot');
-            if (!navigator.onLine) {
-                icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad';
-                showOfflineScreen(); return;
-            }
-            const start = performance.now();
-            fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', {
-                method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store'
-            }).then(() => {
-                const time = performance.now() - start;
-                if (time < 300) {
-                    icon.innerText = '📶'; status.innerText = 'نت: قوی'; status.className = 'status-good';
-                    dot.className = 'status-dot';
-                    document.getElementById('serverStatusText').innerText = 'سرور: عالی';
-                } else if (time < 1000) {
-                    icon.innerText = '📶'; status.innerText = 'نت: متوسط'; status.className = 'status-mid';
-                    dot.className = 'status-dot weak';
-                    document.getElementById('serverStatusText').innerText = 'سرور: متوسط';
-                } else {
-                    icon.innerText = '📶'; status.innerText = 'نت: ضعیف'; status.className = 'status-bad';
-                    dot.className = 'status-dot weak';
-                    document.getElementById('serverStatusText').innerText = 'سرور: ضعیف';
-                }
+            const icon = document.getElementById('netIcon'), status = document.getElementById('netStatus'), dot = document.getElementById('serverDot');
+            if (!navigator.onLine) { icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad'; showOfflineScreen(); return; }
+            const s = performance.now();
+            fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', { method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' })
+            .then(() => {
+                const t = performance.now() - s;
+                if (t < 300) { icon.innerText = '📶'; status.innerText = 'نت: قوی'; status.className = 'status-good'; dot.className = 'status-dot'; document.getElementById('serverStatusText').innerText = 'سرور: عالی'; }
+                else if (t < 1000) { icon.innerText = '📶'; status.innerText = 'نت: متوسط'; status.className = 'status-mid'; dot.className = 'status-dot weak'; document.getElementById('serverStatusText').innerText = 'سرور: متوسط'; }
+                else { icon.innerText = '📶'; status.innerText = 'نت: ضعیف'; status.className = 'status-bad'; dot.className = 'status-dot weak'; document.getElementById('serverStatusText').innerText = 'سرور: ضعیف'; }
                 hideOfflineScreen();
-            }).catch(() => {
-                icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad';
-                dot.className = 'status-dot offline';
-                document.getElementById('serverStatusText').innerText = 'سرور: قطع';
-                showOfflineScreen();
-            });
+            }).catch(() => { icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad'; dot.className = 'status-dot offline'; document.getElementById('serverStatusText').innerText = 'سرور: قطع'; showOfflineScreen(); });
         }
-
         function showOfflineScreen() { document.getElementById('offlineScreen').classList.add('show'); }
         function hideOfflineScreen() { document.getElementById('offlineScreen').classList.remove('show'); }
         function retryConnection() { updateNetStatus(); if (navigator.onLine) { hideOfflineScreen(); setTimeout(updateNetStatus, 1000); } }
-
         window.addEventListener('online', () => { hideOfflineScreen(); updateNetStatus(); setTimeout(() => sendPendingMessages(), 1500); });
         window.addEventListener('offline', () => { showOfflineScreen(); updateNetStatus(); });
-
+        
         async function detectLocation() {
-            try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                if (data.country_name && data.city) {
-                    document.getElementById('locationText').innerText = data.city + ' - ' + data.country_name;
-                } else document.getElementById('locationText').innerText = 'موقعیت نامشخص';
-            } catch(e) { document.getElementById('locationText').innerText = 'موقعیت نامشخص'; }
+            try { const r = await fetch('https://ipapi.co/json/'); const d = await r.json(); if (d.country_name && d.city) document.getElementById('locationText').innerText = d.city + ' - ' + d.country_name; else document.getElementById('locationText').innerText = 'موقعیت نامشخص'; } catch(e) { document.getElementById('locationText').innerText = 'موقعیت نامشخص'; }
         }
-
+        
         function startRealtime() {
             if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
-            realtimeChannel = supabaseClient
-                .channel('all-messages')
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
-                    (payload) => handleNewMessageRealtime(payload.new))
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => loadAllUsers())
+            realtimeChannel = supabaseClient.channel('all-messages')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => handleNewMessageRealtime(payload.new))
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => { loadAllUsers(); if (myUsername) loadMyGameData(); })
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'groups' }, () => loadMyGroups())
                 .subscribe();
         }
-
+        
         function handleNewMessageRealtime(msg) {
             if (msg.sender === myUsername) return;
             let text = LZString.decompressFromUTF16(msg.content) || msg.content;
@@ -1200,108 +1215,69 @@
             let chatKey = '', notifBody = '', notifTitle = '';
             if (receiver === 'GROUP:' + GROUP_NAME) {
                 chatKey = 'gj'; notifTitle = '💬 چت عمومی'; notifBody = msg.sender + ': ' + preview;
-                if (currentScreenName !== 'gj') {
-                    unreadCounts['gj'] = (unreadCounts['gj'] || 0) + 1;
-                    showBrowserNotif(notifTitle, notifBody, 'group-gj');
-                    showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate();
-                } else loadGjMessages();
+                if (currentScreenName !== 'gj') { unreadCounts['gj'] = (unreadCounts['gj'] || 0) + 1; showBrowserNotif(notifTitle, notifBody, 'group-gj'); showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate(); }
+                else loadGjMessages();
             } else if (receiver.startsWith('PRIVATE:')) {
                 const parts = receiver.replace('PRIVATE:', '').split('|');
                 if (!parts.includes(myUsername)) return;
                 const other = parts.find(p => p !== myUsername);
                 if (!other) return;
                 chatKey = 'private-' + other; notifTitle = '💬 پیام از ' + other; notifBody = preview;
-                const isInThisChat = currentScreenName === 'chat' && currentChat.type === 'private' && currentChat.target === other;
-                if (!isInThisChat) {
-                    unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
-                    showBrowserNotif(notifTitle, notifBody, 'private-' + other);
-                    showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate();
-                } else loadChatMessages();
+                const inChat = currentScreenName === 'chat' && currentChat.type === 'private' && currentChat.target === other;
+                if (!inChat) { unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1; showBrowserNotif(notifTitle, notifBody, 'private-' + other); showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate(); }
+                else loadChatMessages();
             } else if (receiver.startsWith('GROUP:')) {
                 const gname = receiver.replace('GROUP:', '');
-                const isMyGroup = myGroups.find(g => g.group_name === gname);
-                if (!isMyGroup) return;
+                if (!myGroups.find(g => g.group_name === gname)) return;
                 chatKey = 'group-' + gname; notifTitle = '👥 ' + gname; notifBody = msg.sender + ': ' + preview;
-                const isInThisGroup = currentScreenName === 'chat' && currentChat.type === 'group' && currentChat.target === gname;
-                if (!isInThisGroup) {
-                    unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1;
-                    showBrowserNotif(notifTitle, notifBody, 'group-' + gname);
-                    showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate();
-                } else loadChatMessages();
+                const inG = currentScreenName === 'chat' && currentChat.type === 'group' && currentChat.target === gname;
+                if (!inG) { unreadCounts[chatKey] = (unreadCounts[chatKey] || 0) + 1; showBrowserNotif(notifTitle, notifBody, 'group-' + gname); showInAppNotif(notifTitle, notifBody); playNotifSound(); vibrate(); }
+                else loadChatMessages();
             }
             updateUnreadBadges(); loadChatList();
         }
-
+        
         function requestNotifPermission() {
             if (!('Notification' in window)) { alert('مرورگر پشتیبانی نمی‌کنه!'); return; }
-            Notification.requestPermission().then(perm => {
-                if (perm === 'granted') {
-                    notificationsEnabled = true;
-                    localStorage.setItem('notif_enabled', 'true');
-                    updateNotifButtons();
-                    document.getElementById('notifPermBtn').innerText = '✅ اعلان‌ها فعال هستند';
-                    document.getElementById('notifPermBtn').style.background = '#22c55e';
-                    showInAppNotif('✅ اعلان‌ها فعال شد', 'حالا اعلان می‌گیری'); playNotifSound();
-                }
-            });
+            Notification.requestPermission().then(p => { if (p === 'granted') { notificationsEnabled = true; localStorage.setItem('notif_enabled', 'true'); updateNotifButtons(); document.getElementById('notifPermBtn').innerText = '✅ اعلان‌ها فعال هستند'; document.getElementById('notifPermBtn').style.background = '#22c55e'; showInAppNotif('✅ اعلان‌ها فعال شد', ''); playNotifSound(); } });
         }
-
         function toggleNotifications() {
             notificationsEnabled = !notificationsEnabled;
             localStorage.setItem('notif_enabled', notificationsEnabled.toString());
             updateNotifButtons();
-            showInAppNotif(notificationsEnabled ? '🔔 اعلان‌ها فعال' : '🔕 اعلان‌ها غیرفعال', '');
         }
-
         function updateNotifButtons() {
-            const icon = notificationsEnabled ? '🔔' : '🔕';
-            const cls = notificationsEnabled ? 'top-btn notif-btn on' : 'top-btn notif-btn';
-            ['gjNotifBtn', 'msNotifBtn', 'chNotifBtn'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) { el.innerText = icon; el.className = cls; }
-            });
+            const i = notificationsEnabled ? '🔔' : '🔕';
+            const c = notificationsEnabled ? 'top-btn notif-btn on' : 'top-btn notif-btn';
+            ['gjNotifBtn', 'msNotifBtn', 'chNotifBtn'].forEach(id => { const el = document.getElementById(id); if (el) { el.innerText = i; el.className = c; } });
         }
-
         function showInAppNotif(title, body) {
             const n = document.getElementById('inAppNotif');
             document.getElementById('notifTitle').innerText = title;
             document.getElementById('notifBody').innerText = body;
             n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 4000);
         }
-
         function handleNotifClick() { document.getElementById('inAppNotif').classList.remove('show'); }
-
         function showBrowserNotif(title, body, tag) {
             if (!notificationsEnabled) return;
             if (!('Notification' in window) || Notification.permission !== 'granted') return;
             try {
-                const notif = new Notification(title, {
-                    body: body, tag: tag || 'chat-msg',
-                    icon: 'https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg'
-                });
-                notif.onclick = () => { window.focus(); notif.close(); };
-                setTimeout(() => notif.close(), 5000);
+                const n = new Notification(title, { body: body, tag: tag || 'chat-msg', icon: 'https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg' });
+                n.onclick = () => { window.focus(); n.close(); };
+                setTimeout(() => n.close(), 5000);
             } catch(e) {}
         }
-
         function playNotifSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc1 = ctx.createOscillator(); const gain1 = ctx.createGain();
-                osc1.connect(gain1); gain1.connect(ctx.destination);
-                osc1.frequency.value = 800; gain1.gain.value = 0.15;
-                osc1.start(); osc1.stop(ctx.currentTime + 0.1);
-                setTimeout(() => {
-                    const osc2 = ctx.createOscillator(); const gain2 = ctx.createGain();
-                    osc2.connect(gain2); gain2.connect(ctx.destination);
-                    osc2.frequency.value = 1200; gain2.gain.value = 0.15;
-                    osc2.start(); osc2.stop(ctx.currentTime + 0.15);
-                }, 120);
+                const o1 = ctx.createOscillator(); const g1 = ctx.createGain();
+                o1.connect(g1); g1.connect(ctx.destination);
+                o1.frequency.value = 800; g1.gain.value = 0.15;
+                o1.start(); o1.stop(ctx.currentTime + 0.1);
+                setTimeout(() => { const o2 = ctx.createOscillator(); const g2 = ctx.createGain(); o2.connect(g2); g2.connect(ctx.destination); o2.frequency.value = 1200; g2.gain.value = 0.15; o2.start(); o2.stop(ctx.currentTime + 0.15); }, 120);
             } catch(e) {}
         }
-
         function vibrate() { if ('vibrate' in navigator) navigator.vibrate([100, 50, 100]); }
-
         function updateUnreadBadges() {
             document.querySelectorAll('.unread-badge').forEach(b => b.remove());
             chatList.forEach((c, i) => {
@@ -1309,96 +1285,65 @@
                 const count = unreadCounts[key];
                 if (count && count > 0) {
                     const items = document.querySelectorAll('.chat-item');
-                    if (items[i]) {
-                        const badge = document.createElement('div');
-                        badge.className = 'unread-badge';
-                        badge.innerText = count > 99 ? '99+' : count;
-                        items[i].appendChild(badge);
-                    }
+                    if (items[i]) { const b = document.createElement('div'); b.className = 'unread-badge'; b.innerText = count > 99 ? '99+' : count; items[i].appendChild(b); }
                 }
             });
         }
-
-        function clearUnread(key) { if (unreadCounts[key]) { delete unreadCounts[key]; updateUnreadBadges(); } }
-
-        let mediaRecorder = null, audioChunks = [], isRecording = false;
-        let recordingTimer = null, recordingSeconds = 0, recordingContext = '';
-
+        function clearUnread(k) { if (unreadCounts[k]) { delete unreadCounts[k]; updateUnreadBadges(); } }
+        
+        let mediaRecorder = null, audioChunks = [], isRecording = false, recordingTimer = null, recordingSeconds = 0, recordingContext = '';
         function formatTime(s) { const m = Math.floor(s/60), sec = s%60; return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec; }
-
-        async function startRecording(context) {
+        async function startRecording(ctx) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
-                audioChunks = []; isRecording = true;
-                recordingContext = context; recordingSeconds = 0;
+                audioChunks = []; isRecording = true; recordingContext = ctx; recordingSeconds = 0;
                 document.getElementById('recordingIndicator').classList.add('show');
                 document.getElementById('recordingTime').innerText = '00:00';
-                const btnId = context === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn';
-                document.getElementById(btnId).classList.add('recording');
-                document.getElementById(btnId).innerText = '⏹️';
-                recordingTimer = setInterval(() => {
-                    recordingSeconds++;
-                    document.getElementById('recordingTime').innerText = formatTime(recordingSeconds);
-                    if (recordingSeconds >= 60) stopRecording();
-                }, 1000);
+                const bid = ctx === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn';
+                document.getElementById(bid).classList.add('recording');
+                document.getElementById(bid).innerText = '⏹️';
+                recordingTimer = setInterval(() => { recordingSeconds++; document.getElementById('recordingTime').innerText = formatTime(recordingSeconds); if (recordingSeconds >= 60) stopRecording(); }, 1000);
                 mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
                 mediaRecorder.onstop = async () => {
                     clearInterval(recordingTimer);
                     document.getElementById('recordingIndicator').classList.remove('show');
-                    const btn = document.getElementById(context === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn');
-                    btn.classList.remove('recording'); btn.innerText = '🎤';
+                    const b = document.getElementById(ctx === 'gj' ? 'gjVoiceBtn' : 'chVoiceBtn');
+                    b.classList.remove('recording'); b.innerText = '🎤';
                     stream.getTracks().forEach(t => t.stop());
                     const blob = new Blob(audioChunks, { type: 'audio/webm' });
                     const reader = new FileReader();
                     reader.readAsDataURL(blob);
                     reader.onloadend = async () => {
                         const base64 = reader.result.split(',')[1];
-                        if (context === 'gj') await sendGjAudio(base64);
-                        else await sendChAudio(base64);
+                        if (ctx === 'gj') await sendGjAudio(base64); else await sendChAudio(base64);
                     };
                 };
                 mediaRecorder.start();
             } catch(e) { alert('دسترسی به میکروفون ممکن نیست!\n\n' + e.message); isRecording = false; }
         }
-
         function stopRecording() { if (mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; clearInterval(recordingTimer); } }
         function toggleGjRecording() { isRecording ? stopRecording() : startRecording('gj'); }
         function toggleChRecording() { isRecording ? stopRecording() : startRecording('ch'); }
-
         async function sendGjAudio(base64) {
             const content = 'AUDIO:' + base64;
             const receiver = 'GROUP:' + GROUP_NAME;
-            if (!navigator.onLine) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
-                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadGjMessages(); return;
-            }
-            const result = await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content)
-            }]);
-            if (result.error) savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
+            if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }); loadGjMessages(); return; }
+            const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }]);
+            if (r.error) savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) });
             loadGjMessages();
         }
-
         async function sendChAudio(base64) {
             const content = 'AUDIO:' + base64;
             const receiver = getReceiverForChat();
-            if (!navigator.onLine) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
-                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadChatMessages(); return;
-            }
-            const result = await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content)
-            }]);
-            if (result.error) savePendingMessage({ sender: myUsername, receiver: receiver, content: LZString.compressToUTF16(content) });
+            if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }); loadChatMessages(); return; }
+            const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }]);
+            if (r.error) savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) });
             loadChatMessages();
         }
-
         function openImageModal(src) { document.getElementById('fullImage').src = src; document.getElementById('imageModal').style.display = 'flex'; }
         function closeImageModal() { document.getElementById('imageModal').style.display = 'none'; }
-
+        
         function showScreen(name) {
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('gjScreen').style.display = 'none';
@@ -1407,14 +1352,15 @@
             currentScreenName = name;
             document.getElementById('emojiPickerGj').classList.remove('show');
             document.getElementById('emojiPickerCh').classList.remove('show');
-            if (name === 'home') {
-                document.getElementById('homeScreen').style.display = 'block';
-            } else if (name === 'gj') {
+            if (name === 'home') document.getElementById('homeScreen').style.display = 'block';
+            else if (name === 'gj') {
                 if (!myUsername) { document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('gjScreen').style.display = 'flex';
                 document.getElementById('gjUserLabel').innerText = myUsername;
                 updateOnlineToggleUI();
-                clearUnread('gj'); loadGameData(); updateGjCoin(); loadGjMessages();
+                clearUnread('gj');
+                loadMyGameData();
+                loadGjMessages();
             } else if (name === 'msg') {
                 if (!myUsername) { document.getElementById('loginModal').style.display = 'flex'; return; }
                 document.getElementById('msgScreen').style.display = 'flex';
@@ -1423,49 +1369,45 @@
                 initMessenger();
             }
         }
-
-        function loadGameData() {
-            myCoins = parseInt(localStorage.getItem('game_coins_' + myUsername) || '500');
-            myWeapon = localStorage.getItem('game_weapon_' + myUsername) || '';
-            myWins = parseInt(localStorage.getItem('game_wins_' + myUsername) || '0');
-            myLosses = parseInt(localStorage.getItem('game_losses_' + myUsername) || '0');
-        }
-        function saveGameData() {
-            localStorage.setItem('game_coins_' + myUsername, myCoins);
-            localStorage.setItem('game_weapon_' + myUsername, myWeapon);
-            localStorage.setItem('game_wins_' + myUsername, myWins);
-            localStorage.setItem('game_losses_' + myUsername, myLosses);
-            updateGjCoin();
-        }
+        
         function updateGjCoin() { const el = document.getElementById('gjCoinLabel'); if (el) el.innerText = myCoins; }
-        function openGamePanel() {
+        
+        async function openGamePanel() {
+            await loadMyGameData();
             document.getElementById('gCoins').innerText = myCoins;
             document.getElementById('gWeapon').innerText = myWeapon ? (WEAPONS[myWeapon]?.emoji + ' ' + myWeapon) : 'هیچ';
             document.getElementById('gPower').innerText = myWeapon ? WEAPONS[myWeapon].power : 0;
             document.getElementById('gWins').innerText = myWins;
             document.getElementById('gLosses').innerText = myLosses;
+            document.getElementById('gAttacks').innerText = myAttacks;
             renderShop();
             document.getElementById('gameModal').style.display = 'flex';
         }
         function closeGamePanel() { document.getElementById('gameModal').style.display = 'none'; }
         function renderShop() {
-            document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([name, w]) => `
+            document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([n, w]) => `
                 <div class="shop-item">
-                    <span>${w.emoji} ${name}</span>
+                    <span>${w.emoji} ${n}</span>
                     <span style="color:#facc15;font-size:11px;">💰${w.price} ⚔️${w.power}</span>
-                    <button class="buy-btn" onclick="buyWeapon('${name}')" ${myCoins < w.price ? 'disabled' : ''}>خرید</button>
+                    <button class="buy-btn" onclick="buyWeapon('${n}')" ${myCoins < w.price ? 'disabled' : ''}>خرید</button>
                 </div>
             `).join('');
         }
-        function buyWeapon(name) {
+        async function buyWeapon(name) {
             if (!WEAPONS[name]) return;
             if (myCoins < WEAPONS[name].price) return alert('سکه کافی نداری!');
-            myCoins -= WEAPONS[name].price; myWeapon = name;
-            saveGameData();
+            myCoins -= WEAPONS[name].price;
+            myWeapon = name;
+            await saveMyGameData();
             alert('✅ ' + name + ' خریداری شد!');
             openGamePanel();
+            // پیام در چت
+            await supabaseClient.from('messages').insert([{
+                sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+                content: LZString.compressToUTF16('🛒 ' + myUsername + ' سلاح ' + WEAPONS[name].emoji + ' ' + name + ' خریداری کرد! (قدرت: ' + WEAPONS[name].power + ')')
+            }]);
         }
-
+        
         async function sendGj() {
             const input = document.getElementById('gjInput');
             const text = input.value.trim();
@@ -1474,182 +1416,88 @@
             document.getElementById('emojiPickerGj').classList.remove('show');
             const content = LZString.compressToUTF16(text);
             const receiver = 'GROUP:' + GROUP_NAME;
-            if (!navigator.onLine) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
-                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadGjMessages(); return;
-            }
-            const result = await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver, content: content
-            }]);
-            if (result.error) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
-                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
-            }
+            if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content }); loadGjMessages(); return; }
+            const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content }]);
+            if (r.error) savePendingMessage({ sender: myUsername, receiver, content });
             loadGjMessages();
-            if (text.startsWith('!')) setTimeout(() => processBot(text, myUsername), 300);
         }
         
         async function sendGjBot(text) {
-            await supabaseClient.from('messages').insert([{
-                sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
-                content: LZString.compressToUTF16(text)
-            }]);
+            await supabaseClient.from('messages').insert([{ sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME, content: LZString.compressToUTF16(text) }]);
         }
         
         async function loadGjMessages() {
-            const { data } = await supabaseClient.from('messages').select('*')
-                .eq('receiver', 'GROUP:' + GROUP_NAME)
-                .order('created_at', { ascending: true }).limit(100);
+            const { data } = await supabaseClient.from('messages').select('*').eq('receiver', 'GROUP:' + GROUP_NAME).order('created_at', { ascending: true }).limit(100);
             const box = document.getElementById('gjMessages');
             if (!box) return;
             box.innerHTML = '';
             const pending = getPendingMessages().filter(p => p.receiver === 'GROUP:' + GROUP_NAME);
-            if ((!data || data.length === 0) && pending.length === 0) { 
-                box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; return; 
-            }
+            if ((!data || data.length === 0) && pending.length === 0) { box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; return; }
             (data || []).forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
                 const isMe = msg.sender === myUsername;
                 const isBot = msg.sender === BOT_NAME;
-                if (msg.sender === 'system') {
-                    const div = document.createElement('div');
-                    div.className = 'msg-system'; div.innerText = text;
-                    box.appendChild(div); return;
-                }
-                const div = document.createElement('div');
-                div.className = 'msg ' + (isBot ? 'bot' : (isMe ? 'sent' : 'received'));
+                if (msg.sender === 'system') { const d = document.createElement('div'); d.className = 'msg-system'; d.innerText = text; box.appendChild(d); return; }
+                const d = document.createElement('div');
+                d.className = 'msg ' + (isBot ? 'bot' : (isMe ? 'sent' : 'received'));
                 const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-                let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : 
-                        (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : 
-                        '<div class="msg-sender">👤 ' + msg.sender + '</div>');
-                div.innerHTML = sh + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
-                box.appendChild(div);
+                let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + msg.sender + '</div>');
+                d.innerHTML = sh + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
+                box.appendChild(d);
             });
             pending.forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
-                const div = document.createElement('div');
-                div.className = 'msg sent pending';
-                div.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + 
-                    renderMessageContent(text) + 
-                    '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
-                box.appendChild(div);
+                const d = document.createElement('div');
+                d.className = 'msg sent pending';
+                d.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + renderMessageContent(text) + '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
+                box.appendChild(d);
             });
             box.scrollTop = box.scrollHeight;
         }
         
-        async function processBot(cmd, sender) {
-            cmd = cmd.trim();
-            if (cmd === '!شروع') { await sendGjBot('🎮 بازی شروع شد!\n\n💰 500 سکه\n\n!موجودی\n!فروشگاه\n!خرید [سلاح]\n!حمله [اسم]'); return; }
-            if (cmd === '!موجودی') {
-                const wi = myWeapon ? (WEAPONS[myWeapon].emoji + ' ' + myWeapon) : 'هیچ';
-                await sendGjBot('💰 ' + sender + ':\nسکه: ' + myCoins + '\nسلاح: ' + wi); return;
-            }
-            if (cmd === '!فروشگاه') {
-                let s = '🛒 فروشگاه:\n\n';
-                Object.entries(WEAPONS).forEach(([n, w]) => { s += w.emoji + ' ' + n + ' — 💰' + w.price + ' — ⚔️' + w.power + '\n'; });
-                await sendGjBot(s); return;
-            }
-            if (cmd.startsWith('!خرید ')) {
-                const wn = cmd.replace('!خرید ', '').trim();
-                if (!WEAPONS[wn]) { await sendGjBot('❌ سلاح نیست!'); return; }
-                if (myCoins < WEAPONS[wn].price) { await sendGjBot('❌ سکه کمه!'); return; }
-                myCoins -= WEAPONS[wn].price; myWeapon = wn; saveGameData();
-                await sendGjBot('✅ ' + sender + ' سلاح ' + WEAPONS[wn].emoji + ' ' + wn + ' خرید!'); return;
-            }
-            if (cmd.startsWith('!حمله ')) {
-                const target = cmd.replace('!حمله ', '').trim();
-                if (target === sender) { await sendGjBot('❌ به خودت حمله نکن!'); return; }
-                if (!myWeapon) { await sendGjBot('❌ اول سلاح بخر!'); return; }
-                const aP = WEAPONS[myWeapon].power;
-                const tW = localStorage.getItem('game_weapon_' + target) || '';
-                const dP = tW ? WEAPONS[tW].power : 0;
-                if (aP + Math.random()*50 > dP + Math.random()*50) {
-                    myCoins += 100; myWins++; saveGameData();
-                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + sender + '!');
-                } else {
-                    myCoins = Math.max(0, myCoins-100); myLosses++; saveGameData();
-                    await sendGjBot('⚔️ ' + sender + ' (' + aP + ') vs ' + target + ' (' + dP + ')\n\n🏆 برنده: ' + target + '!');
-                }
-                return;
-            }
-            if (cmd === '!رتبه') {
-                await loadAllUsers();
-                let ranks = allUsers.map(u => ({
-                    name: u.username,
-                    coins: parseInt(localStorage.getItem('game_coins_' + u.username) || '500')
-                })).sort((a,b) => b.coins - a.coins);
-                let s = '🏆 جدول:\n\n';
-                ranks.forEach((r, i) => {
-                    const m = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
-                    s += m + ' ' + r.name + ' — 💰' + r.coins + '\n';
-                });
-                await sendGjBot(s); return;
-            }
-        }
-
         async function initMessenger() {
             await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername);
             await loadAllUsers(); await loadMyGroups(); await loadChatList();
         }
-
         async function loadAllUsers() {
             const { data } = await supabaseClient.from('users').select('username, online');
-            if (data) {
-                allUsers = data.map(u => ({ username: u.username, online: u.online }));
-                onlineUsers = new Set(data.filter(u => u.online).map(u => u.username));
-            }
+            if (data) { allUsers = data.map(u => ({ username: u.username, online: u.online })); onlineUsers = new Set(data.filter(u => u.online).map(u => u.username)); }
         }
-
         async function loadMyGroups() {
             const { data } = await supabaseClient.from('groups').select('*');
-            if (data) {
-                myGroups = data.filter(g => {
-                    const members = (g.members || '').split(',').filter(m => m);
-                    return members.includes(myUsername);
-                });
-            }
+            if (data) myGroups = data.filter(g => { const m = (g.members || '').split(',').filter(x => x); return m.includes(myUsername); });
         }
-
         async function loadChatList() {
-            const { data: allMsgs } = await supabaseClient.from('messages')
-                .select('*').like('receiver', 'PRIVATE:%')
-                .order('created_at', { ascending: false });
-            const privChats = {};
-            (allMsgs || []).forEach(msg => {
-                const parts = msg.receiver.replace('PRIVATE:', '').split('|');
-                if (!parts.includes(myUsername)) return;
-                const other = parts.find(p => p !== myUsername);
-                if (!other) return;
-                if (localStorage.getItem('chat_deleted_' + myUsername + '_' + other) === 'true') return;
-                if (!privChats[other]) privChats[other] = { type: 'private', name: other, lastMsg: '', lastTime: msg.created_at };
+            const { data: msgs } = await supabaseClient.from('messages').select('*').like('receiver', 'PRIVATE:%').order('created_at', { ascending: false });
+            const priv = {};
+            (msgs || []).forEach(m => {
+                const p = m.receiver.replace('PRIVATE:', '').split('|');
+                if (!p.includes(myUsername)) return;
+                const o = p.find(x => x !== myUsername);
+                if (!o) return;
+                if (localStorage.getItem('chat_deleted_' + myUsername + '_' + o) === 'true') return;
+                if (!priv[o]) priv[o] = { type: 'private', name: o, lastMsg: '', lastTime: m.created_at };
             });
-            for (let user in privChats) {
-                const users = [myUsername, user].sort();
-                const receiver = 'PRIVATE:' + users[0] + '|' + users[1];
-                const { data } = await supabaseClient.from('messages')
-                    .select('*').eq('receiver', receiver)
-                    .order('created_at', { ascending: false }).limit(1);
+            for (let u in priv) {
+                const users = [myUsername, u].sort();
+                const rec = 'PRIVATE:' + users[0] + '|' + users[1];
+                const { data } = await supabaseClient.from('messages').select('*').eq('receiver', rec).order('created_at', { ascending: false }).limit(1);
                 if (data && data[0]) {
                     let t = LZString.decompressFromUTF16(data[0].content) || data[0].content;
                     if (t.startsWith('IMAGE:')) t = '🖼️ تصویر';
                     if (t.startsWith('AUDIO:')) t = '🎤 پیام صوتی';
-                    privChats[user].lastMsg = t.substring(0, 30);
+                    priv[u].lastMsg = t.substring(0, 30);
                 }
             }
-            const groupChats = myGroups.map(g => ({ type: 'group', name: g.group_name, lastMsg: '', lastTime: g.created_at }));
-            chatList = [...Object.values(privChats), ...groupChats];
+            const groups = myGroups.map(g => ({ type: 'group', name: g.group_name, lastMsg: '', lastTime: g.created_at }));
+            chatList = [...Object.values(priv), ...groups];
             chatList.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
             renderChatList(); updateUnreadBadges();
         }
-
         function renderChatList() {
             const list = document.getElementById('chatsList');
             if (!list) return;
-            if (chatList.length === 0) {
-                list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:30px;font-size:13px;">📭 هنوز چتی نداری</div>';
-                return;
-            }
+            if (chatList.length === 0) { list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:30px;font-size:13px;">📭 هنوز چتی نداری</div>'; return; }
             list.innerHTML = chatList.map(c => {
                 const isOnline = c.type === 'private' && onlineUsers.has(c.name);
                 const icon = c.type === 'group' ? '👥' : '👤';
@@ -1657,19 +1505,16 @@
                 const del = c.type === 'private' ? `<button class="del-btn" onclick="event.stopPropagation(); deleteChat('${c.name}')">🗑️</button>` : '';
                 const time = c.lastTime ? new Date(c.lastTime).toLocaleString('fa-IR', { hour: '2-digit', minute: '2-digit' }) : '';
                 return `<div class="chat-item" onclick="openChat('${c.type}', '${c.name}')">
-                    <div><div class="name">${icon} ${c.name} ${dot}</div>
-                    <div class="last-msg">${c.lastMsg || 'هنوز پیامی نیست'}</div></div>
+                    <div><div class="name">${icon} ${c.name} ${dot}</div><div class="last-msg">${c.lastMsg || 'هنوز پیامی نیست'}</div></div>
                     <div style="text-align:left;"><div class="time">${time}</div>${del}</div>
                 </div>`;
             }).join('');
         }
-
-        function deleteChat(username) {
-            if (!confirm('چت با "' + username + '" حذف بشه؟')) return;
-            localStorage.setItem('chat_deleted_' + myUsername + '_' + username, 'true');
+        function deleteChat(u) {
+            if (!confirm('چت با "' + u + '" حذف بشه؟')) return;
+            localStorage.setItem('chat_deleted_' + myUsername + '_' + u, 'true');
             loadChatList();
         }
-
         async function handleSearch() {
             const q = document.getElementById('searchInput').value.trim().toLowerCase();
             const rb = document.getElementById('searchResults');
@@ -1677,22 +1522,12 @@
             await loadAllUsers(); await loadMyGroups();
             const uR = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(q));
             const gR = myGroups.filter(g => g.group_name.toLowerCase().includes(q));
-            if (uR.length === 0 && gR.length === 0) {
-                rb.innerHTML = '<div class="search-item" style="color:#64748b;justify-content:center;">یافت نشد</div>';
-                rb.style.display = 'block'; return;
-            }
+            if (uR.length === 0 && gR.length === 0) { rb.innerHTML = '<div class="search-item" style="color:#64748b;justify-content:center;">یافت نشد</div>'; rb.style.display = 'block'; return; }
             let html = '';
-            uR.forEach(u => {
-                html += `<div class="search-item" onclick="openChat('private', '${u.username}')">
-                    <span>👤 ${u.username} ${onlineUsers.has(u.username) ? '🟢' : '⚫'}</span><span style="font-size:10px;color:#94a3b8;">کاربر</span></div>`;
-            });
-            gR.forEach(g => {
-                html += `<div class="search-item" onclick="openChat('group', '${g.group_name}')">
-                    <span>👥 ${g.group_name}</span><span style="font-size:10px;color:#94a3b8;">گروه</span></div>`;
-            });
+            uR.forEach(u => { html += `<div class="search-item" onclick="openChat('private', '${u.username}')"><span>👤 ${u.username} ${onlineUsers.has(u.username) ? '🟢' : '⚫'}</span><span style="font-size:10px;color:#94a3b8;">کاربر</span></div>`; });
+            gR.forEach(g => { html += `<div class="search-item" onclick="openChat('group', '${g.group_name}')"><span>👥 ${g.group_name}</span><span style="font-size:10px;color:#94a3b8;">گروه</span></div>`; });
             rb.innerHTML = html; rb.style.display = 'block';
         }
-
         async function openChat(type, name) {
             currentChat = { type, target: name };
             document.getElementById('msgScreen').style.display = 'none';
@@ -1702,8 +1537,7 @@
             document.getElementById('chatHeaderIcon').innerText = type === 'group' ? '👥' : '👤';
             document.getElementById('chatTitleName').innerText = name;
             currentScreenName = 'chat';
-            const key = type === 'private' ? 'private-' + name : 'group-' + name;
-            clearUnread(key);
+            clearUnread(type === 'private' ? 'private-' + name : 'group-' + name);
             if (type === 'group') {
                 document.getElementById('chatGroupStats').style.display = 'flex';
                 document.getElementById('membersBtn').style.display = 'block';
@@ -1717,103 +1551,76 @@
             }
             await loadChatMessages();
         }
-
-        async function updateGroupStats(groupName) {
-            const { data: g } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
-            if (!g || g.length === 0) return;
-            const members = (g[0].members || '').split(',').filter(m => m);
-            document.getElementById('memberCountLabel').innerText = members.length;
+        async function updateGroupStats(g) {
+            const { data } = await supabaseClient.from('groups').select('*').eq('group_name', g).limit(1);
+            if (!data || data.length === 0) return;
+            const m = (data[0].members || '').split(',').filter(x => x);
+            document.getElementById('memberCountLabel').innerText = m.length;
             await loadAllUsers();
-            document.getElementById('onlineCountLabel').innerText = members.filter(m => onlineUsers.has(m)).length;
+            document.getElementById('onlineCountLabel').innerText = m.filter(x => onlineUsers.has(x)).length;
         }
-
         function toggleMembers() {
             const p = document.getElementById('membersPanel');
             p.classList.toggle('show');
             if (p.classList.contains('show')) loadMembersList();
         }
-
         async function loadMembersList() {
-            const { data: g } = await supabaseClient.from('groups').select('*').eq('group_name', currentChat.target).limit(1);
-            if (!g || g.length === 0) return;
-            const members = (g[0].members || '').split(',').filter(m => m);
+            const { data } = await supabaseClient.from('groups').select('*').eq('group_name', currentChat.target).limit(1);
+            if (!data || data.length === 0) return;
+            const m = (data[0].members || '').split(',').filter(x => x);
             await loadAllUsers();
-            document.getElementById('membersPanel').innerHTML = '<div style="font-weight:bold;font-size:12px;margin-bottom:5px;color:#38bdf8;">👥 اعضا:</div>' +
-                members.map(m => `<div class="member-row"><span>${m}</span><span>${onlineUsers.has(m) ? '🟢 آنلاین' : '⚫ آفلاین'}</span></div>`).join('');
+            document.getElementById('membersPanel').innerHTML = '<div style="font-weight:bold;font-size:12px;margin-bottom:5px;color:#38bdf8;">👥 اعضا:</div>' + m.map(x => `<div class="member-row"><span>${x}</span><span>${onlineUsers.has(x) ? '🟢' : '⚫'}</span></div>`).join('');
         }
-
         function getReceiverForChat() {
             if (currentChat.type === 'group') return 'GROUP:' + currentChat.target;
             const u = [myUsername, currentChat.target].sort();
             return 'PRIVATE:' + u[0] + '|' + u[1];
         }
-
         async function sendChatMessage() {
-            const input = document.getElementById('chatMsgInput');
-            const text = input.value.trim();
-            if (!text) return;
-            input.value = '';
+            const i = document.getElementById('chatMsgInput');
+            const t = i.value.trim();
+            if (!t) return;
+            i.value = '';
             document.getElementById('emojiPickerCh').classList.remove('show');
-            const content = LZString.compressToUTF16(text);
+            const content = LZString.compressToUTF16(t);
             const receiver = getReceiverForChat();
-            if (!navigator.onLine) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
-                showInAppNotif('📦 در صف ذخیره شد', 'وقتی نت وصل شد، خودکار ارسال می‌شه');
-                loadChatMessages(); return;
-            }
-            const result = await supabaseClient.from('messages').insert([{
-                sender: myUsername, receiver: receiver, content: content
-            }]);
-            if (result.error) {
-                savePendingMessage({ sender: myUsername, receiver: receiver, content: content });
-                showInAppNotif('📦 در صف ذخیره شد', 'ارسال ناموفق بود');
-            }
+            if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content }); loadChatMessages(); return; }
+            const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content }]);
+            if (r.error) savePendingMessage({ sender: myUsername, receiver, content });
             loadChatMessages();
         }
-        
         async function loadChatMessages() {
             if (!currentChat.target) return;
-            const { data } = await supabaseClient.from('messages')
-                .select('*').eq('receiver', getReceiverForChat())
-                .order('created_at', { ascending: true }).limit(200);
+            const { data } = await supabaseClient.from('messages').select('*').eq('receiver', getReceiverForChat()).order('created_at', { ascending: true }).limit(200);
             const box = document.getElementById('chatMessagesBox');
             if (!box) return;
             box.innerHTML = '';
             const pending = getPendingMessages().filter(p => p.receiver === getReceiverForChat());
-            if ((!data || data.length === 0) && pending.length === 0) { 
-                box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; return; 
-            }
-            (data || []).forEach(msg => {
-                let text = LZString.decompressFromUTF16(msg.content) || msg.content;
-                const isMe = msg.sender === myUsername;
-                if (msg.sender === 'system') {
-                    const div = document.createElement('div');
-                    div.className = 'msg-system'; div.innerText = text;
-                    box.appendChild(div); return;
-                }
-                const div = document.createElement('div');
+            if ((!data || data.length === 0) && pending.length === 0) { box.innerHTML = '<div class="msg-system">هنوز پیامی نیست</div>'; return; }
+            (data || []).forEach(m => {
+                let text = LZString.decompressFromUTF16(m.content) || m.content;
+                const isMe = m.sender === myUsername;
+                if (m.sender === 'system') { const d = document.createElement('div'); d.className = 'msg-system'; d.innerText = text; box.appendChild(d); return; }
+                const d = document.createElement('div');
                 let cls = isMe ? 'sent' : 'received';
                 if (currentChat.type === 'private') cls = isMe ? 'private-sent' : 'private-received';
-                div.className = 'msg ' + cls;
-                const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-                let sH = isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + msg.sender + '</div>';
-                div.innerHTML = sH + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
-                box.appendChild(div);
+                d.className = 'msg ' + cls;
+                const time = new Date(m.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                let sH = isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + m.sender + '</div>';
+                d.innerHTML = sH + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
+                box.appendChild(d);
             });
             pending.forEach(msg => {
                 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
-                const div = document.createElement('div');
+                const d = document.createElement('div');
                 let cls = 'sent';
                 if (currentChat.type === 'private') cls = 'private-sent';
-                div.className = 'msg ' + cls + ' pending';
-                div.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + 
-                    renderMessageContent(text) + 
-                    '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
-                box.appendChild(div);
+                d.className = 'msg ' + cls + ' pending';
+                d.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + renderMessageContent(text) + '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳</span></div>';
+                box.appendChild(d);
             });
             box.scrollTop = box.scrollHeight;
         }
-
         function backToMessenger() {
             document.getElementById('chatScreen').style.display = 'none';
             document.getElementById('msgScreen').style.display = 'flex';
@@ -1821,7 +1628,6 @@
             document.getElementById('emojiPickerCh').classList.remove('show');
             loadChatList(); loadMyGroups();
         }
-
         async function openNewChatModal() {
             await loadAllUsers();
             document.getElementById('newChatModal').style.display = 'flex';
@@ -1833,9 +1639,7 @@
             const l = document.getElementById('newChatUserList');
             const fl = allUsers.filter(u => u.username !== myUsername && u.username.toLowerCase().includes(f.toLowerCase()));
             if (fl.length === 0) { l.innerHTML = '<div style="color:#64748b;padding:10px;text-align:center;font-size:12px;">کاربری یافت نشد</div>'; return; }
-            l.innerHTML = fl.map(u => `<div class="user-item" onclick="document.getElementById('newChatUsername').value='${u.username}'">
-                <span>👤 ${u.username}</span>${u.online ? '<span style="font-size:10px;color:#22c55e;">🟢 آنلاین</span>' : '<span style="font-size:10px;color:#64748b;">⚫ آفلاین</span>'}
-            </div>`).join('');
+            l.innerHTML = fl.map(u => `<div class="user-item" onclick="document.getElementById('newChatUsername').value='${u.username}'"><span>👤 ${u.username}</span>${u.online ? '<span style="font-size:10px;color:#22c55e;">🟢</span>' : '<span style="font-size:10px;color:#64748b;">⚫</span>'}</div>`).join('');
         }
         function filterNewChatUsers() { renderNewChatUsers(document.getElementById('newChatUsername').value); }
         async function startNewChat() {
@@ -1848,7 +1652,6 @@
             closeNewChatModal();
             await openChat('private', u);
         }
-
         function openCreateGroupModal() {
             document.getElementById('createGroupModal').style.display = 'flex';
             document.getElementById('newGroupName').value = '';
@@ -1862,11 +1665,8 @@
             try {
                 const { data: ex } = await supabaseClient.from('groups').select('*').eq('group_name', name).limit(1);
                 if (ex && ex.length > 0) {
-                    const mem = (ex[0].members || '').split(',').filter(m => m);
-                    if (!mem.includes(myUsername)) {
-                        mem.push(myUsername);
-                        await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', name);
-                    }
+                    const m = (ex[0].members || '').split(',').filter(x => x);
+                    if (!m.includes(myUsername)) { m.push(myUsername); await supabaseClient.from('groups').update({ members: m.join(',') }).eq('group_name', name); }
                 } else {
                     await supabaseClient.from('groups').insert([{ group_name: name, members: myUsername }]);
                 }
@@ -1875,7 +1675,6 @@
                 await openChat('group', name);
             } catch(e) { err.innerText = 'خطا: ' + e.message; err.style.display = 'block'; }
         }
-
         function shareGroupLink() {
             if (currentChat.type !== 'group') return;
             const link = window.location.origin + window.location.pathname + '?join=' + encodeURIComponent(currentChat.target);
@@ -1884,21 +1683,10 @@
         }
         function closeShareLinkModal() { document.getElementById('shareLinkModal').style.display = 'none'; }
         function copyGroupLink() {
-            const input = document.getElementById('groupLinkInput');
-            input.select();
-            try {
-                document.execCommand('copy');
-                navigator.clipboard.writeText(input.value).catch(() => {});
-                alert('✅ لینک کپی شد!\n\nبرای دوستت بفرست:\n' + input.value);
-            } catch(e) { prompt('کپی کن:', input.value); }
+            const i = document.getElementById('groupLinkInput');
+            i.select();
+            try { document.execCommand('copy'); navigator.clipboard.writeText(i.value).catch(() => {}); alert('✅ لینک کپی شد!'); } catch(e) { prompt('کپی کن:', i.value); }
         }
-        function testGroupLink() {
-            const link = document.getElementById('groupLinkInput').value;
-            if (!link) return;
-            if (!confirm('می‌خوای لینک رو تست کنی؟\n\nبرنامه باز میشه و میره تو گروه')) return;
-            window.location.href = link;
-        }
-
         function openServerPanel() { document.getElementById('serverPassModal').style.display = 'flex'; }
         function closeServerPass() { document.getElementById('serverPassModal').style.display = 'none'; }
         async function checkServerPass() {
@@ -1909,11 +1697,12 @@
             const u = await supabaseClient.from('users').select('id, online');
             const m = await supabaseClient.from('messages').select('id');
             const g = await supabaseClient.from('groups').select('id');
+            const a = await supabaseClient.from('attacks').select('id');
             document.getElementById('sUsers').innerText = u.data?.length || 0;
             document.getElementById('sOnline').innerText = u.data ? u.data.filter(x => x.online).length : 0;
             document.getElementById('sMessages').innerText = m.data?.length || 0;
             document.getElementById('sGroups').innerText = g.data?.length || 0;
-            document.getElementById('sPending').innerText = getPendingMessages().length;
+            document.getElementById('sAttacks').innerText = a.data?.length || 0;
         }
         function closeServerPanel() { document.getElementById('serverPanelModal').style.display = 'none'; }
         async function deleteAllData() {
@@ -1921,13 +1710,14 @@
             if (!confirm('تأیید نهایی!')) return;
             await supabaseClient.from('messages').delete().neq('id', 0);
             await supabaseClient.from('groups').delete().neq('id', 0);
+            await supabaseClient.from('attacks').delete().neq('id', 0);
             await supabaseClient.from('users').delete().neq('id', 0);
             localStorage.removeItem('pending_messages');
             updateQueueBar();
             alert('✅ پاک شد!');
             closeServerPanel();
         }
-
+        
         window.addEventListener('load', () => {
             initEmojiGrids();
             updateNotifButtons();
@@ -1936,58 +1726,41 @@
             updateQueueBar();
             setInterval(updateNetStatus, 10000);
             detectLocation();
-            
-            if (myUsername) { 
-                loadGameData(); 
-                startRealtime(); 
+            if (myUsername) {
+                loadMyGameData();
+                startRealtime();
                 setTimeout(() => sendPendingMessages(), 2000);
             } else {
-                // کاربر لاگین نیست → نمایش مودال ورود
-                setTimeout(() => {
-                    document.getElementById('loginModal').style.display = 'flex';
-                }, 500);
+                setTimeout(() => { document.getElementById('loginModal').style.display = 'flex'; }, 500);
             }
-            
             if ('Notification' in window && Notification.permission === 'granted') {
-                const btn = document.getElementById('notifPermBtn');
-                if (btn) { btn.innerText = '✅ اعلان‌ها فعال هستند'; btn.style.background = '#22c55e'; }
+                const b = document.getElementById('notifPermBtn');
+                if (b) { b.innerText = '✅ اعلان‌ها فعال هستند'; b.style.background = '#22c55e'; }
             }
             const params = new URLSearchParams(window.location.search);
             const jg = params.get('join');
-            if (jg) {
-                if (myUsername) {
-                    showScreen('msg');
-                    setTimeout(() => joinGroupByLink(jg), 1500);
-                }
-            }
+            if (jg && myUsername) { showScreen('msg'); setTimeout(() => joinGroupByLink(jg), 1500); }
         });
-
-        async function joinGroupByLink(groupName) {
+        
+        async function joinGroupByLink(g) {
             try {
-                showInAppNotif('🔗 دعوت به گروه', 'در حال ورود به "' + groupName + '"...');
-                const { data: ex } = await supabaseClient.from('groups').select('*').eq('group_name', groupName).limit(1);
+                showInAppNotif('🔗 دعوت به گروه', 'در حال ورود به "' + g + '"...');
+                const { data: ex } = await supabaseClient.from('groups').select('*').eq('group_name', g).limit(1);
                 if (ex && ex.length > 0) {
-                    const mem = (ex[0].members || '').split(',').filter(m => m);
-                    if (!mem.includes(myUsername)) {
-                        mem.push(myUsername);
-                        await supabaseClient.from('groups').update({ members: mem.join(',') }).eq('group_name', groupName);
-                        await supabaseClient.from('messages').insert([{
-                            sender: 'system', receiver: 'GROUP:' + groupName,
-                            content: LZString.compressToUTF16('👋 ' + myUsername + ' از لینک به گروه پیوست!')
-                        }]);
-                        showInAppNotif('✅ ورود موفق', 'به گروه "' + groupName + '" اضافه شدی!');
-                    } else {
-                        showInAppNotif('✅ در گروه هستی', 'به گروه "' + groupName + '" خوش آمدی!');
+                    const m = (ex[0].members || '').split(',').filter(x => x);
+                    if (!m.includes(myUsername)) {
+                        m.push(myUsername);
+                        await supabaseClient.from('groups').update({ members: m.join(',') }).eq('group_name', g);
+                        await supabaseClient.from('messages').insert([{ sender: 'system', receiver: 'GROUP:' + g, content: LZString.compressToUTF16('👋 ' + myUsername + ' از لینک به گروه پیوست!') }]);
                     }
                     await loadMyGroups();
-                    await openChat('group', groupName);
+                    await openChat('group', g);
                 } else {
-                    await supabaseClient.from('groups').insert([{ group_name: groupName, members: myUsername }]);
+                    await supabaseClient.from('groups').insert([{ group_name: g, members: myUsername }]);
                     await loadMyGroups();
-                    await openChat('group', groupName);
-                    showInAppNotif('✅ گروه ساخته شد', 'گروه "' + groupName + '" ساخته شد!');
+                    await openChat('group', g);
                 }
-            } catch(e) { console.error('خطا در ورود به گروه:', e); }
+            } catch(e) {}
         }
     </script>
 </body>
