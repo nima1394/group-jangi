@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💬 پیام‌رسان</title>
+    <title>💬 روبینو</title>
     <link rel="icon" type="image/jpeg" href="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
@@ -239,41 +239,35 @@
     </style>
 </head>
 <body>
-
     <!-- ============ صفحه لودینگ ============ -->
     <div id="loadingScreen">
         <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="loading-logo" alt="لوگو">
-        <div class="loading-title">پیام‌رسان</div>
+        <div class="loading-title">روبینو</div>
         <div class="loading-bar-container"><div class="loading-bar" id="loadingBar"></div></div>
         <div class="loading-percent" id="loadingPercent">0%</div>
         <div class="loading-text">در حال بارگذاری<span class="dots"></span></div>
     </div>
-
     <div class="status-bar">
         <div class="status-item"><span class="status-dot" id="serverDot"></span><span id="serverStatusText">سرور: در حال اتصال...</span></div>
         <div class="status-item"><span>📍</span><span id="locationText">در حال شناسایی...</span></div>
         <div class="status-item"><span id="netIcon">📶</span><span id="netStatus" class="status-good">نت: خوب</span></div>
     </div>
-
     <div class="queue-bar" id="queueBar"><span class="icon">🔄</span><span id="queueText">0 پیام در انتظار ارسال</span></div>
-
     <div id="offlineScreen" class="offline-screen">
         <div class="emoji">😔</div>
         <h1>اتصال اینترنت قطع شد</h1>
         <p>پیام‌هایی که می‌فرستی ذخیره می‌شن و وقتی نت وصل شد، خودکار ارسال می‌شن</p>
         <button class="retry-btn" onclick="retryConnection()">🔄 تلاش مجدد</button>
     </div>
-
     <!-- صفحه اصلی -->
     <div id="homeScreen" class="container">
         <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="home-logo" alt="لوگو">
-        <h1>💬 پیام‌رسان</h1>
+        <h1>💬 روبینو</h1>
         <button class="btn1" onclick="showScreen('gj')">💬 چت عمومی</button>
         <button class="btn2" onclick="showScreen('msg')">💬 پیام‌رسان</button>
         <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
-        <button onclick="openAboutModal()" style="margin-top: 10px; background: #06b6d4; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;">ℹ️ درباره برنامه</button>
+        <button onclick="openAboutModal()" style="margin-top: 10px; background: #06b6d4; color: #fff; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%;">ℹ️ درباره برنامه</button>
     </div>
-
     <!-- چت عمومی -->
     <div id="gjScreen" class="app-container" style="display: none;">
         <div class="header">
@@ -308,7 +302,6 @@
             <button class="send-btn" onclick="sendGj()">ارسال</button>
         </div>
     </div>
-
     <!-- پیام‌رسان -->
     <div id="msgScreen" class="app-container" style="display: none;">
         <div class="header">
@@ -343,7 +336,6 @@
             <button class="btn-new-chat" onclick="openNewChatModal()">💬 چت جدید</button>
         </div>
     </div>
-
     <!-- چت داخل پیام‌رسان -->
     <div id="chatScreen" class="app-container" style="display: none;">
         <div class="header">
@@ -377,23 +369,17 @@
             <div class="emoji-picker" id="emojiPickerCh"><h4>🎬 ایموجی متحرک</h4><div class="emoji-grid" id="emojiGridCh"></div></div>
         </div>
     </div>
-
     <div class="emoji-picker" id="emojiPickerGj" style="position: fixed; bottom: 80px; right: 50%; transform: translateX(50%);">
         <h4>🎬 ایموجی متحرک</h4>
         <div class="emoji-grid" id="emojiGridGj"></div>
     </div>
-
     <div id="recordingIndicator" class="recording-indicator"><div class="rec-dot"></div><span id="recordingTime">00:00</span><span style="margin-right: 10px;">در حال ضبط...</span></div>
-
     <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()">
         <div class="title" id="notifTitle">پیام جدید</div>
         <div class="body" id="notifBody">...</div>
     </div>
-
     <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
-
-    <div class="version-footer">💬 پیام‌رسان — نسخه <b>4.0</b></div>
-
+    <div class="version-footer">💬 روبینو — نسخه <b>4.0</b></div>
     <!-- مودال ورود -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -404,7 +390,6 @@
             <button onclick="registerUser()" style="background: #38bdf8; color: #0f172a;">ادامه 🚀</button>
         </div>
     </div>
-
     <!-- مودال PIN -->
     <div id="pinModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -419,7 +404,6 @@
             <div id="pinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
-
     <!-- مودال تنظیم PIN -->
     <div id="setPinModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -432,7 +416,6 @@
             <div id="setPinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
-
     <!-- مودال تغییر PIN -->
     <div id="changePinModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -446,7 +429,6 @@
             <div id="changePinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
-
  <!-- مودال بازیکنان (نیاز به رمز) -->
 <div id="playersModal" class="modal" style="display: none;">
     <div class="modal-box" style="max-width: 500px;">
@@ -459,7 +441,6 @@
         <button onclick="closePlayersModal()" style="background: #475569; color: #fff;">بستن</button>
     </div>
 </div>
-
     <!-- مودال رمز بازیکنان -->
     <div id="playersPassModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -471,7 +452,6 @@
             <div id="playersPassError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
-
     <!-- مودال جنگ -->
     <div id="fightModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -487,7 +467,6 @@
             <div id="fightResultBox" style="display: none;"></div>
         </div>
     </div>
-
     <div id="newChatModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #8b5cf6;">💬 چت جدید</h3>
@@ -497,7 +476,6 @@
             <button onclick="closeNewChatModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
-
     <div id="createGroupModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">➕ ساخت گروه</h3>
@@ -507,14 +485,13 @@
             <div id="createGroupError" style="color:#ef4444; font-size:12px; margin-top:8px; display:none;"></div>
         </div>
     </div>
-
     <!-- درباره -->
     <div id="aboutModal" class="modal" style="display: none;">
         <div class="modal-box" style="text-align: right; max-width: 450px;">
             <h3 style="color: #06b6d4; text-align: center; margin-bottom: 20px;">ℹ️ درباره برنامه</h3>
             <div class="about-section" style="text-align: center;">
                 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
-                <h3 style="color: #38bdf8; margin-bottom: 10px;">پیام‌رسان</h3>
+                <h3 style="color: #38bdf8; margin-bottom: 10px;">روبینو</h3>
                 <div class="version-badge">نسخه 4.0</div>
             </div>
             <div class="about-section">
@@ -550,7 +527,6 @@
             <button onclick="closeAboutModal()" style="background: #06b6d4; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px;">بستن</button>
         </div>
     </div>
-
     <!-- پنل بازی -->
     <div id="gameModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -570,7 +546,6 @@
             <button onclick="closeGamePanel()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
-
     <div id="serverPassModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #ef4444;">🖥️ ورود به سرور</h3>
@@ -579,7 +554,6 @@
             <button onclick="closeServerPass()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
-
     <div id="serverPanelModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #ef4444;">🖥️ سرور</h3>
@@ -594,7 +568,6 @@
             <button onclick="closeServerPanel()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
-
     <div id="shareLinkModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
@@ -604,7 +577,6 @@
             <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
-
     <script>
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
