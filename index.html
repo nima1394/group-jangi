@@ -80,6 +80,10 @@
         .info-btn { background: #06b6d4; color: #fff; }
         .logout-btn { background: #ef4444; color: #fff; }
         .stats-btn { background: #f59e0b; color: #fff; }
+        .invite-btn { background: #ec4899; color: #fff; }
+        .download-btn { background: #0ea5e9; color: #fff; }
+        .delete-acc-btn { background: #dc2626; color: #fff; }
+        .reset-btn { background: #991b1b; color: #fff; }
         .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
         
         .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
@@ -131,6 +135,7 @@
         .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1e293b; border-radius: 6px; margin-bottom: 5px; font-size: 12px; }
         .buy-btn { background: #22c55e; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
         .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .owned-badge { color: #22c55e; font-size: 10px; font-weight: bold; }
         
         .search-bar { padding: 8px 12px; background: #0f172a; border-bottom: 1px solid #334155; position: relative; }
         .search-bar input { width: 100%; padding: 8px 12px; border-radius: 20px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 13px; outline: none; }
@@ -194,52 +199,50 @@
         
         .pin-input { text-align: center; font-size: 28px; letter-spacing: 10px; font-weight: bold; color: #38bdf8; font-family: monospace; }
         
-        /* ============ لیست بازیکنان ============ */
         .player-row {
-            background: #0f172a;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 8px;
-            border: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #0f172a; border-radius: 10px; padding: 12px; margin-bottom: 8px;
+            border: 1px solid #334155; display: flex; justify-content: space-between; align-items: center;
         }
-        .player-info {
-            text-align: right;
-            flex: 1;
-        }
-        .player-name {
-            color: #38bdf8;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        .player-stats {
-            color: #94a3b8;
-            font-size: 11px;
-            line-height: 1.6;
-        }
+        .player-info { text-align: right; flex: 1; }
+        .player-name { color: #38bdf8; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+        .player-stats { color: #94a3b8; font-size: 11px; line-height: 1.6; }
         .player-stats span { color: #fff; font-weight: bold; }
-        .player-actions { display: flex; gap: 4px; flex-direction: column; }
-        .fight-btn { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold; }
         
-        .fight-result {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            text-align: center;
-            font-weight: bold;
+        .fight-result { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; padding: 15px; border-radius: 10px; margin: 10px 0; text-align: center; font-weight: bold; }
+        .fight-result.loss { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        
+        .invite-code-box {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            padding: 20px; border-radius: 12px; margin: 15px 0;
+            text-align: center; border: 2px solid #f9a8d4;
         }
-        .fight-result.loss {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+        .invite-code-box .code {
+            font-size: 32px; font-weight: bold; letter-spacing: 8px;
+            color: #fff; font-family: monospace; margin: 10px 0;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+        .success-anim {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            padding: 30px; border-radius: 15px; text-align: center;
+            animation: successPop 0.5s ease;
+        }
+        @keyframes successPop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .success-anim .big-emoji { font-size: 70px; margin-bottom: 15px; animation: bounce 1s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        .acc-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #0f172a; padding: 10px; border-radius: 8px;
+            margin-bottom: 6px; border: 1px solid #334155; font-size: 12px;
+        }
+        .acc-del-btn {
+            background: #dc2626; color: #fff; border: none;
+            padding: 5px 10px; border-radius: 5px; cursor: pointer;
+            font-size: 11px; width: auto; margin: 0;
         }
     </style>
 </head>
 <body>
-    <!-- ============ صفحه لودینگ ============ -->
     <div id="loadingScreen">
         <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="loading-logo" alt="لوگو">
         <div class="loading-title">روبینو</div>
@@ -259,16 +262,16 @@
         <p>پیام‌هایی که می‌فرستی ذخیره می‌شن و وقتی نت وصل شد، خودکار ارسال می‌شن</p>
         <button class="retry-btn" onclick="retryConnection()">🔄 تلاش مجدد</button>
     </div>
-    <!-- صفحه اصلی -->
     <div id="homeScreen" class="container">
         <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="home-logo" alt="لوگو">
         <h1>💬 روبینو</h1>
         <button class="btn1" onclick="showScreen('gj')">💬 چت عمومی</button>
         <button class="btn2" onclick="showScreen('msg')">💬 پیام‌رسان</button>
         <button onclick="requestNotifPermission()" style="margin-top: 20px; background: #f59e0b; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;" id="notifPermBtn">🔔 فعال‌سازی اعلان‌ها</button>
+        <button onclick="openDownloadModal()" style="margin-top: 10px; background: #0ea5e9; color: #fff; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%;">📥 دانلود برنامه</button>
         <button onclick="openAboutModal()" style="margin-top: 10px; background: #06b6d4; color: #fff; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; width: 100%;">ℹ️ درباره برنامه</button>
     </div>
-    <!-- چت عمومی -->
+
     <div id="gjScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
@@ -278,6 +281,7 @@
                         <span class="dot"></span>
                         <span id="gjOnlineText">آنلاین</span>
                     </button>
+                    <button class="top-btn invite-btn" onclick="openInviteModal()">🎁 دعوت دوستان</button>
                     <button class="top-btn stats-btn" onclick="openPlayersModal()">👥 بازیکنان</button>
                     <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
                     <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
@@ -302,7 +306,7 @@
             <button class="send-btn" onclick="sendGj()">ارسال</button>
         </div>
     </div>
-    <!-- پیام‌رسان -->
+
     <div id="msgScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
@@ -336,7 +340,7 @@
             <button class="btn-new-chat" onclick="openNewChatModal()">💬 چت جدید</button>
         </div>
     </div>
-    <!-- چت داخل پیام‌رسان -->
+
     <div id="chatScreen" class="app-container" style="display: none;">
         <div class="header">
             <div class="user-info">
@@ -369,6 +373,7 @@
             <div class="emoji-picker" id="emojiPickerCh"><h4>🎬 ایموجی متحرک</h4><div class="emoji-grid" id="emojiGridCh"></div></div>
         </div>
     </div>
+
     <div class="emoji-picker" id="emojiPickerGj" style="position: fixed; bottom: 80px; right: 50%; transform: translateX(50%);">
         <h4>🎬 ایموجی متحرک</h4>
         <div class="emoji-grid" id="emojiGridGj"></div>
@@ -379,17 +384,21 @@
         <div class="body" id="notifBody">...</div>
     </div>
     <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
-    <div class="version-footer">💬 روبینو — نسخه <b>4.0</b></div>
+    <div class="version-footer">💬 روبینو — نسخه <b>5.0</b></div>
+
     <!-- مودال ورود -->
     <div id="loginModal" class="modal" style="display: none;">
         <div class="modal-box">
             <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
-            <h3 style="color: #38bdf8;">👋 ورود</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">اسم خود را وارد کن:</p>
-            <input type="text" id="usernameInput" placeholder="اسم..." maxlength="20">
+            <h3 style="color: #38bdf8;">👋 ورود / ثبت‌نام</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">اسم کاربری خود را وارد کن:</p>
+            <input type="text" id="usernameInput" placeholder="نام کاربری..." maxlength="20">
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">اسم و فامیلت را وارد کن:</p>
+            <input type="text" id="fullnameInput" placeholder="مثلاً: علی محمدی" maxlength="50">
             <button onclick="registerUser()" style="background: #38bdf8; color: #0f172a;">ادامه 🚀</button>
         </div>
     </div>
+
     <!-- مودال PIN -->
     <div id="pinModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -404,6 +413,7 @@
             <div id="pinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
+
     <!-- مودال تنظیم PIN -->
     <div id="setPinModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -416,6 +426,7 @@
             <div id="setPinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
+
     <!-- مودال تغییر PIN -->
     <div id="changePinModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -429,18 +440,115 @@
             <div id="changePinError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
- <!-- مودال بازیکنان (نیاز به رمز) -->
-<div id="playersModal" class="modal" style="display: none;">
-    <div class="modal-box" style="max-width: 500px;">
-        <h3 style="color: #f59e0b;">👥 اطلاعات بازیکنان</h3>
-        <div id="playersList" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
-        
-        <!-- ⚔️ دکمه اعلام جنگ -->
-        <button onclick="openFightModal()" style="background: #ef4444; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 14px;">⚔️ اعلام جنگ</button>
-        
-        <button onclick="closePlayersModal()" style="background: #475569; color: #fff;">بستن</button>
+
+    <!-- مودال دعوت دوستان -->
+    <div id="inviteModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #ec4899;">🎁 دعوت دوستان</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">این کد اختصاصی خودته. به دوستات بده تا با وارد کردنش، هر دوتون ۵۰۰ سکه بگیرید!</p>
+            <div class="invite-code-box">
+                <p style="color: #fce7f3; font-size: 12px; margin-bottom: 5px;">کد دعوت شما:</p>
+                <div class="code" id="myInviteCode">------</div>
+            </div>
+            <button onclick="copyInviteCode()" style="background: #ec4899; color: #fff;">📋 کپی کد</button>
+            <button onclick="openRedeemModal()" style="background: #22c55e; color: #fff; margin-top: 10px;">🎟️ من لینک دعوت دارم</button>
+            <button onclick="closeInviteModal()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
     </div>
-</div>
+
+    <!-- مودال وارد کردن کد دعوت -->
+    <div id="redeemModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #22c55e;">🎟️ وارد کردن کد دعوت</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">کد دعوتی که دوستت بهت داده رو وارد کن:</p>
+            <input type="text" id="redeemCodeInput" placeholder="کد دعوت 6 رقمی..." maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 5px; font-weight: bold;">
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px; margin-top: 10px;">اسم و فامیل دوستت:</p>
+            <input type="text" id="redeemFriendName" placeholder="مثلاً: علی محمدی">
+            <button onclick="redeemInviteCode()" style="background: #22c55e; color: #fff;">ثبت کد 🎁</button>
+            <button onclick="closeRedeemModal()" style="background: #475569; color: #fff;">بستن</button>
+            <div id="redeemError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- مودال موفقیت دعوت -->
+    <div id="inviteSuccessModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <div class="success-anim">
+                <div class="big-emoji">🎉</div>
+                <h3 style="color: #fff; margin-bottom: 10px;">تراکنش موفق!</h3>
+                <p style="color: #fff; font-size: 14px; line-height: 1.8;" id="inviteSuccessText">
+                    شما و دوستتون ۵۰۰ سکه هدیه گرفتید!
+                </p>
+            </div>
+            <button onclick="closeInviteSuccessModal()" style="background: #22c55e; color: #fff; margin-top: 15px;">عالیه! 🎉</button>
+        </div>
+    </div>
+
+    <!-- مودال دانلود -->
+    <div id="downloadModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #0ea5e9;">📥 دانلود روبینو</h3>
+            <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو" style="width: 80px; height: 80px;">
+            <p style="font-size: 13px; color: #cbd5e1; margin: 15px 0; line-height: 1.8;">
+                نسخه اندروید روبینو رو دانلود کن و روی گوشیت نصب کن!
+            </p>
+            <a href="https://www.mediafire.com/file/0hys95t2swus55u/app-release_%25281%2529.apk/file" target="_blank" 
+               style="display: block; background: #0ea5e9; color: #fff; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 16px; margin-bottom: 10px;">
+                ⬇️ دانلود APK
+            </a>
+            <button onclick="closeDownloadModal()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <!-- مودال حذف حساب -->
+    <div id="deleteAccModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #dc2626;">🗑️ حذف حساب کاربری</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">رمز مدیریت را وارد کن:</p>
+            <input type="password" id="delAccPass" placeholder="رمز مدیریت...">
+            <button onclick="checkDelAccPass()" style="background: #dc2626; color: #fff;">تأیید و ادامه</button>
+            <button onclick="closeDelAccModal()" style="background: #475569; color: #fff;">بستن</button>
+            <div id="delAccError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- مودال لیست حساب‌ها برای حذف -->
+    <div id="accountsListModal" class="modal" style="display: none;">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: #dc2626;">🗑️ حذف حساب‌ها</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">روی حذف بزن تا حساب پاک بشه:</p>
+            <div id="accountsListBox" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
+            <button onclick="closeAccountsListModal()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
+    <!-- مودال ریست برنامه -->
+    <div id="resetModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: #991b1b;">💣 ریست کامل برنامه</h3>
+            <p style="font-size: 13px; color: #fca5a5; margin-bottom: 15px; line-height: 1.8;">
+                ⚠️ هشدار! تمام حساب‌ها، پیام‌ها، گروه‌ها و اطلاعات سرور پاک می‌شن!<br>
+                این عمل قابل بازگشت نیست!
+            </p>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 8px;">رمز مدیریت را وارد کن:</p>
+            <input type="password" id="resetPass" placeholder="رمز مدیریت...">
+            <button onclick="checkResetPass()" style="background: #991b1b; color: #fff;">💣 ریست کامل</button>
+            <button onclick="closeResetModal()" style="background: #475569; color: #fff;">انصراف</button>
+            <div id="resetError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
+            <div id="resetConfirmBox" style="display: none; margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <!-- مودال بازیکنان -->
+    <div id="playersModal" class="modal" style="display: none;">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: #f59e0b;">👥 اطلاعات بازیکنان</h3>
+            <div id="playersList" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
+            <button onclick="openFightModal()" style="background: #ef4444; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 14px;">⚔️ اعلام جنگ</button>
+            <button onclick="closePlayersModal()" style="background: #475569; color: #fff;">بستن</button>
+        </div>
+    </div>
+
     <!-- مودال رمز بازیکنان -->
     <div id="playersPassModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -452,6 +560,7 @@
             <div id="playersPassError" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;"></div>
         </div>
     </div>
+
     <!-- مودال جنگ -->
     <div id="fightModal" class="modal" style="display: none;">
         <div class="modal-box">
@@ -467,6 +576,7 @@
             <div id="fightResultBox" style="display: none;"></div>
         </div>
     </div>
+
     <div id="newChatModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #8b5cf6;">💬 چت جدید</h3>
@@ -476,6 +586,7 @@
             <button onclick="closeNewChatModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
+
     <div id="createGroupModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">➕ ساخت گروه</h3>
@@ -485,6 +596,7 @@
             <div id="createGroupError" style="color:#ef4444; font-size:12px; margin-top:8px; display:none;"></div>
         </div>
     </div>
+
     <!-- درباره -->
     <div id="aboutModal" class="modal" style="display: none;">
         <div class="modal-box" style="text-align: right; max-width: 450px;">
@@ -492,32 +604,37 @@
             <div class="about-section" style="text-align: center;">
                 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
                 <h3 style="color: #38bdf8; margin-bottom: 10px;">روبینو</h3>
-                <div class="version-badge">نسخه 4.0</div>
+                <div class="version-badge">نسخه 5.0</div>
             </div>
             <div class="about-section">
                 <h4>🎯 قابلیت‌ها</h4>
                 <div style="font-size: 12px; line-height: 2; color: #cbd5e1;">
                     ✅ چت گروهی و خصوصی<br>
                     ✅ بازی جنگی با 1000 سکه<br>
-                    ✅ ذخیره در سرور<br>
-                    ✅ دیدن اطلاعات بازیکنان<br>
-                    ✅ محاسبه خودکار برد/باخت<br>
-                    ✅ قفل با کد 4 رقمی
+                    ✅ جمع شدن قدرت سلاح‌ها<br>
+                    ✅ سیستم دعوت دوستان (۵۰۰ سکه)<br>
+                    ✅ ذخیره اسم و فامیل در سرور<br>
+                    ✅ قفل با کد 4 رقمی<br>
+                    ✅ پنل مدیریت
                 </div>
             </div>
             <div class="about-section">
                 <h4>📝 تاریخچه تغییرات</h4>
                 <div class="changelog-item">
+                    <span class="ver">v5.0</span><br>
+                    <span class="added">✅</span> سیستم دعوت دوستان با کد اختصاصی<br>
+                    <span class="added">✅</span> پاداش ۵۰۰ سکه برای دعوت<br>
+                    <span class="added">✅</span> ذخیره اسم و فامیل در سرور<br>
+                    <span class="added">✅</span> رفع باگ خرید سلاح (جمع شدن قدرت)<br>
+                    <span class="added">✅</span> حذف حساب کاربری<br>
+                    <span class="added">✅</span> ریست کامل برنامه<br>
+                    <span class="added">✅</span> دکمه دانلود APK
+                </div>
+                <div class="changelog-item">
                     <span class="ver">v4.0</span><br>
                     <span class="added">✅</span> 1000 سکه اولیه<br>
                     <span class="added">✅</span> ذخیره بازی در سرور<br>
-                    <span class="added">✅</span> دیدن اطلاعات بازیکنان<br>
-                    <span class="added">✅</span> محاسبه خودکار برد/باخت
-                </div>
-                <div class="changelog-item">
-                    <span class="ver">v3.0</span><br>
-                    <span class="added">✅</span> قفل با کد 4 رقمی<br>
-                    <span class="added">✅</span> دکمه خروج از حساب
+                    <span class="added">✅</span> دیدن اطلاعات بازیکنان
                 </div>
             </div>
             <div class="about-section" style="text-align: center;">
@@ -527,14 +644,15 @@
             <button onclick="closeAboutModal()" style="background: #06b6d4; color: #fff; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px;">بستن</button>
         </div>
     </div>
+
     <!-- پنل بازی -->
     <div id="gameModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🎮 بازی جنگی</h3>
             <div class="game-panel">
                 <div class="game-stat"><span>💰 سکه:</span><b id="gCoins" style="color:#facc15;">1000</b></div>
-                <div class="game-stat"><span>⚔️ سلاح:</span><b id="gWeapon">هیچ</b></div>
-                <div class="game-stat"><span>💪 قدرت:</span><b id="gPower" style="color:#ef4444;">0</b></div>
+                <div class="game-stat"><span>⚔️ سلاح‌ها:</span><b id="gWeapon">هیچ</b></div>
+                <div class="game-stat"><span>💪 قدرت کل:</span><b id="gPower" style="color:#ef4444;">0</b></div>
                 <div class="game-stat"><span>🏆 برد:</span><b id="gWins" style="color:#22c55e;">0</b></div>
                 <div class="game-stat"><span>💀 باخت:</span><b id="gLosses" style="color:#ef4444;">0</b></div>
                 <div class="game-stat"><span>⚔️ تعداد حمله:</span><b id="gAttacks" style="color:#f59e0b;">0</b></div>
@@ -546,6 +664,8 @@
             <button onclick="closeGamePanel()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
+
+    <!-- سرور -->
     <div id="serverPassModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #ef4444;">🖥️ ورود به سرور</h3>
@@ -554,9 +674,10 @@
             <button onclick="closeServerPass()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
+
     <div id="serverPanelModal" class="modal" style="display: none;">
         <div class="modal-box">
-            <h3 style="color: #ef4444;">🖥️ سرور</h3>
+            <h3 style="color: #ef4444;">🖥️ پنل مدیریت سرور</h3>
             <div style="text-align: right; margin-bottom: 15px;">
                 <p>👤 کاربران: <b id="sUsers" style="color:#38bdf8;">0</b></p>
                 <p>🟢 آنلاین: <b id="sOnline" style="color:#22c55e;">0</b></p>
@@ -564,10 +685,13 @@
                 <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
                 <p>⚔️ جنگ‌ها: <b id="sAttacks" style="color:#ef4444;">0</b></p>
             </div>
-            <button onclick="deleteAllData()" style="background: #ef4444; color: #fff;">🗑️ پاک کردن همه</button>
-            <button onclick="closeServerPanel()" style="background: #475569; color: #fff;">بستن</button>
+            <button onclick="closeServerPanel(); openDeleteAccModal();" style="background: #dc2626; color: #fff;">🗑️ حذف حساب‌ها</button>
+            <button onclick="closeServerPanel(); openResetModal();" style="background: #991b1b; color: #fff; margin-top: 8px;">💣 ریست کامل برنامه</button>
+            <button onclick="closeServerPanel()" style="background: #475569; color: #fff; margin-top: 8px;">بستن</button>
         </div>
     </div>
+
+    <!-- لینک گروه -->
     <div id="shareLinkModal" class="modal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: #22c55e;">🔗 لینک گروه</h3>
@@ -577,19 +701,22 @@
             <button onclick="closeShareLinkModal()" style="background: #475569; color: #fff;">بستن</button>
         </div>
     </div>
+
     <script>
         const SUPABASE_URL = "https://jimvkiprcbpqruvhyfrm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const GROUP_NAME = "گروه جنگی";
         const BOT_NAME = "ربات بازی 🤖";
+        const ADMIN_PASS = 'nimaaslani1234A';
         const PLAYERS_PASS = 'nimaaslani1234A';
+        const SERVER_PASS = 'nimaaslani1234A';
         const STARTING_COINS = 1000;
+        const INVITE_REWARD = 500;
         
         let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
-        
-        // ============ 🔐 PIN ============
         let pendingUsername = '';
+        let pendingFullname = '';
         let pinAttempts = 0;
         
         function updateOnlineToggleUI() {
@@ -617,7 +744,6 @@
             }
         }
         
-        // ============ 🚪 خروج ============
         async function logoutUser() {
             if (!confirm('از حساب خارج بشی؟')) return;
             if (myUsername) {
@@ -629,16 +755,20 @@
             showScreen('home');
             setTimeout(() => {
                 document.getElementById('usernameInput').value = '';
+                document.getElementById('fullnameInput').value = '';
                 document.getElementById('loginModal').style.display = 'flex';
             }, 300);
             showInAppNotif('🚪 خروج موفق', 'از حساب خارج شدی');
         }
         
-        // ============ 📝 ثبت نام ============
         async function registerUser() {
             const name = document.getElementById('usernameInput').value.trim();
-            if (!name || name.length < 2) { alert('نام باید حداقل 2 کاراکتر!'); return; }
-            if (name.length > 20) { alert('نام باید حداکثر 20 کاراکتر!'); return; }
+            const fullname = document.getElementById('fullnameInput').value.trim();
+            if (!name || name.length < 2) { alert('نام کاربری باید حداقل 2 کاراکتر!'); return; }
+            if (name.length > 20) { alert('نام کاربری باید حداکثر 20 کاراکتر!'); return; }
+            if (!fullname || fullname.length < 2) { alert('اسم و فامیلت رو وارد کن!'); return; }
+            
+            pendingFullname = fullname;
             
             try {
                 const { data: ex } = await supabaseClient.from('users').select('id, pin').eq('username', name).limit(1);
@@ -655,16 +785,21 @@
                         document.getElementById('setPinModal').style.display = 'flex';
                     }
                 } else {
-                    // کاربر جدید - 1000 سکه
+                    // تولید کد دعوت 6 رقمی
+                    const inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
                     await supabaseClient.from('users').insert([{ 
                         username: name, 
+                        fullname: fullname,
                         online: myOnlineStatus,
                         coins: STARTING_COINS,
-                        weapon: '',
+                        weapons: '',
                         wins: 0,
                         losses: 0,
                         attack_count: 0,
-                        defense_count: 0
+                        defense_count: 0,
+                        invite_code: inviteCode,
+                        invited_by: '',
+                        invite_redeemed: false
                     }]);
                     pendingUsername = name;
                     document.getElementById('loginModal').style.display = 'none';
@@ -676,7 +811,6 @@
             } catch(e) { alert('خطا: ' + e.message); }
         }
         
-        // ============ 🔐 PIN ============
         async function saveNewPin() {
             const pin = document.getElementById('newPinInput').value.trim();
             const confirm = document.getElementById('newPinConfirm').value.trim();
@@ -705,7 +839,6 @@
         function closePinModal() {
             document.getElementById('pinModal').style.display = 'none';
             document.getElementById('loginModal').style.display = 'flex';
-            document.getElementById('usernameInput').value = '';
         }
         
         async function verifyPin() {
@@ -783,17 +916,21 @@
             showInAppNotif('✅ خوش آمدی ' + username + '!', 'موجودی: ' + myCoins + ' سکه');
         }
         
-        // ============ 🎮 بازی در سرور ============
+        // ============ 🎮 بازی ============
+        let myWeapons = [];
+        let myCoins = 1000, myWins = 0, myLosses = 0, myAttacks = 0, myDefenses = 0;
+        
         async function loadMyGameData() {
             try {
-                const { data } = await supabaseClient.from('users').select('coins, weapon, wins, losses, attack_count, defense_count').eq('username', myUsername).limit(1);
+                const { data } = await supabaseClient.from('users').select('coins, weapons, wins, losses, attack_count, defense_count, invite_code, fullname').eq('username', myUsername).limit(1);
                 if (data && data[0]) {
                     myCoins = data[0].coins || STARTING_COINS;
-                    myWeapon = data[0].weapon || '';
+                    myWeapons = (data[0].weapons || '').split(',').filter(x => x);
                     myWins = data[0].wins || 0;
                     myLosses = data[0].losses || 0;
                     myAttacks = data[0].attack_count || 0;
                     myDefenses = data[0].defense_count || 0;
+                    if (data[0].invite_code) myInviteCode = data[0].invite_code;
                     updateGjCoin();
                 }
             } catch(e) { console.error(e); }
@@ -803,7 +940,7 @@
             try {
                 await supabaseClient.from('users').update({
                     coins: myCoins,
-                    weapon: myWeapon,
+                    weapons: myWeapons.join(','),
                     wins: myWins,
                     losses: myLosses,
                     attack_count: myAttacks,
@@ -813,278 +950,211 @@
             } catch(e) { console.error(e); }
         }
         
-        // ============ 👥 اطلاعات بازیکنان ============
-        function openPlayersModal() {
-            document.getElementById('playersPassModal').style.display = 'flex';
-            document.getElementById('playersPass').value = '';
-            document.getElementById('playersPassError').style.display = 'none';
+        function getTotalPower() {
+            let total = 0;
+            myWeapons.forEach(w => { if (WEAPONS[w]) total += WEAPONS[w].power; });
+            return total;
         }
-        function closePlayersPassModal() { document.getElementById('playersPassModal').style.display = 'none'; }
         
-        function checkPlayersPass() {
-            const pass = document.getElementById('playersPass').value;
-            const errDiv = document.getElementById('playersPassError');
-            if (pass !== PLAYERS_PASS) {
-                errDiv.innerText = '❌ رمز اشتباه!';
-                errDiv.style.display = 'block';
-                return;
+        // ============ 🎁 دعوت دوستان ============
+        let myInviteCode = '';
+        
+        async function openInviteModal() {
+            if (!myUsername) return;
+            await loadMyGameData();
+            if (!myInviteCode) {
+                const code = Math.floor(100000 + Math.random() * 900000).toString();
+                await supabaseClient.from('users').update({ invite_code: code }).eq('username', myUsername);
+                myInviteCode = code;
             }
-            closePlayersPassModal();
-            showPlayersList();
+            document.getElementById('myInviteCode').innerText = myInviteCode;
+            document.getElementById('inviteModal').style.display = 'flex';
+        }
+        function closeInviteModal() { document.getElementById('inviteModal').style.display = 'none'; }
+        
+        function copyInviteCode() {
+            navigator.clipboard.writeText(myInviteCode).then(() => {
+                alert('✅ کد دعوت کپی شد: ' + myInviteCode);
+            }).catch(() => {
+                prompt('کپی کن:', myInviteCode);
+            });
         }
         
-        async function showPlayersList() {
-            document.getElementById('playersModal').style.display = 'flex';
-            document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
+        function openRedeemModal() {
+            closeInviteModal();
+            document.getElementById('redeemCodeInput').value = '';
+            document.getElementById('redeemFriendName').value = '';
+            document.getElementById('redeemError').style.display = 'none';
+            document.getElementById('redeemModal').style.display = 'flex';
+        }
+        function closeRedeemModal() { document.getElementById('redeemModal').style.display = 'none'; }
+        
+        async function redeemInviteCode() {
+            const code = document.getElementById('redeemCodeInput').value.trim();
+            const friendName = document.getElementById('redeemFriendName').value.trim();
+            const errDiv = document.getElementById('redeemError');
+            
+            if (!code || code.length !== 6) { errDiv.innerText = 'کد باید ۶ رقمی باشه!'; errDiv.style.display = 'block'; return; }
+            if (!friendName || friendName.length < 2) { errDiv.innerText = 'اسم و فامیل دوستت رو وارد کن!'; errDiv.style.display = 'block'; return; }
+            if (code === myInviteCode) { errDiv.innerText = 'کد خودت رو نمیتونی وارد کنی!'; errDiv.style.display = 'block'; return; }
             
             try {
-                const { data } = await supabaseClient.from('users').select('username, coins, weapon, wins, losses, attack_count, defense_count, online').order('coins', { ascending: false });
-                if (!data || data.length === 0) {
-                    document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ بازیکنی نیست</div>';
-                    return;
+                // چک کن که قبلاً استفاده نکرده باشه
+                const { data: me } = await supabaseClient.from('users').select('invite_redeemed, invited_by').eq('username', myUsername).limit(1);
+                if (me && me[0] && me[0].invite_redeemed) {
+                    errDiv.innerText = '❌ تو قبلاً یه کد دعوت استفاده کردی!'; errDiv.style.display = 'block'; return;
                 }
                 
-                let html = '';
-                data.forEach((u, i) => {
-                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
-                    const weaponInfo = u.weapon ? (WEAPONS[u.weapon]?.emoji + ' ' + u.weapon) : '❌ بدون سلاح';
-                    const online = u.online ? '🟢' : '⚫';
-                    const power = u.weapon ? WEAPONS[u.weapon]?.power : 0;
-                    
-                    html += `
-                        <div class="player-row">
-                            <div class="player-info">
-                                <div class="player-name">${medal} ${u.username} ${online}</div>
-                                <div class="player-stats">
-                                    💰 سکه: <span>${u.coins || 0}</span> | 
-                                    ⚔️ سلاح: <span>${weaponInfo}</span><br>
-                                    💪 قدرت: <span>${power}</span> | 
-                                    🏆 برد: <span>${u.wins || 0}</span> | 
-                                    💀 باخت: <span>${u.losses || 0}</span><br>
-                                    ⚔️ حمله: <span>${u.attack_count || 0}</span> | 
-                                    🛡️ دفاع: <span>${u.defense_count || 0}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                document.getElementById('playersList').innerHTML = html;
-            } catch(e) {
-                document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">خطا: ' + e.message + '</div>';
-            }
-        }
-        
-        function closePlayersModal() { document.getElementById('playersModal').style.display = 'none'; }
-        
-        // ============ ⚔️ جنگ ============
-        function openFightModal() {
-            document.getElementById('playersModal').style.display = 'none';
-            document.getElementById('fightModal').style.display = 'flex';
-            document.getElementById('attackerInput').value = '';
-            document.getElementById('defenderInput').value = '';
-            document.getElementById('fightError').style.display = 'none';
-            document.getElementById('fightResultBox').style.display = 'none';
-        }
-        function closeFightModal() { document.getElementById('fightModal').style.display = 'none'; }
-        
-        async function startFight() {
-            const attacker = document.getElementById('attackerInput').value.trim();
-            const defender = document.getElementById('defenderInput').value.trim();
-            const errDiv = document.getElementById('fightError');
-            const resultBox = document.getElementById('fightResultBox');
-            
-            if (!attacker || !defender) { errDiv.innerText = 'هر دو اسم رو وارد کن!'; errDiv.style.display = 'block'; return; }
-            if (attacker === defender) { errDiv.innerText = 'حمله‌کننده و مدافع یکی نباشن!'; errDiv.style.display = 'block'; return; }
-            
-            errDiv.style.display = 'none';
-            resultBox.style.display = 'none';
-            resultBox.innerHTML = '<div style="text-align:center;padding:15px;">⏳ در حال محاسبه...</div>';
-            resultBox.style.display = 'block';
-            
-            try {
-                // گرفتن اطلاعات هر دو
-                const { data: aData } = await supabaseClient.from('users').select('*').eq('username', attacker).limit(1);
-                const { data: dData } = await supabaseClient.from('users').select('*').eq('username', defender).limit(1);
-                
-                if (!aData || aData.length === 0) { errDiv.innerText = 'حمله‌کننده پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
-                if (!dData || dData.length === 0) { errDiv.innerText = 'مدافع پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
-                
-                const a = aData[0];
-                const d = dData[0];
-                
-                const aWeapon = a.weapon || '';
-                const dWeapon = d.weapon || '';
-                const aPower = aWeapon ? (WEAPONS[aWeapon]?.power || 0) : 0;
-                const dPower = dWeapon ? (WEAPONS[dWeapon]?.power || 0) : 0;
-                
-                // شانس
-                const aRoll = aPower + Math.random() * 50;
-                const dRoll = dPower + Math.random() * 50;
-                
-                let winner, loser, winnerCoins, loserCoins, resultText;
-                const prize = 100;
-                
-                if (aRoll > dRoll) {
-                    winner = attacker;
-                    loser = defender;
-                    winnerCoins = (a.coins || 0) + prize;
-                    loserCoins = Math.max(0, (d.coins || 0) - prize);
-                    
-                    // آپدیت آمار
-                    await supabaseClient.from('users').update({
-                        coins: winnerCoins,
-                        wins: (a.wins || 0) + 1,
-                        attack_count: (a.attack_count || 0) + 1
-                    }).eq('username', attacker);
-                    
-                    await supabaseClient.from('users').update({
-                        coins: loserCoins,
-                        losses: (d.losses || 0) + 1,
-                        defense_count: (d.defense_count || 0) + 1
-                    }).eq('username', defender);
-                    
-                    resultText = `🏆 <b>${attacker}</b> برنده شد!`;
-                } else {
-                    winner = defender;
-                    loser = attacker;
-                    winnerCoins = (d.coins || 0) + prize;
-                    loserCoins = Math.max(0, (a.coins || 0) - prize);
-                    
-                    await supabaseClient.from('users').update({
-                        coins: winnerCoins,
-                        wins: (d.wins || 0) + 1,
-                        defense_count: (d.defense_count || 0) + 1
-                    }).eq('username', defender);
-                    
-                    await supabaseClient.from('users').update({
-                        coins: loserCoins,
-                        losses: (a.losses || 0) + 1,
-                        attack_count: (a.attack_count || 0) + 1
-                    }).eq('username', attacker);
-                    
-                    resultText = `🏆 <b>${defender}</b> برنده شد!`;
+                // پیدا کردن صاحب کد
+                const { data: inviter } = await supabaseClient.from('users').select('username, fullname, coins').eq('invite_code', code).limit(1);
+                if (!inviter || inviter.length === 0) {
+                    errDiv.innerText = '❌ کد دعوت پیدا نشد!'; errDiv.style.display = 'block'; return;
                 }
                 
-                // ثبت حمله در جدول attacks
-                await supabaseClient.from('attacks').insert([{
-                    attacker: attacker,
-                    defender: defender,
-                    attacker_weapon: aWeapon,
-                    defender_weapon: dWeapon,
-                    attacker_power: aPower,
-                    defender_power: dPower,
-                    winner: winner,
-                    loser: loser,
-                    attacker_wins: (a.wins || 0),
-                    defender_wins: (d.wins || 0),
-                    prize: prize
-                }]);
+                const inviterUser = inviter[0];
+                if (inviterUser.username === myUsername) {
+                    errDiv.innerText = '❌ کد خودت رو نمیتونی وارد کنی!'; errDiv.style.display = 'block'; return;
+                }
                 
-                // نمایش نتیجه
-                resultBox.innerHTML = `
-                    <div class="fight-result">
-                        ${resultText}<br><br>
-                        ⚔️ حمله‌کننده: <b>${attacker}</b><br>
-                        ${aWeapon ? WEAPONS[aWeapon].emoji + ' ' + aWeapon + ' (قدرت: ' + aPower + ')' : '❌ بدون سلاح'}<br>
-                        💰 موجودی: ${a.coins || 0} → ${winner === attacker ? winnerCoins : loserCoins}<br><br>
-                        🛡️ مدافع: <b>${defender}</b><br>
-                        ${dWeapon ? WEAPONS[dWeapon].emoji + ' ' + dWeapon + ' (قدرت: ' + dPower + ')' : '❌ بدون سلاح'}<br>
-                        💰 موجودی: ${d.coins || 0} → ${winner === defender ? winnerCoins : loserCoins}<br><br>
-                        🎁 جایزه: <b>${prize} سکه</b>
-                    </div>
-                `;
+                // بررسی اسم دوست - باید با اسم و فامیل صاحب کد مطابقت داشته باشه
+                const inviterFullname = inviterUser.fullname || '';
+                if (inviterFullname && friendName !== inviterFullname) {
+                    errDiv.innerText = '❌ اسم و فامیل با صاحب کد مطابقت نداره!\nاسم صحیح: ' + inviterFullname; errDiv.style.display = 'block'; return;
+                }
                 
-                // ارسال پیام نتیجه در چت گروه جنگی
-                const chatMessage = `⚔️ <b>جنگ!</b>\n\n🎯 حمله‌کننده: ${attacker}\n${aWeapon ? WEAPONS[aWeapon].emoji + ' ' + aWeapon + ' (قدرت: ' + aPower + ')' : '❌ بدون سلاح'}\n\n🛡️ مدافع: ${defender}\n${dWeapon ? WEAPONS[dWeapon].emoji + ' ' + dWeapon + ' (قدرت: ' + dPower + ')' : '❌ بدون سلاح'}\n\n🏆 برنده: <b>${winner}</b>\n🎁 جایزه: ${prize} سکه\n\n💰 موجودی‌های جدید:\n${attacker}: ${winner === attacker ? winnerCoins : loserCoins}\n${defender}: ${winner === defender ? winnerCoins : loserCoins}`;
+                // انجام تراکنش
+                const inviterNewCoins = (inviterUser.coins || 0) + INVITE_REWARD;
+                const myNewCoins = myCoins + INVITE_REWARD;
                 
+                await supabaseClient.from('users').update({ coins: inviterNewCoins }).eq('username', inviterUser.username);
+                await supabaseClient.from('users').update({ 
+                    coins: myNewCoins, 
+                    invite_redeemed: true, 
+                    invited_by: inviterUser.username 
+                }).eq('username', myUsername);
+                
+                myCoins = myNewCoins;
+                updateGjCoin();
+                
+                // پیام در چت عمومی
                 await supabaseClient.from('messages').insert([{
-                    sender: BOT_NAME,
-                    receiver: 'GROUP:' + GROUP_NAME,
-                    content: LZString.compressToUTF16(chatMessage)
+                    sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+                    content: LZString.compressToUTF16('🎁 ' + inviterUser.username + ' عزیز، ' + myUsername + ' با کد دعوت تو وارد شد!\nبه هر دوتون ' + INVITE_REWARD + ' سکه هدیه داده شد! 🎉')
                 }]);
                 
-                // اگه خودم توش بودم، آپدیت کنم
-                if (attacker === myUsername || defender === myUsername) {
-                    await loadMyGameData();
-                }
+                closeRedeemModal();
                 
-                // اگه توی گروه هستیم، پیام‌ها رو رفرش کن
-                if (currentScreenName === 'gj') loadGjMessages();
+                // نمایش صفحه موفقیت
+                document.getElementById('inviteSuccessText').innerHTML = 
+                    '🎉 <b>تراکنش موفق!</b><br><br>' +
+                    '👤 <b>' + inviterUser.username + '</b> که بهش کد دعوت دادی، کدت رو زد.<br>' +
+                    '💰 هر دوتون <b style="color:#facc15;">' + INVITE_REWARD + ' سکه</b> گرفتید!';
+                document.getElementById('inviteSuccessModal').style.display = 'flex';
                 
             } catch(e) {
                 errDiv.innerText = 'خطا: ' + e.message;
                 errDiv.style.display = 'block';
-                resultBox.style.display = 'none';
             }
         }
+        function closeInviteSuccessModal() { document.getElementById('inviteSuccessModal').style.display = 'none'; }
         
-        // ============ 📦 صف پیام ============
-        function savePendingMessage(message) {
+        // ============ 🗑️ حذف حساب ============
+        function openDeleteAccModal() {
+            document.getElementById('delAccPass').value = '';
+            document.getElementById('delAccError').style.display = 'none';
+            document.getElementById('deleteAccModal').style.display = 'flex';
+        }
+        function closeDelAccModal() { document.getElementById('deleteAccModal').style.display = 'none'; }
+        
+        function checkDelAccPass() {
+            const pass = document.getElementById('delAccPass').value;
+            const errDiv = document.getElementById('delAccError');
+            if (pass !== ADMIN_PASS) { errDiv.innerText = '❌ رمز اشتباه!'; errDiv.style.display = 'block'; return; }
+            closeDelAccModal();
+            showAccountsList();
+        }
+        
+        async function showAccountsList() {
+            document.getElementById('accountsListModal').style.display = 'flex';
+            document.getElementById('accountsListBox').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
+            
             try {
-                const pending = getPendingMessages();
-                pending.push({ id: 'pending_' + Date.now() + '_' + Math.random(), sender: message.sender, receiver: message.receiver, content: message.content, created_at: new Date().toISOString() });
-                localStorage.setItem('pending_messages', JSON.stringify(pending));
-                updateQueueBar();
-            } catch(e) {}
-        }
-        function getPendingMessages() { try { const v = localStorage.getItem('pending_messages'); return v ? JSON.parse(v) : []; } catch(e) { return []; } }
-        function updateQueueBar() {
-            const pending = getPendingMessages();
-            const bar = document.getElementById('queueBar');
-            const text = document.getElementById('queueText');
-            if (pending.length > 0) { bar.classList.add('show'); text.innerText = pending.length + ' پیام در انتظار ارسال'; }
-            else bar.classList.remove('show');
-        }
-        async function sendPendingMessages() {
-            const pending = getPendingMessages();
-            if (pending.length === 0) return;
-            const failed = [];
-            for (let msg of pending) {
-                try {
-                    const r = await supabaseClient.from('messages').insert([{ sender: msg.sender, receiver: msg.receiver, content: msg.content }]);
-                    if (r.error) failed.push(msg);
-                } catch(e) { failed.push(msg); }
-            }
-            localStorage.setItem('pending_messages', JSON.stringify(failed));
-            updateQueueBar();
-        }
-        
-        // ============ لودینگ ============
-        let loadingProgress = 0, loadingDone = false;
-        function initLoading() {
-            const lb = document.getElementById('loadingBar');
-            const lp = document.getElementById('loadingPercent');
-            function up() {
-                if (loadingDone) return;
-                const s = window.netSpeed || 1;
-                let inc = 0.5 * s;
-                if (s < 0.5) inc = 0.3; else if (s > 1.5) inc = 0.8;
-                loadingProgress += inc + Math.random() * 0.3;
-                if (loadingProgress >= 100) {
-                    loadingProgress = 100; lb.style.width = '100%'; lp.innerText = '100%';
-                    setTimeout(() => { document.getElementById('loadingScreen').classList.add('hide'); setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 600); }, 500);
-                    loadingDone = true; return;
+                const { data } = await supabaseClient.from('users').select('username, fullname').order('username');
+                if (!data || data.length === 0) {
+                    document.getElementById('accountsListBox').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ کاربری نیست</div>';
+                    return;
                 }
-                lb.style.width = loadingProgress + '%';
-                lp.innerText = Math.floor(loadingProgress) + '%';
-                let d = 80; if (s > 1.5) d = 40; else if (s < 0.5) d = 150;
-                setTimeout(up, d);
+                let html = '';
+                data.forEach(u => {
+                    html += `<div class="acc-row">
+                        <div>
+                            <div style="color:#38bdf8;font-weight:bold;">👤 ${u.username}</div>
+                            <div style="color:#94a3b8;font-size:10px;">${u.fullname || 'بدون اسم'}</div>
+                        </div>
+                        <button class="acc-del-btn" onclick="deleteAccount('${u.username}')">🗑️ حذف</button>
+                    </div>`;
+                });
+                document.getElementById('accountsListBox').innerHTML = html;
+            } catch(e) {
+                document.getElementById('accountsListBox').innerHTML = '<div style="color:#ef4444;padding:20px;">خطا: ' + e.message + '</div>';
             }
-            up();
         }
-        async function measureNetSpeed() {
-            const start = performance.now();
+        function closeAccountsListModal() { document.getElementById('accountsListModal').style.display = 'none'; }
+        
+        async function deleteAccount(username) {
+            if (!confirm('مطمئنی میخوای حساب "' + username + '" رو حذف کنی؟')) return;
             try {
-                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', { method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' });
-                const t = performance.now() - start;
-                if (t < 300) window.netSpeed = 2; else if (t < 800) window.netSpeed = 1; else window.netSpeed = 0.3;
-            } catch(e) { window.netSpeed = 0.3; }
+                await supabaseClient.from('messages').delete().or(`sender.eq.${username},receiver.like.%${username}%`);
+                await supabaseClient.from('users').delete().eq('username', username);
+                await supabaseClient.from('groups').delete().like('members', '%' + username + '%');
+                alert('✅ حساب "' + username + '" حذف شد!');
+                showAccountsList();
+            } catch(e) { alert('خطا: ' + e.message); }
         }
-        measureNetSpeed().then(() => initLoading());
         
-        const ANIMATED_EMOJIS = ['😊','😂','❤️','🔥','👍','👏','🎉','💪','😍','🤣','😎','🙏','💯','✨','🤔','😴','🥺','😭','🥰','😘','🤗','🫡','💀','👀','🤝','😜','🤩','🥳','😇','🤪','😋','😅','🙄','😱','😡','🥶','🤯','😳','🤫','🤭','🚀','⚡','💥','🎯','🏆','🥇','💎','👑','🎁','🌈'];
+        // ============ 💣 ریست کامل ============
+        function openResetModal() {
+            document.getElementById('resetPass').value = '';
+            document.getElementById('resetError').style.display = 'none';
+            document.getElementById('resetConfirmBox').style.display = 'none';
+            document.getElementById('resetModal').style.display = 'flex';
+        }
+        function closeResetModal() { document.getElementById('resetModal').style.display = 'none'; }
         
+        function checkResetPass() {
+            const pass = document.getElementById('resetPass').value;
+            const errDiv = document.getElementById('resetError');
+            if (pass !== ADMIN_PASS) { errDiv.innerText = '❌ رمز اشتباه!'; errDiv.style.display = 'block'; return; }
+            errDiv.style.display = 'none';
+            const box = document.getElementById('resetConfirmBox');
+            box.innerHTML = `
+                <p style="color:#fca5a5;font-size:13px;margin-bottom:10px;">آخرین تأیید! همه چی پاک میشه!</p>
+                <button onclick="doFullReset()" style="background:#991b1b;color:#fff;width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;">💣 بله، همه چی رو پاک کن!</button>
+            `;
+            box.style.display = 'block';
+        }
+        
+        async function doFullReset() {
+            if (!confirm('⚠️ آخرین هشدار! همه اطلاعات پاک میشن!')) return;
+            try {
+                await supabaseClient.from('messages').delete().neq('id', 0);
+                await supabaseClient.from('groups').delete().neq('id', 0);
+                await supabaseClient.from('attacks').delete().neq('id', 0);
+                await supabaseClient.from('users').delete().neq('id', 0);
+                localStorage.removeItem('pending_messages');
+                localStorage.removeItem('chat_username');
+                updateQueueBar();
+                alert('✅ برنامه با موفقیت ریست شد!\nهمه چیز پاک شد.');
+                closeResetModal();
+                location.reload();
+            } catch(e) { alert('خطا: ' + e.message); }
+        }
+        
+        // ============ 📥 دانلود ============
+        function openDownloadModal() { document.getElementById('downloadModal').style.display = 'flex'; }
+        function closeDownloadModal() { document.getElementById('downloadModal').style.display = 'none'; }
+        
+        // ============ ادامه کد قبلی ============
         const WEAPONS = {
             'چاقو': { price: 50, power: 10, emoji: '🔪' },
             'کمان': { price: 100, power: 20, emoji: '🏹' },
@@ -1096,7 +1166,6 @@
         };
         
         let myUsername = localStorage.getItem('chat_username');
-        let myCoins = 1000, myWeapon = '', myWins = 0, myLosses = 0, myAttacks = 0, myDefenses = 0;
         let currentChat = { type: '', target: '' };
         let allUsers = [], myGroups = [], chatList = [];
         let onlineUsers = new Set();
@@ -1110,6 +1179,7 @@
         function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
         
         function initEmojiGrids() {
+            const ANIMATED_EMOJIS = ['😊','😂','❤️','🔥','👍','👏','🎉','💪','😍','🤣','😎','🙏','💯','✨','🤔','😴','🥺','😭','🥰','😘','🤗','🫡','💀','👀','🤝','😜','🤩','🥳','😇','🤪','😋','😅','🙄','😱','😡','🥶','🤯','😳','🤫','🤭','🚀','⚡','💥','🎯','🏆','🥇','💎','👑','🎁','🌈'];
             const html = ANIMATED_EMOJIS.map(e => `<span onclick="insertEmoji('${e}')">${e}</span>`).join('');
             document.getElementById('emojiGridGj').innerHTML = html;
             document.getElementById('emojiGridCh').innerHTML = html;
@@ -1130,6 +1200,7 @@
             }
         });
         function animateEmojis(text) {
+            const ANIMATED_EMOJIS = ['😊','😂','❤️','🔥','👍','👏','🎉','💪','😍','🤣','😎','🙏','💯','✨','🤔','😴','🥺','😭','🥰','😘','🤗','🫡','💀','👀','🤝','😜','🤩','🥳','😇','🤪','😋','😅','🙄','😱','😡','🥶','🤯','😳','🤫','🤭','🚀','⚡','💥','🎯','🏆','🥇','💎','👑','🎁','🌈'];
             const s = new Set(ANIMATED_EMOJIS); const c = Array.from(text); let o = '';
             c.forEach(ch => { if (s.has(ch)) o += `<span class="emoji-animated">${ch}</span>`; else o += ch; });
             return o;
@@ -1148,6 +1219,7 @@
             if (text.startsWith('IMAGE:')) return '<div class="msg-image"><img src="data:image/jpeg;base64,' + text.replace('IMAGE:', '') + '" onclick="openImageModal(this.src)"></div>';
             return '<div style="white-space:pre-wrap; word-break:break-word;">' + linkifyText(animateEmojis(text)) + '</div>';
         }
+        
         function updateNetStatus() {
             const icon = document.getElementById('netIcon'), status = document.getElementById('netStatus'), dot = document.getElementById('serverDot');
             if (!navigator.onLine) { icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad'; showOfflineScreen(); return; }
@@ -1351,8 +1423,8 @@
         async function openGamePanel() {
             await loadMyGameData();
             document.getElementById('gCoins').innerText = myCoins;
-            document.getElementById('gWeapon').innerText = myWeapon ? (WEAPONS[myWeapon]?.emoji + ' ' + myWeapon) : 'هیچ';
-            document.getElementById('gPower').innerText = myWeapon ? WEAPONS[myWeapon].power : 0;
+            document.getElementById('gWeapon').innerText = myWeapons.length > 0 ? myWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') + ' (' + myWeapons.length + ')' : 'هیچ';
+            document.getElementById('gPower').innerText = getTotalPower();
             document.getElementById('gWins').innerText = myWins;
             document.getElementById('gLosses').innerText = myLosses;
             document.getElementById('gAttacks').innerText = myAttacks;
@@ -1360,27 +1432,30 @@
             document.getElementById('gameModal').style.display = 'flex';
         }
         function closeGamePanel() { document.getElementById('gameModal').style.display = 'none'; }
+        
         function renderShop() {
-            document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([n, w]) => `
+            document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([n, w]) => {
+                const owned = myWeapons.filter(x => x === n).length;
+                return `
                 <div class="shop-item">
-                    <span>${w.emoji} ${n}</span>
+                    <span>${w.emoji} ${n} ${owned > 0 ? '<span class="owned-badge">✅ ' + owned + ' عدد</span>' : ''}</span>
                     <span style="color:#facc15;font-size:11px;">💰${w.price} ⚔️${w.power}</span>
                     <button class="buy-btn" onclick="buyWeapon('${n}')" ${myCoins < w.price ? 'disabled' : ''}>خرید</button>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
+        
         async function buyWeapon(name) {
             if (!WEAPONS[name]) return;
             if (myCoins < WEAPONS[name].price) return alert('سکه کافی نداری!');
             myCoins -= WEAPONS[name].price;
-            myWeapon = name;
+            myWeapons.push(name);
             await saveMyGameData();
-            alert('✅ ' + name + ' خریداری شد!');
+            alert('✅ ' + name + ' خریداری شد!\nقدرت کل: ' + getTotalPower());
             openGamePanel();
-            // پیام در چت
             await supabaseClient.from('messages').insert([{
                 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
-                content: LZString.compressToUTF16('🛒 ' + myUsername + ' سلاح ' + WEAPONS[name].emoji + ' ' + name + ' خریداری کرد! (قدرت: ' + WEAPONS[name].power + ')')
+                content: LZString.compressToUTF16('🛒 ' + myUsername + ' سلاح ' + WEAPONS[name].emoji + ' ' + name + ' خریداری کرد! (قدرت کل: ' + getTotalPower() + ')')
             }]);
         }
         
@@ -1396,10 +1471,6 @@
             const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content }]);
             if (r.error) savePendingMessage({ sender: myUsername, receiver, content });
             loadGjMessages();
-        }
-        
-        async function sendGjBot(text) {
-            await supabaseClient.from('messages').insert([{ sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME, content: LZString.compressToUTF16(text) }]);
         }
         
         async function loadGjMessages() {
@@ -1667,7 +1738,7 @@
         function closeServerPass() { document.getElementById('serverPassModal').style.display = 'none'; }
         async function checkServerPass() {
             const p = document.getElementById('serverPass').value;
-            if (p !== 'nimaaslani1234A') { alert('رمز اشتباه!'); return; }
+            if (p !== SERVER_PASS) { alert('رمز اشتباه!'); return; }
             closeServerPass();
             document.getElementById('serverPanelModal').style.display = 'flex';
             const u = await supabaseClient.from('users').select('id, online');
@@ -1681,19 +1752,224 @@
             document.getElementById('sAttacks').innerText = a.data?.length || 0;
         }
         function closeServerPanel() { document.getElementById('serverPanelModal').style.display = 'none'; }
-        async function deleteAllData() {
-            if (!confirm('همه پاک بشه؟')) return;
-            if (!confirm('تأیید نهایی!')) return;
-            await supabaseClient.from('messages').delete().neq('id', 0);
-            await supabaseClient.from('groups').delete().neq('id', 0);
-            await supabaseClient.from('attacks').delete().neq('id', 0);
-            await supabaseClient.from('users').delete().neq('id', 0);
-            localStorage.removeItem('pending_messages');
+        
+        // ============ صف پیام ============
+        function savePendingMessage(message) {
+            try {
+                const pending = getPendingMessages();
+                pending.push({ id: 'pending_' + Date.now() + '_' + Math.random(), sender: message.sender, receiver: message.receiver, content: message.content, created_at: new Date().toISOString() });
+                localStorage.setItem('pending_messages', JSON.stringify(pending));
+                updateQueueBar();
+            } catch(e) {}
+        }
+        function getPendingMessages() { try { const v = localStorage.getItem('pending_messages'); return v ? JSON.parse(v) : []; } catch(e) { return []; } }
+        function updateQueueBar() {
+            const pending = getPendingMessages();
+            const bar = document.getElementById('queueBar');
+            const text = document.getElementById('queueText');
+            if (pending.length > 0) { bar.classList.add('show'); text.innerText = pending.length + ' پیام در انتظار ارسال'; }
+            else bar.classList.remove('show');
+        }
+        async function sendPendingMessages() {
+            const pending = getPendingMessages();
+            if (pending.length === 0) return;
+            const failed = [];
+            for (let msg of pending) {
+                try {
+                    const r = await supabaseClient.from('messages').insert([{ sender: msg.sender, receiver: msg.receiver, content: msg.content }]);
+                    if (r.error) failed.push(msg);
+                } catch(e) { failed.push(msg); }
+            }
+            localStorage.setItem('pending_messages', JSON.stringify(failed));
             updateQueueBar();
-            alert('✅ پاک شد!');
-            closeServerPanel();
         }
         
+        // ============ لودینگ ============
+        let loadingProgress = 0, loadingDone = false;
+        function initLoading() {
+            const lb = document.getElementById('loadingBar');
+            const lp = document.getElementById('loadingPercent');
+            function up() {
+                if (loadingDone) return;
+                const s = window.netSpeed || 1;
+                let inc = 0.5 * s;
+                if (s < 0.5) inc = 0.3; else if (s > 1.5) inc = 0.8;
+                loadingProgress += inc + Math.random() * 0.3;
+                if (loadingProgress >= 100) {
+                    loadingProgress = 100; lb.style.width = '100%'; lp.innerText = '100%';
+                    setTimeout(() => { document.getElementById('loadingScreen').classList.add('hide'); setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 600); }, 500);
+                    loadingDone = true; return;
+                }
+                lb.style.width = loadingProgress + '%';
+                lp.innerText = Math.floor(loadingProgress) + '%';
+                let d = 80; if (s > 1.5) d = 40; else if (s < 0.5) d = 150;
+                setTimeout(up, d);
+            }
+            up();
+        }
+        async function measureNetSpeed() {
+            const start = performance.now();
+            try {
+                await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', { method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' });
+                const t = performance.now() - start;
+                if (t < 300) window.netSpeed = 2; else if (t < 800) window.netSpeed = 1; else window.netSpeed = 0.3;
+            } catch(e) { window.netSpeed = 0.3; }
+        }
+        measureNetSpeed().then(() => initLoading());
+        
+        // ============ 👥 بازیکنان ============
+        function openPlayersModal() {
+            document.getElementById('playersPassModal').style.display = 'flex';
+            document.getElementById('playersPass').value = '';
+            document.getElementById('playersPassError').style.display = 'none';
+        }
+        function closePlayersPassModal() { document.getElementById('playersPassModal').style.display = 'none'; }
+        
+        function checkPlayersPass() {
+            const pass = document.getElementById('playersPass').value;
+            const errDiv = document.getElementById('playersPassError');
+            if (pass !== PLAYERS_PASS) { errDiv.innerText = '❌ رمز اشتباه!'; errDiv.style.display = 'block'; return; }
+            closePlayersPassModal();
+            showPlayersList();
+        }
+        
+        async function showPlayersList() {
+            document.getElementById('playersModal').style.display = 'flex';
+            document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
+            try {
+                const { data } = await supabaseClient.from('users').select('*').order('coins', { ascending: false });
+                if (!data || data.length === 0) {
+                    document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ بازیکنی نیست</div>';
+                    return;
+                }
+                let html = '';
+                data.forEach((u, i) => {
+                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🔸';
+                    const weapons = (u.weapons || '').split(',').filter(x => x);
+                    const weaponInfo = weapons.length > 0 ? weapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌ بدون سلاح';
+                    const totalPower = weapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
+                    const online = u.online ? '🟢' : '⚫';
+                    
+                    html += `
+                        <div class="player-row">
+                            <div class="player-info">
+                                <div class="player-name">${medal} ${u.username} ${online}</div>
+                                <div class="player-stats">
+                                    📛 <span>${u.fullname || 'بدون اسم'}</span><br>
+                                    💰 سکه: <span>${u.coins || 0}</span> | 
+                                    ⚔️ سلاح: <span>${weaponInfo}</span><br>
+                                    💪 قدرت کل: <span>${totalPower}</span> | 
+                                    🏆 برد: <span>${u.wins || 0}</span> | 
+                                    💀 باخت: <span>${u.losses || 0}</span><br>
+                                    ⚔️ حمله: <span>${u.attack_count || 0}</span> | 
+                                    🛡️ دفاع: <span>${u.defense_count || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('playersList').innerHTML = html;
+            } catch(e) {
+                document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">خطا: ' + e.message + '</div>';
+            }
+        }
+        
+        function closePlayersModal() { document.getElementById('playersModal').style.display = 'none'; }
+        
+        // ============ ⚔️ جنگ ============
+        function openFightModal() {
+            document.getElementById('playersModal').style.display = 'none';
+            document.getElementById('fightModal').style.display = 'flex';
+            document.getElementById('attackerInput').value = '';
+            document.getElementById('defenderInput').value = '';
+            document.getElementById('fightError').style.display = 'none';
+            document.getElementById('fightResultBox').style.display = 'none';
+        }
+        function closeFightModal() { document.getElementById('fightModal').style.display = 'none'; }
+        
+        async function startFight() {
+            const attacker = document.getElementById('attackerInput').value.trim();
+            const defender = document.getElementById('defenderInput').value.trim();
+            const errDiv = document.getElementById('fightError');
+            const resultBox = document.getElementById('fightResultBox');
+            
+            if (!attacker || !defender) { errDiv.innerText = 'هر دو اسم رو وارد کن!'; errDiv.style.display = 'block'; return; }
+            if (attacker === defender) { errDiv.innerText = 'حمله‌کننده و مدافع یکی نباشن!'; errDiv.style.display = 'block'; return; }
+            
+            errDiv.style.display = 'none';
+            resultBox.style.display = 'none';
+            resultBox.innerHTML = '<div style="text-align:center;padding:15px;">⏳ در حال محاسبه...</div>';
+            resultBox.style.display = 'block';
+            
+            try {
+                const { data: aData } = await supabaseClient.from('users').select('*').eq('username', attacker).limit(1);
+                const { data: dData } = await supabaseClient.from('users').select('*').eq('username', defender).limit(1);
+                
+                if (!aData || aData.length === 0) { errDiv.innerText = 'حمله‌کننده پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
+                if (!dData || dData.length === 0) { errDiv.innerText = 'مدافع پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
+                
+                const a = aData[0];
+                const d = dData[0];
+                
+                const aWeapons = (a.weapons || '').split(',').filter(x => x);
+                const dWeapons = (d.weapons || '').split(',').filter(x => x);
+                const aPower = aWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
+                const dPower = dWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
+                
+                const aRoll = aPower + Math.random() * 50;
+                const dRoll = dPower + Math.random() * 50;
+                
+                const prize = 100;
+                let winner, winnerCoins, loserCoins;
+                
+                if (aRoll > dRoll) {
+                    winner = attacker;
+                    winnerCoins = (a.coins || 0) + prize;
+                    loserCoins = Math.max(0, (d.coins || 0) - prize);
+                    await supabaseClient.from('users').update({ coins: winnerCoins, wins: (a.wins || 0) + 1, attack_count: (a.attack_count || 0) + 1 }).eq('username', attacker);
+                    await supabaseClient.from('users').update({ coins: loserCoins, losses: (d.losses || 0) + 1, defense_count: (d.defense_count || 0) + 1 }).eq('username', defender);
+                } else {
+                    winner = defender;
+                    winnerCoins = (d.coins || 0) + prize;
+                    loserCoins = Math.max(0, (a.coins || 0) - prize);
+                    await supabaseClient.from('users').update({ coins: winnerCoins, wins: (d.wins || 0) + 1, defense_count: (d.defense_count || 0) + 1 }).eq('username', defender);
+                    await supabaseClient.from('users').update({ coins: loserCoins, losses: (a.losses || 0) + 1, attack_count: (a.attack_count || 0) + 1 }).eq('username', attacker);
+                }
+                
+                await supabaseClient.from('attacks').insert([{
+                    attacker, defender,
+                    attacker_weapon: aWeapons.join(','),
+                    defender_weapon: dWeapons.join(','),
+                    attacker_power: aPower, defender_power: dPower,
+                    winner, loser,
+                    attacker_wins: (a.wins || 0), defender_wins: (d.wins || 0),
+                    prize
+                }]);
+                
+                resultBox.innerHTML = `
+                    <div class="fight-result">
+                        🏆 <b>${winner}</b> برنده شد!<br><br>
+                        ⚔️ حمله‌کننده: <b>${attacker}</b> (قدرت: ${aPower})<br>
+                        🛡️ مدافع: <b>${defender}</b> (قدرت: ${dPower})<br><br>
+                        💰 ${attacker}: ${a.coins || 0} → ${winner === attacker ? winnerCoins : loserCoins}<br>
+                        💰 ${defender}: ${d.coins || 0} → ${winner === defender ? winnerCoins : loserCoins}<br><br>
+                        🎁 جایزه: <b>${prize} سکه</b>
+                    </div>
+                `;
+                
+                const chatMessage = `⚔️ <b>جنگ!</b>\n\n🎯 حمله‌کننده: ${attacker} (قدرت: ${aPower})\n🛡️ مدافع: ${defender} (قدرت: ${dPower})\n\n🏆 برنده: <b>${winner}</b>\n🎁 جایزه: ${prize} سکه`;
+                await supabaseClient.from('messages').insert([{ sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME, content: LZString.compressToUTF16(chatMessage) }]);
+                
+                if (attacker === myUsername || defender === myUsername) await loadMyGameData();
+                if (currentScreenName === 'gj') loadGjMessages();
+            } catch(e) {
+                errDiv.innerText = 'خطا: ' + e.message;
+                errDiv.style.display = 'block';
+                resultBox.style.display = 'none';
+            }
+        }
+        
+        // ============ راه‌اندازی ============
         window.addEventListener('load', () => {
             initEmojiGrids();
             updateNotifButtons();
