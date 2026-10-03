@@ -1062,7 +1062,7 @@ function updateNetStatus() {
 const icon = document.getElementById('netIcon'), status = document.getElementById('netStatus'), dot = document.getElementById('serverDot');
 if (!navigator.onLine) { icon.innerText = '📵'; status.innerText = 'نت: قطع'; status.className = 'status-bad'; showOfflineScreen(); return; }
 const s = performance.now();
-fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', { method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' })
+fetch(SUPABASE_URL + '/rest/v1/users?select=id&limit=1', { method: 'GET', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' })
 .then(() => {
 const t = performance.now() - s;
 if (t < 300) { icon.innerText = '📶'; status.innerText = 'نت: قوی'; status.className = 'status-good'; dot.className = 'status-dot'; document.getElementById('serverStatusText').innerText = 'سرور: عالی'; }
@@ -1646,7 +1646,7 @@ up();
 async function measureNetSpeed() {
 const start = performance.now();
 try {
-await fetch('https://jimvkiprcbpqruvhyfrm.supabase.co/rest/v1/', { method: 'HEAD', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' });
+await fetch(SUPABASE_URL + '/rest/v1/users?select=id&limit=1', { method: 'GET', headers: { 'apikey': SUPABASE_KEY }, cache: 'no-store' });
 const t = performance.now() - start;
 if (t < 300) window.netSpeed = 2; else if (t < 800) window.netSpeed = 1; else window.netSpeed = 0.3;
 } catch(e) { window.netSpeed = 0.3; }
