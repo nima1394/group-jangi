@@ -68,7 +68,6 @@ body { background: #0f172a; color: #fff; display: flex; justify-content: center;
 .logout-btn { background: #ef4444; color: #fff; }
 .stats-btn { background: #f59e0b; color: #fff; }
 .invite-btn { background: #ec4899; color: #fff; }
-.download-btn { background: #0ea5e9; color: #fff; }
 .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
 .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
 .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; position: relative; }
@@ -220,9 +219,9 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <button class="back-btn" onclick="showScreen('home')">🏠</button>
 </div>
 </div>
-<div class="group-title"><h2>💬 چت عمومی</h2><span>بنویس !شروع</span></div>
+<div class="group-title"><h2>💬 چت عمومی</h2><span>بنویس: من [اسم و فامیل] هستم و میخوام به [اسم و فامیل] حمله کنم</span></div>
 </div>
-<div class="messages-box" id="gjMessages"><div class="msg-system">💬 خوش آمدی! بنویس <b>!شروع</b></div></div>
+<div class="messages-box" id="gjMessages"><div class="msg-system">💬 خوش آمدی! برای جنگ بنویس: من فلانی هستم و میخوام به فلانی حمله کنم</div></div>
 <div class="input-box">
 <button class="emoji-btn" onclick="toggleEmojiPicker('gj')">😊</button>
 <button class="voice-btn" id="gjVoiceBtn" onclick="toggleGjRecording()">🎤</button>
@@ -288,7 +287,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div id="recordingIndicator" class="recording-indicator"><div class="rec-dot"></div><span id="recordingTime">00:00</span><span style="margin-right:10px;">در حال ضبط...</span></div>
 <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()"><div class="title" id="notifTitle">پیام جدید</div><div class="body" id="notifBody">...</div></div>
 <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
-<div class="version-footer">💬 روبینو — نسخه <b>5.0</b></div>
+<div class="version-footer">💬 روبینو — نسخه <b>6.0</b></div>
 
 <div id="loginModal" class="modal" style="display:none;">
 <div class="modal-box">
@@ -426,7 +425,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="modal-box" style="max-width:500px;">
 <h3 style="color:#f59e0b;">👥 اطلاعات بازیکنان</h3>
 <div id="playersList" style="max-height:400px;overflow-y:auto;margin:15px 0;"></div>
-<button onclick="openFightModal()" style="background:#ef4444;color:#fff;width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-bottom:8px;font-size:14px;">⚔️ اعلام جنگ</button>
+<button onclick="openFightModal()" style="background:#ef4444;color:#fff;width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-bottom:8px;font-size:14px;">⚔️ اعلام جنگ (دستی)</button>
 <button onclick="closePlayersModal()" style="background:#475569;color:#fff;">بستن</button>
 </div>
 </div>
@@ -444,13 +443,13 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 
 <div id="fightModal" class="modal" style="display:none;">
 <div class="modal-box">
-<h3 style="color:#ef4444;">⚔️ اعلام جنگ</h3>
-<p style="font-size:13px;color:#94a3b8;margin-bottom:15px;">اسم حمله‌کننده و مدافع رو وارد کن:</p>
-<p style="font-size:12px;color:#94a3b8;margin-bottom:5px;">حمله‌کننده:</p>
-<input type="text" id="attackerInput" placeholder="اسم حمله‌کننده...">
-<p style="font-size:12px;color:#94a3b8;margin-bottom:5px;margin-top:10px;">مدافع:</p>
-<input type="text" id="defenderInput" placeholder="اسم مدافع...">
-<button onclick="startFight()" style="background:#ef4444;color:#fff;">شروع جنگ ⚔️</button>
+<h3 style="color:#ef4444;">⚔️ اعلام جنگ دستی</h3>
+<p style="font-size:13px;color:#94a3b8;margin-bottom:15px;">اسم و فامیل هر دو رو کامل وارد کن:</p>
+<p style="font-size:12px;color:#94a3b8;margin-bottom:5px;">حمله‌کننده (اسم و فامیل):</p>
+<input type="text" id="attackerInput" placeholder="مثلاً: نیما اصلانی">
+<p style="font-size:12px;color:#94a3b8;margin-bottom:5px;margin-top:10px;">مدافع (اسم و فامیل):</p>
+<input type="text" id="defenderInput" placeholder="مثلاً: ارشیا کیماسی">
+<button onclick="startFightManual()" style="background:#ef4444;color:#fff;">شروع جنگ ⚔️</button>
 <button onclick="closeFightModal()" style="background:#475569;color:#fff;">بستن</button>
 <div id="fightError" style="color:#ef4444;font-size:12px;margin-top:8px;display:none;"></div>
 <div id="fightResultBox" style="display:none;"></div>
@@ -483,23 +482,27 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="about-section" style="text-align:center;">
 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
 <h3 style="color:#38bdf8;margin-bottom:10px;">روبینو</h3>
-<div class="version-badge">نسخه 5.0</div>
+<div class="version-badge">نسخه 6.0</div>
 </div>
 <div class="about-section">
 <h4>🎯 قابلیت‌ها</h4>
 <div style="font-size:12px;line-height:2;color:#cbd5e1;">
 ✅ چت گروهی و خصوصی<br>
 ✅ بازی جنگی با 1000 سکه<br>
+✅ <b style="color:#facc15;">جنگ خودکار با اسم و فامیل در چت</b><br>
 ✅ جمع شدن قدرت سلاح‌ها<br>
 ✅ سیستم دعوت دوستان (۵۰۰ سکه)<br>
-✅ ذخیره اسم و فامیل در سرور<br>
 ✅ قفل با کد 4 رقمی<br>
 ✅ پنل مدیریت
 </div>
 </div>
-<div class="about-section" style="text-align:center;">
-<h4>🔐 امنیت حساب</h4>
-<button onclick="closeAboutModal();openChangePinModal();" style="background:#f59e0b;color:#fff;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;">🔑 تغییر کد امنیتی</button>
+<div class="about-section">
+<h4>⚔️ چطور بجنگیم؟</h4>
+<div style="font-size:12px;line-height:2;color:#cbd5e1;">
+در چت عمومی بنویس:<br>
+<b style="color:#facc15;font-size:11px;">من نیما اصلانی هستم و میخوام به ارشیا کیماسی حمله کنم</b><br>
+ربات خودش حساب می‌کنه، برنده رو اعلام می‌کنه و ۱۰۰ سکه رد و بدل می‌شه!
+</div>
 </div>
 <button onclick="closeAboutModal()" style="background:#06b6d4;color:#fff;width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-top:15px;">بستن</button>
 </div>
@@ -570,6 +573,7 @@ const PLAYERS_PASS = 'nimaaslani1234A';
 const SERVER_PASS = 'nimaaslani1234A';
 const STARTING_COINS = 1000;
 const INVITE_REWARD = 500;
+const FIGHT_PRIZE = 100;
 
 let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
 let pendingUsername = '';
@@ -798,7 +802,7 @@ async function loadMyGameData() {
 try {
 const { data } = await supabaseClient.from('users').select('coins, weapons, wins, losses, attack_count, defense_count, invite_code, fullname').eq('username', myUsername).limit(1);
 if (data && data[0]) {
-myCoins = data[0].coins || STARTING_COINS;
+myCoins = data[0].coins || 0;
 myWeapons = (data[0].weapons || '').split(',').filter(x => x);
 myWins = data[0].wins || 0;
 myLosses = data[0].losses || 0;
@@ -807,20 +811,6 @@ myDefenses = data[0].defense_count || 0;
 if (data[0].invite_code) myInviteCode = data[0].invite_code;
 updateGjCoin();
 }
-} catch(e) { console.error(e); }
-}
-
-async function saveMyGameData() {
-try {
-await supabaseClient.from('users').update({
-coins: myCoins,
-weapons: myWeapons.join(','),
-wins: myWins,
-losses: myLosses,
-attack_count: myAttacks,
-defense_count: myDefenses
-}).eq('username', myUsername);
-updateGjCoin();
 } catch(e) { console.error(e); }
 }
 
@@ -890,17 +880,14 @@ if (inviterFullname && friendName.trim() !== inviterFullname.trim()) {
 errDiv.innerText = '❌ اسم و فامیل با صاحب کد مطابقت نداره!'; errDiv.style.display = 'block'; return;
 }
 
-const inviterNewCoins = (inviterUser.coins || 0) + INVITE_REWARD;
-const myNewCoins = myCoins + INVITE_REWARD;
-
-await supabaseClient.from('users').update({ coins: inviterNewCoins }).eq('username', inviterUser.username);
+await supabaseClient.from('users').update({ coins: (inviterUser.coins || 0) + INVITE_REWARD }).eq('username', inviterUser.username);
 await supabaseClient.from('users').update({ 
-coins: myNewCoins, 
+coins: myCoins + INVITE_REWARD, 
 invite_redeemed: true, 
 invited_by: inviterUser.username 
 }).eq('username', myUsername);
 
-myCoins = myNewCoins;
+myCoins += INVITE_REWARD;
 updateGjCoin();
 
 await supabaseClient.from('messages').insert([{
@@ -1214,7 +1201,6 @@ function toggleChRecording() { isRecording ? stopRecording() : startRecording('c
 async function sendGjAudio(base64) {
 const content = 'AUDIO:' + base64;
 const receiver = 'GROUP:' + GROUP_NAME;
-if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }); loadGjMessages(); return; }
 const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }]);
 if (r.error) savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) });
 loadGjMessages();
@@ -1222,7 +1208,6 @@ loadGjMessages();
 async function sendChAudio(base64) {
 const content = 'AUDIO:' + base64;
 const receiver = getReceiverForChat();
-if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }); loadChatMessages(); return; }
 const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content: LZString.compressToUTF16(content) }]);
 if (r.error) savePendingMessage({ sender: myUsername, receiver, content: LZString.compressToUTF16(content) });
 loadChatMessages();
@@ -1274,26 +1259,37 @@ function closeGamePanel() { document.getElementById('gameModal').style.display =
 function renderShop() {
 document.getElementById('shopList').innerHTML = Object.entries(WEAPONS).map(([n, w]) => {
 const owned = myWeapons.filter(x => x === n).length;
+const canBuy = myCoins >= w.price;
 return `
 <div class="shop-item">
 <span>${w.emoji} ${n} ${owned > 0 ? '<span class="owned-badge">✅ ' + owned + ' عدد</span>' : ''}</span>
 <span style="color:#facc15;font-size:11px;">💰${w.price} ⚔️${w.power}</span>
-<button class="buy-btn" onclick="buyWeapon('${n}')" ${myCoins < w.price ? 'disabled' : ''}>خرید</button>
+<button class="buy-btn" onclick="buyWeapon('${n}')" ${!canBuy ? 'disabled' : ''}>${!canBuy ? '❌' : 'خرید'}</button>
 </div>`;
 }).join('');
 }
 
 async function buyWeapon(name) {
 if (!WEAPONS[name]) return;
-if (myCoins < WEAPONS[name].price) return alert('سکه کافی نداری!');
-myCoins -= WEAPONS[name].price;
-myWeapons.push(name);
-await saveMyGameData();
-alert('✅ ' + name + ' خریداری شد!\nقدرت کل: ' + getTotalPower());
+await loadMyGameData();
+if (myCoins <= 0) { alert('❌ سکه‌ات تموم شده!\nباید بجنگی یا کسی رو دعوت کنی تا سکه بگیری.'); return; }
+if (myCoins < WEAPONS[name].price) { alert('❌ سکه کافی نداری!\nموجودی: ' + myCoins + ' | قیمت: ' + WEAPONS[name].price); return; }
+const newCoins = myCoins - WEAPONS[name].price;
+const newWeapons = [...myWeapons, name];
+const { error } = await supabaseClient.from('users').update({
+coins: newCoins,
+weapons: newWeapons.join(',')
+}).eq('username', myUsername);
+if (error) { alert('خطا در ذخیره: ' + error.message); return; }
+myCoins = newCoins;
+myWeapons = newWeapons;
+updateGjCoin();
+await loadMyGameData();
+alert('✅ ' + name + ' خریداری شد!\n💰 موجودی: ' + myCoins + ' سکه\n💪 قدرت کل: ' + getTotalPower());
 openGamePanel();
 await supabaseClient.from('messages').insert([{
 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
-content: LZString.compressToUTF16('🛒 ' + myUsername + ' سلاح ' + WEAPONS[name].emoji + ' ' + name + ' خریداری کرد! (قدرت کل: ' + getTotalPower() + ')')
+content: LZString.compressToUTF16('🛒 ' + myUsername + ' سلاح ' + WEAPONS[name].emoji + ' ' + name + ' خریداری کرد! (قدرت کل: ' + getTotalPower() + ' | موجودی: ' + myCoins + ')')
 }]);
 }
 
@@ -1317,7 +1313,7 @@ const box = document.getElementById('gjMessages');
 if (!box) return;
 box.innerHTML = '';
 const pending = getPendingMessages().filter(p => p.receiver === 'GROUP:' + GROUP_NAME);
-if ((!data || data.length === 0) && pending.length === 0) { box.innerHTML = '<div class="msg-system">💬 بنویس !شروع</div>'; return; }
+if ((!data || data.length === 0) && pending.length === 0) { box.innerHTML = '<div class="msg-system">💬 بنویس: من [اسم و فامیل] هستم و میخوام به [اسم و فامیل] حمله کنم</div>'; return; }
 (data || []).forEach(msg => {
 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
 const isMe = msg.sender === myUsername;
@@ -1334,7 +1330,7 @@ pending.forEach(msg => {
 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
 const d = document.createElement('div');
 d.className = 'msg sent pending';
-d.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + renderMessageContent(text) + '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳ در انتظار ارسال</span></div>';
+d.innerHTML = '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' + renderMessageContent(text) + '<div class="msg-time"><span class="msg-status" style="color:#f59e0b;">⏳</span></div>';
 box.appendChild(d);
 });
 box.scrollTop = box.scrollHeight;
@@ -1684,7 +1680,6 @@ const weapons = (u.weapons || '').split(',').filter(x => x);
 const weaponInfo = weapons.length > 0 ? weapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌ بدون سلاح';
 const totalPower = weapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
 const online = u.online ? '🟢' : '⚫';
-
 html += `
 <div class="player-row">
 <div class="player-info">
@@ -1695,9 +1690,7 @@ html += `
 ⚔️ سلاح: <span>${weaponInfo}</span><br>
 💪 قدرت کل: <span>${totalPower}</span> | 
 🏆 برد: <span>${u.wins || 0}</span> | 
-💀 باخت: <span>${u.losses || 0}</span><br>
-⚔️ حمله: <span>${u.attack_count || 0}</span> | 
-🛡️ دفاع: <span>${u.defense_count || 0}</span>
+💀 باخت: <span>${u.losses || 0}</span>
 </div>
 </div>
 </div>
@@ -1721,87 +1714,132 @@ document.getElementById('fightResultBox').style.display = 'none';
 }
 function closeFightModal() { document.getElementById('fightModal').style.display = 'none'; }
 
-async function startFight() {
-const attacker = document.getElementById('attackerInput').value.trim();
-const defender = document.getElementById('defenderInput').value.trim();
-const errDiv = document.getElementById('fightError');
-const resultBox = document.getElementById('fightResultBox');
+// ========== ⚔️ جنگ ==========
+async function findUserByFullname(fullname) {
+const { data } = await supabaseClient.from('users').select('*').ilike('fullname', fullname.trim()).limit(1);
+return data && data[0] ? data[0] : null;
+}
 
-if (!attacker || !defender) { errDiv.innerText = 'هر دو اسم رو وارد کن!'; errDiv.style.display = 'block'; return; }
-if (attacker === defender) { errDiv.innerText = 'حمله‌کننده و مدافع یکی نباشن!'; errDiv.style.display = 'block'; return; }
-
-errDiv.style.display = 'none';
-resultBox.style.display = 'none';
-resultBox.innerHTML = '<div style="text-align:center;padding:15px;">⏳ در حال محاسبه...</div>';
-resultBox.style.display = 'block';
-
-try {
-const { data: aData } = await supabaseClient.from('users').select('*').eq('username', attacker).limit(1);
-const { data: dData } = await supabaseClient.from('users').select('*').eq('username', defender).limit(1);
-
-if (!aData || aData.length === 0) { errDiv.innerText = 'حمله‌کننده پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
-if (!dData || dData.length === 0) { errDiv.innerText = 'مدافع پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
-
-const a = aData[0];
-const d = dData[0];
-
-const aWeapons = (a.weapons || '').split(',').filter(x => x);
-const dWeapons = (d.weapons || '').split(',').filter(x => x);
+async function doFight(attackerUser, defenderUser) {
+if (!attackerUser || !defenderUser) return null;
+const aWeapons = (attackerUser.weapons || '').split(',').filter(x => x);
+const dWeapons = (defenderUser.weapons || '').split(',').filter(x => x);
 const aPower = aWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
 const dPower = dWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
-
 const aRoll = aPower + Math.random() * 50;
 const dRoll = dPower + Math.random() * 50;
-
-const prize = 100;
-let winner, winnerCoins, loserCoins;
-
-if (aRoll > dRoll) {
-winner = attacker;
-winnerCoins = (a.coins || 0) + prize;
-loserCoins = Math.max(0, (d.coins || 0) - prize);
-await supabaseClient.from('users').update({ coins: winnerCoins, wins: (a.wins || 0) + 1, attack_count: (a.attack_count || 0) + 1 }).eq('username', attacker);
-await supabaseClient.from('users').update({ coins: loserCoins, losses: (d.losses || 0) + 1, defense_count: (d.defense_count || 0) + 1 }).eq('username', defender);
+const attackerWins = aRoll > dRoll;
+const winnerUser = attackerWins ? attackerUser : defenderUser;
+const loserUser = attackerWins ? defenderUser : attackerUser;
+const winnerCoins = (winnerUser.coins || 0) + FIGHT_PRIZE;
+const loserCoins = Math.max(0, (loserUser.coins || 0) - FIGHT_PRIZE);
+try {
+await supabaseClient.from('users').update({
+coins: winnerCoins,
+wins: (winnerUser.wins || 0) + 1
+}).eq('username', winnerUser.username);
+await supabaseClient.from('users').update({
+coins: loserCoins,
+losses: (loserUser.losses || 0) + 1
+}).eq('username', loserUser.username);
+if (attackerWins) {
+await supabaseClient.from('users').update({ attack_count: (attackerUser.attack_count || 0) + 1 }).eq('username', attackerUser.username);
+await supabaseClient.from('users').update({ defense_count: (defenderUser.defense_count || 0) + 1 }).eq('username', defenderUser.username);
 } else {
-winner = defender;
-winnerCoins = (d.coins || 0) + prize;
-loserCoins = Math.max(0, (a.coins || 0) - prize);
-await supabaseClient.from('users').update({ coins: winnerCoins, wins: (d.wins || 0) + 1, defense_count: (d.defense_count || 0) + 1 }).eq('username', defender);
-await supabaseClient.from('users').update({ coins: loserCoins, losses: (a.losses || 0) + 1, attack_count: (a.attack_count || 0) + 1 }).eq('username', attacker);
+await supabaseClient.from('users').update({ attack_count: (attackerUser.attack_count || 0) + 1 }).eq('username', attackerUser.username);
+await supabaseClient.from('users').update({ defense_count: (defenderUser.defense_count || 0) + 1 }).eq('username', defenderUser.username);
+}
+await supabaseClient.from('attacks').insert([{
+attacker: attackerUser.username, defender: defenderUser.username,
+attacker_weapon: aWeapons.join(','), defender_weapon: dWeapons.join(','),
+attacker_power: aPower, defender_power: dPower,
+winner: winnerUser.username, loser: loserUser.username,
+attacker_wins: attackerUser.wins || 0, defender_wins: defenderUser.wins || 0,
+prize: FIGHT_PRIZE
+}]);
+return { attackerUser, defenderUser, aWeapons, dWeapons, aPower, dPower, winnerUser, loserUser, winnerCoins, loserCoins };
+} catch(e) { console.error(e); return null; }
 }
 
-await supabaseClient.from('attacks').insert([{
-attacker, defender,
-attacker_weapon: aWeapons.join(','),
-defender_weapon: dWeapons.join(','),
-attacker_power: aPower, defender_power: dPower,
-winner, loser,
-attacker_wins: (a.wins || 0), defender_wins: (d.wins || 0),
-prize
-}]);
-
+async function startFightManual() {
+const aName = document.getElementById('attackerInput').value.trim();
+const dName = document.getElementById('defenderInput').value.trim();
+const errDiv = document.getElementById('fightError');
+const resultBox = document.getElementById('fightResultBox');
+if (!aName || !dName) { errDiv.innerText = 'هر دو اسم و فامیل رو وارد کن!'; errDiv.style.display = 'block'; return; }
+if (aName === dName) { errDiv.innerText = 'یکی نباشن!'; errDiv.style.display = 'block'; return; }
+errDiv.style.display = 'none';
+resultBox.innerHTML = '<div style="text-align:center;padding:15px;">⏳ در حال جستجو...</div>';
+resultBox.style.display = 'block';
+const aUser = await findUserByFullname(aName);
+const dUser = await findUserByFullname(dName);
+if (!aUser) { errDiv.innerText = '❌ حمله‌کننده با این اسم و فامیل پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
+if (!dUser) { errDiv.innerText = '❌ مدافع با این اسم و فامیل پیدا نشد!'; errDiv.style.display = 'block'; resultBox.style.display = 'none'; return; }
+const r = await doFight(aUser, dUser);
+if (!r) { errDiv.innerText = 'خطا در محاسبه!'; errDiv.style.display = 'block'; return; }
 resultBox.innerHTML = `
 <div class="fight-result">
-🏆 <b>${winner}</b> برنده شد!<br><br>
-⚔️ حمله‌کننده: <b>${attacker}</b> (قدرت: ${aPower})<br>
-🛡️ مدافع: <b>${defender}</b> (قدرت: ${dPower})<br><br>
-💰 ${attacker}: ${a.coins || 0} → ${winner === attacker ? winnerCoins : loserCoins}<br>
-💰 ${defender}: ${d.coins || 0} → ${winner === defender ? winnerCoins : loserCoins}<br><br>
-🎁 جایزه: <b>${prize} سکه</b>
+🏆 <b>${r.winnerUser.username}</b> (${r.winnerUser.fullname}) برنده شد!<br><br>
+⚔️ ${r.attackerUser.username}: قدرت ${r.aPower}<br>
+🛡️ ${r.defenderUser.username}: قدرت ${r.dPower}<br><br>
+💰 ${r.attackerUser.username}: ${r.attackerUser.coins} → ${r.winnerUser.username === r.attackerUser.username ? r.winnerCoins : r.loserCoins}<br>
+💰 ${r.defenderUser.username}: ${r.defenderUser.coins} → ${r.winnerUser.username === r.defenderUser.username ? r.winnerCoins : r.loserCoins}<br><br>
+🎁 جایزه: ${FIGHT_PRIZE} سکه
 </div>
 `;
-
-const chatMessage = `⚔️ <b>جنگ!</b>\n\n🎯 حمله‌کننده: ${attacker} (قدرت: ${aPower})\n🛡️ مدافع: ${defender} (قدرت: ${dPower})\n\n🏆 برنده: <b>${winner}</b>\n🎁 جایزه: ${prize} سکه`;
-await supabaseClient.from('messages').insert([{ sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME, content: LZString.compressToUTF16(chatMessage) }]);
-
-if (attacker === myUsername || defender === myUsername) await loadMyGameData();
+if (aUser.username === myUsername || dUser.username === myUsername) await loadMyGameData();
 if (currentScreenName === 'gj') loadGjMessages();
-} catch(e) {
-errDiv.innerText = 'خطا: ' + e.message;
-errDiv.style.display = 'block';
-resultBox.style.display = 'none';
+}
+
+// ========== 🤖 تشخیص خودکار جنگ در چت عمومی ==========
+async function tryAutoFight(text) {
+// الگو: "من [اسم و فامیل] هستم و میخوام به [اسم و فامیل] حمله کنم"
+const patterns = [
+/من\s+(.+?)\s+(?:هستم|ام)\s+و\s+میخوام\s+به\s+(.+?)\s+حمله\s+کنم/i,
+/من\s+(.+?)\s+(?:هستم|ام)\s+میخوام\s+به\s+(.+?)\s+حمله\s+کنم/i,
+/من\s+(.+?)\s+هستم\s+به\s+(.+?)\s+حمله\s+کنم/i,
+/حمله\s+از\s+(.+?)\s+به\s+(.+)/i,
+];
+for (const p of patterns) {
+const m = text.match(p);
+if (m && m[1] && m[2]) {
+const attackerName = m[1].trim();
+const defenderName = m[2].trim();
+// پیدا کردن کاربران
+const aUser = await findUserByFullname(attackerName);
+const dUser = await findUserByFullname(defenderName);
+if (!aUser && !dUser) {
+await sendGjBot('❌ هیچکدوم از این اسم‌ها تو سرور پیدا نشد!\nحتماً با اسم و فامیل کامل ثبت‌نام کردی؟');
+return true;
+}
+if (!aUser) { await sendGjBot('❌ حمله‌کننده با اسم "' + attackerName + '" پیدا نشد!'); return true; }
+if (!dUser) { await sendGjBot('❌ مدافع با اسم "' + defenderName + '" پیدا نشد!'); return true; }
+if (aUser.username === dUser.username) { await sendGjBot('❌ یکی نمی‌تونه به خودش حمله کنه!'); return true; }
+// انجام جنگ
+const r = await doFight(aUser, dUser);
+if (!r) { await sendGjBot('❌ خطا در محاسبه جنگ'); return true; }
+const resultMsg = `⚔️ <b>جنگ!</b>\n\n` +
+`🎯 حمله‌کننده: <b>${aUser.username}</b> (${aUser.fullname})\n` +
+`📊 قدرت: ${r.aPower} | سلاح‌ها: ${r.aWeapons.length > 0 ? r.aWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n\n` +
+`🛡️ مدافع: <b>${dUser.username}</b> (${dUser.fullname})\n` +
+`📊 قدرت: ${r.dPower} | سلاح‌ها: ${r.dWeapons.length > 0 ? r.dWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n\n` +
+`🏆 برنده: <b>${r.winnerUser.username}</b> (${r.winnerUser.fullname})\n` +
+`💰 ${aUser.username}: ${aUser.coins} → ${r.winnerUser.username === aUser.username ? r.winnerCoins : r.loserCoins}\n` +
+`💰 ${dUser.username}: ${dUser.coins} → ${r.winnerUser.username === dUser.username ? r.winnerCoins : r.loserCoins}\n` +
+`🎁 جایزه: ${FIGHT_PRIZE} سکه`;
+await sendGjBot(resultMsg);
+if (aUser.username === myUsername || dUser.username === myUsername) await loadMyGameData();
+return true;
 }
 }
+return false;
+}
+
+async function sendGjBot(text) {
+await supabaseClient.from('messages').insert([{ sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME, content: LZString.compressToUTF16(text) }]);
+}
+
+// ========== پایان جنگ ==========
 
 window.addEventListener('load', () => {
 initEmojiGrids();
@@ -1847,6 +1885,27 @@ await openChat('group', g);
 }
 } catch(e) {}
 }
+
+// ========== هوک کردن sendGj برای جنگ خودکار ==========
+const _origSendGj = sendGj;
+sendGj = async function() {
+const input = document.getElementById('gjInput');
+const text = input.value.trim();
+if (!text) return;
+input.value = '';
+document.getElementById('emojiPickerGj').classList.remove('show');
+const content = LZString.compressToUTF16(text);
+const receiver = 'GROUP:' + GROUP_NAME;
+if (!navigator.onLine) { savePendingMessage({ sender: myUsername, receiver, content }); loadGjMessages(); return; }
+const r = await supabaseClient.from('messages').insert([{ sender: myUsername, receiver, content }]);
+if (r.error) savePendingMessage({ sender: myUsername, receiver, content });
+loadGjMessages();
+// چک کردن جنگ خودکار
+const handled = await tryAutoFight(text);
+if (handled) {
+setTimeout(() => loadGjMessages(), 800);
+}
+};
 </script>
 </body>
 </html>
