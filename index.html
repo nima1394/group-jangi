@@ -302,7 +302,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div id="recordingIndicator" class="recording-indicator"><div class="rec-dot"></div><span id="recordingTime">00:00</span><span style="margin-right:10px;">در حال ضبط...</span></div>
 <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()"><div class="title" id="notifTitle">پیام جدید</div><div class="body" id="notifBody">...</div></div>
 <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
-<div class="version-footer">💬 روبینو — نسخه <b>8.0</b></div>
+<div class="version-footer">💬 روبینو — نسخه <b>9.0</b></div>
 
 <div id="loginModal" class="modal" style="display:none;">
 <div class="modal-box">
@@ -543,7 +543,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="about-section" style="text-align:center;">
 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
 <h3 style="color:#38bdf8;margin-bottom:10px;">روبینو</h3>
-<div class="version-badge">نسخه 8.0</div>
+<div class="version-badge">نسخه 9.0</div>
 </div>
 <div class="about-section">
 <h4>🎯 قابلیت‌ها</h4>
@@ -551,31 +551,22 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 ✅ چت گروهی و خصوصی<br>
 ✅ بازی جنگی با 1000 سکه<br>
 ✅ جنگ خودکار با اسم و فامیل<br>
-✅ <b style="color:#8b5cf6;">ربات محافظ (هزینه: 1000 سکه)</b><br>
-✅ <b style="color:#f97316;">گزارش باگ با ربات</b><br>
+✅ <b style="color:#8b5cf6;">ربات محافظ + انتقام‌گیر (1000 سکه)</b><br>
+✅ گزارش باگ<br>
 ✅ سیستم دعوت دوستان (۵۰۰ سکه)<br>
 ✅ پاک کردن پیام‌ها<br>
 ✅ قفل با کد 4 رقمی
 </div>
 </div>
 <div class="about-section">
-<h4>⚔️ چطور بجنگیم؟</h4>
-<div style="font-size:12px;line-height:2;color:#cbd5e1;">
-در چت عمومی بنویس:<br>
-<b style="color:#facc15;font-size:11px;">من نیما اصلانی هستم و میخوام به ارشیا کیماسی حمله کنم</b><br>
-ربات خودش حساب می‌کنه، برنده رو اعلام می‌کنه و ۱۰۰ سکه رد و بدل می‌شه!<br>
-<b style="color:#ef4444;">⚠️ بعد از هر جنگ، سلاح‌های هر دو طرف پاک می‌شن!</b>
-</div>
-</div>
-<div class="about-section">
 <h4>🤖 ربات محافظ</h4>
 <div style="font-size:12px;line-height:2;color:#cbd5e1;">
-با <b style="color:#8b5cf6;">1000 سکه</b> می‌تونی ربات محافظ فعال کنی.<br>
-وقتی کسی بهت حمله کنه، ربات خودکار:<br>
-✅ قدرت حمله‌کننده رو چک می‌کنه<br>
-✅ با ۳۰٪ سکه‌هات سلاح می‌خره<br>
-✅ قدرتش رو از حمله‌کننده بیشتر می‌کنه<br>
-✅ همیشه برنده میشی!
+با <b style="color:#8b5cf6;">1000 سکه</b> ربات رو فعال کن.<br>
+وقتی کسی بهت حمله کنه:<br>
+✅ با ۵۰٪ سکه‌هات سلاح میخره<br>
+✅ قدرتش از حمله‌کننده بیشتر میشه<br>
+✅ برنده میشی<br>
+⚡ <b style="color:#ef4444;">بعدش به حمله‌کننده هم حمله میکنه (انتقام!)</b>
 </div>
 </div>
 <button onclick="closeAboutModal()" style="background:#06b6d4;color:#fff;width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-top:15px;">بستن</button>
@@ -917,7 +908,7 @@ myWeapons.forEach(w => { if (WEAPONS[w]) total += WEAPONS[w].power; });
 return total;
 }
 
-// ========== 🤖 ربات محافظ ==========
+// ========== 🤖 ربات محافظ + انتقام‌گیر ==========
 async function toggleBot() {
 if (!myUsername) return;
 await loadMyGameData();
@@ -943,7 +934,7 @@ if (coins < BOT_ACTIVATION_COST) {
 alert('❌ سکه کافی نداری!\n💰 هزینه فعال‌سازی: ' + BOT_ACTIVATION_COST + ' سکه\n💰 موجودی تو: ' + coins + ' سکه');
 return;
 }
-if (!confirm('🤖 ربات محافظ رو فعال کنی؟\n\n💰 هزینه: ' + BOT_ACTIVATION_COST + ' سکه\n\n✅ وقتی کسی بهت حمله کنه، ربات خودکار برات سلاح میخره\n✅ قدرتش بیشتر از حمله‌کننده میشه\n✅ همیشه برنده میشی!')) return;
+if (!confirm('🤖 ربات محافظ + انتقام‌گیر رو فعال کنی؟\n\n💰 هزینه: ' + BOT_ACTIVATION_COST + ' سکه\n\n✅ اگه کسی بهت حمله کنه:\n1. ربات با ۵۰٪ سکه‌هات سلاح میخره\n2. قدرتش از حمله‌کننده بیشتر میشه\n3. برنده میشی\n4. به حمله‌کننده هم حمله میکنه (انتقام!)')) return;
 
 const newCoins = coins - BOT_ACTIVATION_COST;
 await supabaseClient.from('users').update({ bot_enabled: true, coins: newCoins }).eq('username', myUsername);
@@ -955,7 +946,7 @@ updateBotBtnUI();
 
 await supabaseClient.from('messages').insert([{
 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
-content: LZString.compressToUTF16('🤖 ' + myUsername + ' ربات محافظ رو فعال کرد! (هزینه: ' + BOT_ACTIVATION_COST + ' سکه)')
+content: LZString.compressToUTF16('🤖 ' + myUsername + ' ربات محافظ + انتقام‌گیر رو فعال کرد! (هزینه: ' + BOT_ACTIVATION_COST + ' سکه)')
 }]);
 
 showInAppNotif('🤖 ربات فعال شد!', 'هزینه: ' + BOT_ACTIVATION_COST + ' سکه | موجودی: ' + myCoins);
@@ -963,16 +954,19 @@ showInAppNotif('🤖 ربات فعال شد!', 'هزینه: ' + BOT_ACTIVATION_C
 await loadMyGameData();
 }
 
-async function botDefend(defenderUser, attackerPower) {
+async function botDefend(defenderUser, attackerUser) {
 if (!defenderUser.bot_enabled) return null;
 
 let coins = defenderUser.coins || 0;
 let weapons = (defenderUser.weapons || '').split(',').filter(x => x);
 let currentPower = weapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
 
-const targetPower = attackerPower + 50;
+const aWeapons = (attackerUser.weapons || '').split(',').filter(x => x);
+const attackerPower = aWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
+
+const targetPower = attackerPower + 100;
 const boughtWeapons = [];
-const maxSpend = Math.floor(coins * 0.3);
+const maxSpend = Math.floor(coins * 0.5);
 let spent = 0;
 
 const weaponList = Object.entries(WEAPONS).sort((a,b) => b[1].power - a[1].power);
@@ -981,7 +975,7 @@ while (currentPower < targetPower && spent < maxSpend) {
 let bought = false;
 for (const [name, w] of weaponList) {
 if (spent + w.price > maxSpend) continue;
-if (currentPower + w.power > targetPower + 200) continue;
+if (currentPower + w.power > targetPower + 300) continue;
 boughtWeapons.push(name);
 weapons.push(name);
 currentPower += w.power;
@@ -1002,14 +996,60 @@ weapons: weapons.join(',')
 
 await supabaseClient.from('messages').insert([{
 sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
-content: LZString.compressToUTF16('🤖 ربات محافظ برای ' + defenderUser.username + ' خودکار ' + boughtWeapons.length + ' تا سلاح خرید!\n💰 هزینه: ' + spent + ' سکه\n💪 قدرت جدید: ' + currentPower)
+content: LZString.compressToUTF16('🤖 ربات محافظ برای ' + defenderUser.username + ' خودکار ' + boughtWeapons.length + ' تا سلاح خرید!\n💰 هزینه: ' + spent + ' سکه\n💪 قدرت جدید: ' + currentPower + '\n⚔️ حالا به دشمن حمله میکنه!')
 }]);
 
 return { coins: newCoins, weapons, power: currentPower, spent };
 }
-// ========== پایان ربات محافظ ==========
 
-// ========== 🐛 ربات گزارش باگ ==========
+// ⚔️ حمله انتقامی ربات به حمله‌کننده
+async function botCounterAttack(botOwner, targetUser) {
+try {
+const { data: freshTarget } = await supabaseClient.from('users').select('coins, weapons, losses').eq('username', targetUser.username).single();
+const targetCoins = freshTarget?.coins || 0;
+const targetLosses = freshTarget?.losses || 0;
+
+const { data: freshOwner } = await supabaseClient.from('users').select('coins, wins').eq('username', botOwner.username).single();
+const ownerCoins = freshOwner?.coins || 0;
+const ownerWins = freshOwner?.wins || 0;
+
+const ownerNewCoins = ownerCoins + FIGHT_PRIZE;
+const targetNewCoins = Math.max(0, targetCoins - FIGHT_PRIZE);
+
+// ربات برنده (پاک کردن سلاح‌ها)
+await supabaseClient.from('users').update({
+coins: ownerNewCoins,
+wins: ownerWins + 1,
+weapons: ''
+}).eq('username', botOwner.username);
+
+// دشمن بازنده
+await supabaseClient.from('users').update({
+coins: targetNewCoins,
+losses: targetLosses + 1,
+weapons: ''
+}).eq('username', targetUser.username);
+
+// ثبت حمله انتقامی
+await supabaseClient.from('attacks').insert([{
+attacker: botOwner.username, defender: targetUser.username,
+attacker_weapon: '🤖 ربات انتقام‌گیر', defender_weapon: '',
+attacker_power: 9999, defender_power: 0,
+winner: botOwner.username, loser: targetUser.username,
+attacker_wins: ownerWins, defender_wins: targetUser.wins || 0,
+prize: FIGHT_PRIZE
+}]);
+
+return {
+attackerCoinsBefore: targetCoins,
+attackerCoinsAfter: targetNewCoins,
+ownerCoinsAfter: ownerNewCoins
+};
+} catch(e) { console.error(e); return null; }
+}
+// ========== پایان ربات ==========
+
+// ========== 🐛 گزارش باگ ==========
 function openBugModal() {
 document.getElementById('bugTextInput').value = '';
 document.getElementById('bugError').style.display = 'none';
@@ -1031,17 +1071,18 @@ return;
 errDiv.style.display = 'none';
 
 try {
-// ذخیره در جدول bugs
+const { data: me } = await supabaseClient.from('users').select('fullname').eq('username', myUsername).limit(1);
+const myFullname = me?.[0]?.fullname || '';
+
 const { error } = await supabaseClient.from('bugs').insert([{
 reporter: myUsername,
-reporter_fullname: (await supabaseClient.from('users').select('fullname').eq('username', myUsername).limit(1)).data?.[0]?.fullname || '',
+reporter_fullname: myFullname,
 text: text,
 resolved: false
 }]);
 
 if (error) throw error;
 
-// ربات گزارش باگ پیام میده
 await supabaseClient.from('messages').insert([{
 sender: BUG_BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
 content: LZString.compressToUTF16('🐛 گزارش باگ جدید ثبت شد!\n\n👤 گزارش‌دهنده: ' + myUsername + '\n📝 متن: ' + text + '\n\n⏳ در حال بررسی توسط مدیر...')
@@ -1094,7 +1135,7 @@ await supabaseClient.from('bugs').update({ resolved: true }).eq('id', id);
 showBugsList();
 } catch(e) { alert('خطا: ' + e.message); }
 }
-// ========== پایان ربات باگ ==========
+// ========== پایان باگ ==========
 
 async function openInviteModal() {
 if (!myUsername) return;
@@ -1611,7 +1652,7 @@ await loadMyGameData();
 document.getElementById('gCoins').innerText = myCoins;
 document.getElementById('gWeapon').innerText = myWeapons.length > 0 ? myWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') + ' (' + myWeapons.length + ')' : 'هیچ';
 document.getElementById('gPower').innerText = getTotalPower();
-document.getElementById('gBot').innerText = myBotEnabled ? '✅ فعال' : '❌ غیرفعال';
+document.getElementById('gBot').innerText = myBotEnabled ? '✅ فعال (محافظ + انتقام)' : '❌ غیرفعال';
 document.getElementById('gBot').style.color = myBotEnabled ? '#22c55e' : '#94a3b8';
 document.getElementById('gWins').innerText = myWins;
 document.getElementById('gLosses').innerText = myLosses;
@@ -2095,11 +2136,11 @@ if (!attackerUser || !defenderUser) return null;
 
 let actualDefender = { ...defenderUser };
 let botActivated = false;
+let botAttacked = false;
 
+// اگه مدافع ربات داره → براش سلاح میخره
 if (defenderUser.bot_enabled) {
-const aWeaponsPre = (attackerUser.weapons || '').split(',').filter(x => x);
-const aPowerPre = aWeaponsPre.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
-const botResult = await botDefend(defenderUser, aPowerPre);
+const botResult = await botDefend(defenderUser, attackerUser);
 if (botResult) {
 const { data: fresh } = await supabaseClient.from('users').select('*').eq('username', defenderUser.username).single();
 if (fresh) actualDefender = fresh;
@@ -2120,12 +2161,14 @@ const winnerCoins = (winnerUser.coins || 0) + FIGHT_PRIZE;
 const loserCoins = Math.max(0, (loserUser.coins || 0) - FIGHT_PRIZE);
 
 try {
+// برنده
 await supabaseClient.from('users').update({
 coins: winnerCoins,
 wins: (winnerUser.wins || 0) + 1,
 weapons: ''
 }).eq('username', winnerUser.username);
 
+// بازنده
 await supabaseClient.from('users').update({
 coins: loserCoins,
 losses: (loserUser.losses || 0) + 1,
@@ -2149,11 +2192,28 @@ attacker_wins: attackerUser.wins || 0, defender_wins: actualDefender.wins || 0,
 prize: FIGHT_PRIZE
 }]);
 
+// ⚡ اگه مدافع ربات داشت و برنده شد → به حمله‌کننده هم حمله میکنه (انتقام)
+if (botActivated && !attackerWins) {
+const counterResult = await botCounterAttack(actualDefender, attackerUser);
+if (counterResult) {
+botAttacked = true;
+await supabaseClient.from('messages').insert([{
+sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+content: LZString.compressToUTF16('🤖⚔️ <b>ربات محافظ ' + actualDefender.username + ' انتقام گرفت!</b>\n\n' +
+'🎯 به ' + attackerUser.username + ' حمله کرد\n' +
+'📊 قدرت ربات: نامحدود\n\n' +
+'💰 ' + attackerUser.username + ': ' + counterResult.attackerCoinsBefore + ' → ' + counterResult.attackerCoinsAfter + '\n' +
+'💰 ' + actualDefender.username + ': → ' + counterResult.ownerCoinsAfter + '\n\n' +
+'⚡ ۱۰۰ سکه دیگه از حمله‌کننده کم شد!')
+}]);
+}
+}
+
 if (attackerUser.username === myUsername || actualDefender.username === myUsername) {
 await loadMyGameData();
 }
 
-return { attackerUser, defenderUser: actualDefender, aWeapons, dWeapons, aPower, dPower, winnerUser, loserUser, winnerCoins, loserCoins, botActivated };
+return { attackerUser, defenderUser: actualDefender, aWeapons, dWeapons, aPower, dPower, winnerUser, loserUser, winnerCoins, loserCoins, botActivated, botAttacked };
 } catch(e) { console.error(e); return null; }
 }
 
@@ -2182,6 +2242,7 @@ resultBox.innerHTML = `
 💰 ${r.defenderUser.username}: ${r.defenderUser.coins} → ${r.winnerUser.username === r.defenderUser.username ? r.winnerCoins : r.loserCoins}<br><br>
 🎁 جایزه: ${FIGHT_PRIZE} سکه<br>
 ${r.botActivated ? '<b style="color:#8b5cf6;">🤖 ربات محافظ وارد عمل شد!</b><br>' : ''}
+${r.botAttacked ? '<b style="color:#ef4444;">⚡ ربات انتقام گرفت و به حمله‌کننده هم حمله کرد!</b><br>' : ''}
 <b style="color:#facc15;">⚠️ سلاح‌های هر دو طرف پاک شد!</b>
 </div>
 `;
@@ -2189,7 +2250,6 @@ if (aUser.username === myUsername || dUser.username === myUsername) await loadMy
 if (currentScreenName === 'gj') loadGjMessages();
 }
 
-// ========== 🤖 تشخیص خودکار جنگ ==========
 async function tryAutoFight(text) {
 const patterns = [
 /من\s+(.+?)\s+(?:هستم|ام)\s+و\s+میخوام\s+به\s+(.+?)\s+حمله\s+کنم/i,
@@ -2214,12 +2274,13 @@ if (aUser.username === dUser.username) { await sendGjBot('❌ یکی نمی‌ت
 const r = await doFight(aUser, dUser);
 if (!r) { await sendGjBot('❌ خطا در محاسبه جنگ'); return true; }
 const botText = r.botActivated ? '\n🤖 <b style="color:#8b5cf6;">ربات محافظ وارد عمل شد!</b>' : '';
+const revengeText = r.botAttacked ? '\n⚡ <b style="color:#ef4444;">ربات انتقام گرفت و به حمله‌کننده هم حمله کرد! (۱۰۰ سکه دیگه کم شد)</b>' : '';
 const resultMsg = `⚔️ <b>جنگ!</b>\n\n` +
 `🎯 حمله‌کننده: <b>${aUser.username}</b> (${aUser.fullname})\n` +
 `📊 قدرت: ${r.aPower} | سلاح‌ها: ${r.aWeapons.length > 0 ? r.aWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n\n` +
 `🛡️ مدافع: <b>${dUser.username}</b> (${dUser.fullname})\n` +
 `📊 قدرت: ${r.dPower} | سلاح‌ها: ${r.dWeapons.length > 0 ? r.dWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n` +
-botText + `\n\n` +
+botText + revengeText + `\n\n` +
 `🏆 برنده: <b>${r.winnerUser.username}</b> (${r.winnerUser.fullname})\n` +
 `💰 ${aUser.username}: ${aUser.coins} → ${r.winnerUser.username === aUser.username ? r.winnerCoins : r.loserCoins}\n` +
 `💰 ${dUser.username}: ${dUser.coins} → ${r.winnerUser.username === dUser.username ? r.winnerCoins : r.loserCoins}\n` +
@@ -2236,7 +2297,6 @@ return false;
 async function sendGjBot(text) {
 await supabaseClient.from('messages').insert([{ sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME, content: LZString.compressToUTF16(text) }]);
 }
-// ========== پایان جنگ ==========
 
 window.addEventListener('load', () => {
 initEmojiGrids();
@@ -2284,7 +2344,6 @@ await openChat('group', g);
 } catch(e) {}
 }
 
-// ========== هوک کردن sendGj برای جنگ خودکار ==========
 sendGj = async function() {
 const input = document.getElementById('gjInput');
 const text = input.value.trim();
