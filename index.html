@@ -63,12 +63,15 @@ body { background: #0f172a; color: #fff; display: flex; justify-content: center;
 .game-btn { background: #22c55e; color: #fff; }
 .server-btn { background: #ef4444; color: #fff; }
 .del-msgs-btn { background: #dc2626; color: #fff; }
+.bot-btn { background: #8b5cf6; color: #fff; }
+.bot-btn.on { background: #22c55e; }
 .notif-btn { background: #f59e0b; color: #fff; }
 .notif-btn.on { background: #22c55e; }
 .info-btn { background: #06b6d4; color: #fff; }
 .logout-btn { background: #ef4444; color: #fff; }
 .stats-btn { background: #f59e0b; color: #fff; }
 .invite-btn { background: #ec4899; color: #fff; }
+.bug-btn { background: #f97316; color: #fff; }
 .back-btn { background: #64748b; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; border: none; font-weight: bold; }
 .messages-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
 .msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; word-break: break-word; position: relative; }
@@ -105,6 +108,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 .modal-box { background: #1e293b; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; text-align: center; border: 1px solid #475569; max-height: 90vh; overflow-y: auto; }
 .modal-box h3 { margin-bottom: 15px; }
 .modal-box input { width: 100%; margin-bottom: 10px; }
+.modal-box textarea { width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #fff; font-size: 13px; outline: none; font-family: Tahoma; resize: vertical; min-height: 80px; }
 .modal-box button { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 8px; font-size: 14px; }
 .game-panel { background: #0f172a; border: 2px solid #22c55e; border-radius: 12px; padding: 15px; margin: 10px 0; text-align: right; }
 .game-stat { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; border-bottom: 1px solid #334155; }
@@ -175,6 +179,11 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 .acc-del-btn { background: #dc2626; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
 .msg-row-select { background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 6px; border: 1px solid #334155; display: flex; align-items: center; gap: 8px; }
 .msg-row-select input[type=checkbox] { width: auto; margin: 0; flex-shrink: 0; }
+.bug-row { background: #0f172a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #334155; text-align: right; font-size: 12px; }
+.bug-row .bug-user { color: #f97316; font-weight: bold; }
+.bug-row .bug-text { color: #cbd5e1; margin-top: 5px; line-height: 1.6; }
+.bug-row .bug-time { color: #64748b; font-size: 10px; margin-top: 5px; }
+.bug-resolved { background: #0f172a; border-color: #22c55e; border: 2px solid #22c55e; }
 </style>
 </head>
 <body>
@@ -214,6 +223,8 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <button class="online-toggle" id="gjOnlineToggle" onclick="toggleMyOnlineStatus()"><span class="dot"></span><span id="gjOnlineText">آنلاین</span></button>
 <button class="top-btn invite-btn" onclick="openInviteModal()">🎁 دعوت</button>
 <button class="top-btn stats-btn" onclick="openPlayersModal()">👥 بازیکنان</button>
+<button class="top-btn bot-btn" onclick="toggleBot()" id="gjBotBtn">🤖 ربات</button>
+<button class="top-btn bug-btn" onclick="openBugModal()">🐛 گزارش باگ</button>
 <button class="top-btn del-msgs-btn" onclick="openDeleteMsgsModal()">🗑️ پاک کردن پیام‌ها</button>
 <button class="top-btn info-btn" onclick="openAboutModal()">ℹ️</button>
 <button class="top-btn notif-btn" onclick="toggleNotifications()" id="gjNotifBtn">🔕</button>
@@ -291,7 +302,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div id="recordingIndicator" class="recording-indicator"><div class="rec-dot"></div><span id="recordingTime">00:00</span><span style="margin-right:10px;">در حال ضبط...</span></div>
 <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()"><div class="title" id="notifTitle">پیام جدید</div><div class="body" id="notifBody">...</div></div>
 <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
-<div class="version-footer">💬 روبینو — نسخه <b>7.0</b></div>
+<div class="version-footer">💬 روبینو — نسخه <b>8.0</b></div>
 
 <div id="loginModal" class="modal" style="display:none;">
 <div class="modal-box">
@@ -382,6 +393,18 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 </div>
 </div>
 
+<div id="bugModal" class="modal" style="display:none;">
+<div class="modal-box">
+<h3 style="color:#f97316;">🐛 گزارش باگ</h3>
+<p style="font-size:12px;color:#94a3b8;margin-bottom:15px;">باگ یا مشکلی که دیدی رو توضیح بده. ربات خودکار بررسی می‌کنه و به مدیر اطلاع می‌ده.</p>
+<textarea id="bugTextInput" placeholder="مثلاً: موقع خرید سلاح، سکه‌ها برمی‌گردن..."></textarea>
+<button onclick="submitBug()" style="background:#f97316;color:#fff;">📤 ارسال گزارش</button>
+<button onclick="closeBugModal()" style="background:#475569;color:#fff;">بستن</button>
+<div id="bugError" style="color:#ef4444;font-size:12px;margin-top:8px;display:none;"></div>
+<div id="bugSuccess" style="color:#22c55e;font-size:12px;margin-top:8px;display:none;"></div>
+</div>
+</div>
+
 <div id="downloadModal" class="modal" style="display:none;">
 <div class="modal-box">
 <h3 style="color:#0ea5e9;">📥 دانلود روبینو</h3>
@@ -434,6 +457,15 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <button onclick="deleteSelectedMsgs()" style="background:#dc2626;color:#fff;">🗑️ حذف پیام‌های انتخاب شده</button>
 <button onclick="closeMsgsListModal()" style="background:#475569;color:#fff;">بستن</button>
 <div id="msgsDeleteInfo" style="color:#22c55e;font-size:12px;margin-top:8px;display:none;"></div>
+</div>
+</div>
+
+<div id="bugsListModal" class="modal" style="display:none;">
+<div class="modal-box" style="max-width:600px;">
+<h3 style="color:#f97316;">🐛 لیست باگ‌ها</h3>
+<p style="font-size:12px;color:#94a3b8;margin-bottom:10px;">باگ‌های ارسال شده توسط کاربران:</p>
+<div id="bugsListBox" style="max-height:400px;overflow-y:auto;margin:15px 0;text-align:right;"></div>
+<button onclick="closeBugsListModal()" style="background:#475569;color:#fff;">بستن</button>
 </div>
 </div>
 
@@ -511,17 +543,18 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="about-section" style="text-align:center;">
 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
 <h3 style="color:#38bdf8;margin-bottom:10px;">روبینو</h3>
-<div class="version-badge">نسخه 7.0</div>
+<div class="version-badge">نسخه 8.0</div>
 </div>
 <div class="about-section">
 <h4>🎯 قابلیت‌ها</h4>
 <div style="font-size:12px;line-height:2;color:#cbd5e1;">
 ✅ چت گروهی و خصوصی<br>
 ✅ بازی جنگی با 1000 سکه<br>
-✅ جنگ خودکار با اسم و فامیل در چت<br>
-✅ پاک کردن سلاح‌ها بعد از جنگ<br>
+✅ جنگ خودکار با اسم و فامیل<br>
+✅ <b style="color:#8b5cf6;">ربات محافظ (هزینه: 1000 سکه)</b><br>
+✅ <b style="color:#f97316;">گزارش باگ با ربات</b><br>
 ✅ سیستم دعوت دوستان (۵۰۰ سکه)<br>
-✅ پاک کردن پیام‌ها (مدیر)<br>
+✅ پاک کردن پیام‌ها<br>
 ✅ قفل با کد 4 رقمی
 </div>
 </div>
@@ -532,6 +565,17 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <b style="color:#facc15;font-size:11px;">من نیما اصلانی هستم و میخوام به ارشیا کیماسی حمله کنم</b><br>
 ربات خودش حساب می‌کنه، برنده رو اعلام می‌کنه و ۱۰۰ سکه رد و بدل می‌شه!<br>
 <b style="color:#ef4444;">⚠️ بعد از هر جنگ، سلاح‌های هر دو طرف پاک می‌شن!</b>
+</div>
+</div>
+<div class="about-section">
+<h4>🤖 ربات محافظ</h4>
+<div style="font-size:12px;line-height:2;color:#cbd5e1;">
+با <b style="color:#8b5cf6;">1000 سکه</b> می‌تونی ربات محافظ فعال کنی.<br>
+وقتی کسی بهت حمله کنه، ربات خودکار:<br>
+✅ قدرت حمله‌کننده رو چک می‌کنه<br>
+✅ با ۳۰٪ سکه‌هات سلاح می‌خره<br>
+✅ قدرتش رو از حمله‌کننده بیشتر می‌کنه<br>
+✅ همیشه برنده میشی!
 </div>
 </div>
 <button onclick="closeAboutModal()" style="background:#06b6d4;color:#fff;width:100%;padding:12px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-top:15px;">بستن</button>
@@ -545,6 +589,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="game-stat"><span>💰 سکه:</span><b id="gCoins" style="color:#facc15;">1000</b></div>
 <div class="game-stat"><span>⚔️ سلاح‌ها:</span><b id="gWeapon">هیچ</b></div>
 <div class="game-stat"><span>💪 قدرت کل:</span><b id="gPower" style="color:#ef4444;">0</b></div>
+<div class="game-stat"><span>🤖 ربات:</span><b id="gBot" style="color:#8b5cf6;">غیرفعال</b></div>
 <div class="game-stat"><span>🏆 برد:</span><b id="gWins" style="color:#22c55e;">0</b></div>
 <div class="game-stat"><span>💀 باخت:</span><b id="gLosses" style="color:#ef4444;">0</b></div>
 <div class="game-stat"><span>⚔️ تعداد حمله:</span><b id="gAttacks" style="color:#f59e0b;">0</b></div>
@@ -575,8 +620,10 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <p>📨 پیام‌ها: <b id="sMessages" style="color:#22c55e;">0</b></p>
 <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
 <p>⚔️ جنگ‌ها: <b id="sAttacks" style="color:#ef4444;">0</b></p>
+<p>🐛 باگ‌ها: <b id="sBugs" style="color:#f97316;">0</b></p>
 </div>
-<button onclick="closeServerPanel();openDeleteAccModal();" style="background:#dc2626;color:#fff;">🗑️ حذف حساب‌ها</button>
+<button onclick="closeServerPanel();openBugsListModal();" style="background:#f97316;color:#fff;">🐛 لیست باگ‌ها</button>
+<button onclick="closeServerPanel();openDeleteAccModal();" style="background:#dc2626;color:#fff;margin-top:8px;">🗑️ حذف حساب‌ها</button>
 <button onclick="closeServerPanel();openResetModal();" style="background:#991b1b;color:#fff;margin-top:8px;">💣 ریست کامل برنامه</button>
 <button onclick="closeServerPanel()" style="background:#475569;color:#fff;margin-top:8px;">بستن</button>
 </div>
@@ -598,12 +645,14 @@ const SUPABASE_KEY = "sb_publishable_00YkZ5PxbALEn4O09XKgSw_KFQiSWE0";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const GROUP_NAME = "گروه جنگی";
 const BOT_NAME = "ربات بازی 🤖";
+const BUG_BOT_NAME = "ربات باگ‌گیر 🐛";
 const ADMIN_PASS = 'nimaaslani1234A';
 const PLAYERS_PASS = 'nimaaslani1234A';
 const SERVER_PASS = 'nimaaslani1234A';
 const STARTING_COINS = 1000;
 const INVITE_REWARD = 500;
 const FIGHT_PRIZE = 100;
+const BOT_ACTIVATION_COST = 1000;
 
 let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
 let pendingUsername = '';
@@ -613,6 +662,7 @@ let myUsername = localStorage.getItem('chat_username');
 let myCoins = 1000, myWins = 0, myLosses = 0, myAttacks = 0, myDefenses = 0;
 let myWeapons = [];
 let myInviteCode = '';
+let myBotEnabled = false;
 let currentChat = { type: '', target: '' };
 let allUsers = [], myGroups = [], chatList = [];
 let onlineUsers = new Set();
@@ -643,6 +693,19 @@ if (myOnlineStatus) { btn.classList.remove('offline'); text.innerText = 'آنل�
 else { btn.classList.add('offline'); text.innerText = 'آفلاین'; }
 }
 });
+}
+
+function updateBotBtnUI() {
+const btn = document.getElementById('gjBotBtn');
+if (btn) {
+if (myBotEnabled) {
+btn.classList.add('on');
+btn.innerText = '🤖 ربات ✅';
+} else {
+btn.classList.remove('on');
+btn.innerText = '🤖 ربات';
+}
+}
 }
 
 async function toggleMyOnlineStatus() {
@@ -711,7 +774,8 @@ attack_count: 0,
 defense_count: 0,
 invite_code: inviteCode,
 invited_by: '',
-invite_redeemed: false
+invite_redeemed: false,
+bot_enabled: false
 }]);
 pendingUsername = name;
 document.getElementById('loginModal').style.display = 'none';
@@ -821,6 +885,7 @@ updateQueueBar();
 setTimeout(() => sendPendingMessages(), 1000);
 try { await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('username', myUsername); } catch(e) {}
 await loadMyGameData();
+updateBotBtnUI();
 const params = new URLSearchParams(window.location.search);
 const jg = params.get('join');
 if (jg) { showScreen('msg'); setTimeout(() => joinGroupByLink(jg), 1500); }
@@ -830,7 +895,7 @@ showInAppNotif('✅ خوش آمدی ' + username + '!', 'موجودی: ' + myCoi
 
 async function loadMyGameData() {
 try {
-const { data } = await supabaseClient.from('users').select('coins, weapons, wins, losses, attack_count, defense_count, invite_code, fullname').eq('username', myUsername).limit(1);
+const { data } = await supabaseClient.from('users').select('coins, weapons, wins, losses, attack_count, defense_count, invite_code, fullname, bot_enabled').eq('username', myUsername).limit(1);
 if (data && data[0]) {
 myCoins = data[0].coins || 0;
 myWeapons = (data[0].weapons || '').split(',').filter(x => x);
@@ -838,8 +903,10 @@ myWins = data[0].wins || 0;
 myLosses = data[0].losses || 0;
 myAttacks = data[0].attack_count || 0;
 myDefenses = data[0].defense_count || 0;
+myBotEnabled = data[0].bot_enabled || false;
 if (data[0].invite_code) myInviteCode = data[0].invite_code;
 updateGjCoin();
+updateBotBtnUI();
 }
 } catch(e) { console.error(e); }
 }
@@ -849,6 +916,185 @@ let total = 0;
 myWeapons.forEach(w => { if (WEAPONS[w]) total += WEAPONS[w].power; });
 return total;
 }
+
+// ========== 🤖 ربات محافظ ==========
+async function toggleBot() {
+if (!myUsername) return;
+await loadMyGameData();
+
+const { data: me } = await supabaseClient.from('users').select('bot_enabled, coins').eq('username', myUsername).limit(1);
+if (!me || me.length === 0) return;
+
+const isActive = me[0].bot_enabled || false;
+const coins = me[0].coins || 0;
+
+if (isActive) {
+if (!confirm('میخوای ربات محافظ رو غیرفعال کنی؟\n(سکه‌ای برنمی‌گرده)')) return;
+await supabaseClient.from('users').update({ bot_enabled: false }).eq('username', myUsername);
+myBotEnabled = false;
+updateBotBtnUI();
+showInAppNotif('🤖 ربات غیرفعال شد', 'از این به بعد کسی بهت حمله کنه، بدون ربات می‌جنگی');
+await supabaseClient.from('messages').insert([{
+sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+content: LZString.compressToUTF16('🤖 ' + myUsername + ' ربات محافظ رو غیرفعال کرد.')
+}]);
+} else {
+if (coins < BOT_ACTIVATION_COST) {
+alert('❌ سکه کافی نداری!\n💰 هزینه فعال‌سازی: ' + BOT_ACTIVATION_COST + ' سکه\n💰 موجودی تو: ' + coins + ' سکه');
+return;
+}
+if (!confirm('🤖 ربات محافظ رو فعال کنی؟\n\n💰 هزینه: ' + BOT_ACTIVATION_COST + ' سکه\n\n✅ وقتی کسی بهت حمله کنه، ربات خودکار برات سلاح میخره\n✅ قدرتش بیشتر از حمله‌کننده میشه\n✅ همیشه برنده میشی!')) return;
+
+const newCoins = coins - BOT_ACTIVATION_COST;
+await supabaseClient.from('users').update({ bot_enabled: true, coins: newCoins }).eq('username', myUsername);
+
+myCoins = newCoins;
+myBotEnabled = true;
+updateGjCoin();
+updateBotBtnUI();
+
+await supabaseClient.from('messages').insert([{
+sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+content: LZString.compressToUTF16('🤖 ' + myUsername + ' ربات محافظ رو فعال کرد! (هزینه: ' + BOT_ACTIVATION_COST + ' سکه)')
+}]);
+
+showInAppNotif('🤖 ربات فعال شد!', 'هزینه: ' + BOT_ACTIVATION_COST + ' سکه | موجودی: ' + myCoins);
+}
+await loadMyGameData();
+}
+
+async function botDefend(defenderUser, attackerPower) {
+if (!defenderUser.bot_enabled) return null;
+
+let coins = defenderUser.coins || 0;
+let weapons = (defenderUser.weapons || '').split(',').filter(x => x);
+let currentPower = weapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
+
+const targetPower = attackerPower + 50;
+const boughtWeapons = [];
+const maxSpend = Math.floor(coins * 0.3);
+let spent = 0;
+
+const weaponList = Object.entries(WEAPONS).sort((a,b) => b[1].power - a[1].power);
+
+while (currentPower < targetPower && spent < maxSpend) {
+let bought = false;
+for (const [name, w] of weaponList) {
+if (spent + w.price > maxSpend) continue;
+if (currentPower + w.power > targetPower + 200) continue;
+boughtWeapons.push(name);
+weapons.push(name);
+currentPower += w.power;
+spent += w.price;
+bought = true;
+break;
+}
+if (!bought) break;
+}
+
+if (boughtWeapons.length === 0) return null;
+
+const newCoins = coins - spent;
+await supabaseClient.from('users').update({
+coins: newCoins,
+weapons: weapons.join(',')
+}).eq('username', defenderUser.username);
+
+await supabaseClient.from('messages').insert([{
+sender: BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+content: LZString.compressToUTF16('🤖 ربات محافظ برای ' + defenderUser.username + ' خودکار ' + boughtWeapons.length + ' تا سلاح خرید!\n💰 هزینه: ' + spent + ' سکه\n💪 قدرت جدید: ' + currentPower)
+}]);
+
+return { coins: newCoins, weapons, power: currentPower, spent };
+}
+// ========== پایان ربات محافظ ==========
+
+// ========== 🐛 ربات گزارش باگ ==========
+function openBugModal() {
+document.getElementById('bugTextInput').value = '';
+document.getElementById('bugError').style.display = 'none';
+document.getElementById('bugSuccess').style.display = 'none';
+document.getElementById('bugModal').style.display = 'flex';
+}
+function closeBugModal() { document.getElementById('bugModal').style.display = 'none'; }
+
+async function submitBug() {
+const text = document.getElementById('bugTextInput').value.trim();
+const errDiv = document.getElementById('bugError');
+const okDiv = document.getElementById('bugSuccess');
+
+if (!text || text.length < 5) {
+errDiv.innerText = '❌ حداقل 5 کاراکتر توضیح بده!';
+errDiv.style.display = 'block';
+return;
+}
+errDiv.style.display = 'none';
+
+try {
+// ذخیره در جدول bugs
+const { error } = await supabaseClient.from('bugs').insert([{
+reporter: myUsername,
+reporter_fullname: (await supabaseClient.from('users').select('fullname').eq('username', myUsername).limit(1)).data?.[0]?.fullname || '',
+text: text,
+resolved: false
+}]);
+
+if (error) throw error;
+
+// ربات گزارش باگ پیام میده
+await supabaseClient.from('messages').insert([{
+sender: BUG_BOT_NAME, receiver: 'GROUP:' + GROUP_NAME,
+content: LZString.compressToUTF16('🐛 گزارش باگ جدید ثبت شد!\n\n👤 گزارش‌دهنده: ' + myUsername + '\n📝 متن: ' + text + '\n\n⏳ در حال بررسی توسط مدیر...')
+}]);
+
+okDiv.innerText = '✅ گزارش باگ با موفقیت ثبت شد!\nمدیر به زودی بررسی می‌کنه.';
+okDiv.style.display = 'block';
+document.getElementById('bugTextInput').value = '';
+
+setTimeout(() => { closeBugModal(); }, 2500);
+} catch(e) {
+errDiv.innerText = '❌ خطا: ' + e.message;
+errDiv.style.display = 'block';
+}
+}
+
+async function showBugsList() {
+document.getElementById('bugsListModal').style.display = 'flex';
+document.getElementById('bugsListBox').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
+
+try {
+const { data } = await supabaseClient.from('bugs').select('*').order('created_at', { ascending: false }).limit(100);
+if (!data || data.length === 0) {
+document.getElementById('bugsListBox').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ باگی ثبت نشده</div>';
+return;
+}
+let html = '';
+data.forEach(b => {
+const time = new Date(b.created_at).toLocaleString('fa-IR');
+const resolvedClass = b.resolved ? ' bug-resolved' : '';
+html += `<div class="bug-row${resolvedClass}">
+<div class="bug-user">👤 ${b.reporter} ${b.resolved ? '✅' : '⏳'}</div>
+<div class="bug-text">📝 ${b.text}</div>
+<div class="bug-time">🕒 ${time}</div>
+${!b.resolved ? `<button onclick="resolveBug(${b.id})" style="background:#22c55e;color:#fff;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;margin-top:8px;width:auto;">✅ حل شد</button>` : '<div style="color:#22c55e;font-size:11px;margin-top:5px;">✅ حل شده</div>'}
+</div>`;
+});
+document.getElementById('bugsListBox').innerHTML = html;
+} catch(e) {
+document.getElementById('bugsListBox').innerHTML = '<div style="color:#ef4444;padding:20px;">خطا: ' + e.message + '</div>';
+}
+}
+function openBugsListModal() { showBugsList(); }
+function closeBugsListModal() { document.getElementById('bugsListModal').style.display = 'none'; }
+
+async function resolveBug(id) {
+if (!confirm('این باگ حل شده؟')) return;
+try {
+await supabaseClient.from('bugs').update({ resolved: true }).eq('id', id);
+showBugsList();
+} catch(e) { alert('خطا: ' + e.message); }
+}
+// ========== پایان ربات باگ ==========
 
 async function openInviteModal() {
 if (!myUsername) return;
@@ -940,7 +1186,6 @@ errDiv.style.display = 'block';
 }
 function closeInviteSuccessModal() { document.getElementById('inviteSuccessModal').style.display = 'none'; }
 
-// ========== 🗑️ پاک کردن پیام‌ها ==========
 function openDeleteMsgsModal() {
 document.getElementById('delMsgsPass').value = '';
 document.getElementById('delMsgsPassError').style.display = 'none';
@@ -1025,7 +1270,6 @@ infoDiv.innerText = '❌ خطا: ' + e.message;
 infoDiv.style.color = '#ef4444';
 }
 }
-// ========== پایان پاک کردن پیام‌ها ==========
 
 function openDeleteAccModal() {
 document.getElementById('delAccPass').value = '';
@@ -1106,6 +1350,7 @@ try {
 await supabaseClient.from('messages').delete().neq('id', 0);
 await supabaseClient.from('groups').delete().neq('id', 0);
 await supabaseClient.from('attacks').delete().neq('id', 0);
+await supabaseClient.from('bugs').delete().neq('id', 0);
 await supabaseClient.from('users').delete().neq('id', 0);
 localStorage.removeItem('pending_messages');
 localStorage.removeItem('chat_username');
@@ -1346,6 +1591,7 @@ if (!myUsername) { document.getElementById('loginModal').style.display = 'flex';
 document.getElementById('gjScreen').style.display = 'flex';
 document.getElementById('gjUserLabel').innerText = myUsername;
 updateOnlineToggleUI();
+updateBotBtnUI();
 clearUnread('gj');
 loadMyGameData();
 loadGjMessages();
@@ -1365,6 +1611,8 @@ await loadMyGameData();
 document.getElementById('gCoins').innerText = myCoins;
 document.getElementById('gWeapon').innerText = myWeapons.length > 0 ? myWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') + ' (' + myWeapons.length + ')' : 'هیچ';
 document.getElementById('gPower').innerText = getTotalPower();
+document.getElementById('gBot').innerText = myBotEnabled ? '✅ فعال' : '❌ غیرفعال';
+document.getElementById('gBot').style.color = myBotEnabled ? '#22c55e' : '#94a3b8';
 document.getElementById('gWins').innerText = myWins;
 document.getElementById('gLosses').innerText = myLosses;
 document.getElementById('gAttacks').innerText = myAttacks;
@@ -1435,11 +1683,13 @@ if ((!data || data.length === 0) && pending.length === 0) { box.innerHTML = '<di
 let text = LZString.decompressFromUTF16(msg.content) || msg.content;
 const isMe = msg.sender === myUsername;
 const isBot = msg.sender === BOT_NAME;
+const isBugBot = msg.sender === BUG_BOT_NAME;
 if (msg.sender === 'system') { const d = document.createElement('div'); d.className = 'msg-system'; d.innerText = text; box.appendChild(d); return; }
 const d = document.createElement('div');
 d.className = 'msg ' + (isBot ? 'bot' : (isMe ? 'sent' : 'received'));
+if (isBugBot) d.style.background = 'linear-gradient(135deg,#f97316,#ea580c)';
 const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + msg.sender + '</div>');
+let sh = isBot ? '<div class="msg-sender">' + BOT_NAME + '</div>' : (isBugBot ? '<div class="msg-sender" style="color:#fff;">' + BUG_BOT_NAME + '</div>' : (isMe ? '<div class="msg-sender" style="color:#38bdf8;">👤 شما</div>' : '<div class="msg-sender">👤 ' + msg.sender + '</div>'));
 d.innerHTML = sh + renderMessageContent(text) + '<div class="msg-time">' + time + '</div>';
 box.appendChild(d);
 });
@@ -1696,11 +1946,13 @@ const u = await supabaseClient.from('users').select('id, online');
 const m = await supabaseClient.from('messages').select('id');
 const g = await supabaseClient.from('groups').select('id');
 const a = await supabaseClient.from('attacks').select('id');
+const b = await supabaseClient.from('bugs').select('id');
 document.getElementById('sUsers').innerText = u.data?.length || 0;
 document.getElementById('sOnline').innerText = u.data ? u.data.filter(x => x.online).length : 0;
 document.getElementById('sMessages').innerText = m.data?.length || 0;
 document.getElementById('sGroups').innerText = g.data?.length || 0;
 document.getElementById('sAttacks').innerText = a.data?.length || 0;
+document.getElementById('sBugs').innerText = b.data?.length || 0;
 }
 function closeServerPanel() { document.getElementById('serverPanelModal').style.display = 'none'; }
 
@@ -1797,10 +2049,11 @@ const weapons = (u.weapons || '').split(',').filter(x => x);
 const weaponInfo = weapons.length > 0 ? weapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌ بدون سلاح';
 const totalPower = weapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
 const online = u.online ? '🟢' : '⚫';
+const botIcon = u.bot_enabled ? ' 🤖' : '';
 html += `
 <div class="player-row">
 <div class="player-info">
-<div class="player-name">${medal} ${u.username} ${online}</div>
+<div class="player-name">${medal} ${u.username} ${online}${botIcon}</div>
 <div class="player-stats">
 📛 <span>${u.fullname || 'بدون اسم'}</span><br>
 💰 سکه: <span>${u.coins || 0}</span> | 
@@ -1839,49 +2092,68 @@ return data && data[0] ? data[0] : null;
 
 async function doFight(attackerUser, defenderUser) {
 if (!attackerUser || !defenderUser) return null;
+
+let actualDefender = { ...defenderUser };
+let botActivated = false;
+
+if (defenderUser.bot_enabled) {
+const aWeaponsPre = (attackerUser.weapons || '').split(',').filter(x => x);
+const aPowerPre = aWeaponsPre.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
+const botResult = await botDefend(defenderUser, aPowerPre);
+if (botResult) {
+const { data: fresh } = await supabaseClient.from('users').select('*').eq('username', defenderUser.username).single();
+if (fresh) actualDefender = fresh;
+botActivated = true;
+}
+}
+
 const aWeapons = (attackerUser.weapons || '').split(',').filter(x => x);
-const dWeapons = (defenderUser.weapons || '').split(',').filter(x => x);
+const dWeapons = (actualDefender.weapons || '').split(',').filter(x => x);
 const aPower = aWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
 const dPower = dWeapons.reduce((sum, w) => sum + (WEAPONS[w]?.power || 0), 0);
 const aRoll = aPower + Math.random() * 50;
 const dRoll = dPower + Math.random() * 50;
 const attackerWins = aRoll > dRoll;
-const winnerUser = attackerWins ? attackerUser : defenderUser;
-const loserUser = attackerWins ? defenderUser : attackerUser;
+const winnerUser = attackerWins ? attackerUser : actualDefender;
+const loserUser = attackerWins ? actualDefender : attackerUser;
 const winnerCoins = (winnerUser.coins || 0) + FIGHT_PRIZE;
 const loserCoins = Math.max(0, (loserUser.coins || 0) - FIGHT_PRIZE);
+
 try {
-// برنده: سکه + برد + پاک کردن سلاح‌ها
 await supabaseClient.from('users').update({
 coins: winnerCoins,
 wins: (winnerUser.wins || 0) + 1,
 weapons: ''
 }).eq('username', winnerUser.username);
-// بازنده: سکه - باخت + پاک کردن سلاح‌ها
+
 await supabaseClient.from('users').update({
 coins: loserCoins,
 losses: (loserUser.losses || 0) + 1,
 weapons: ''
 }).eq('username', loserUser.username);
+
 if (attackerWins) {
 await supabaseClient.from('users').update({ attack_count: (attackerUser.attack_count || 0) + 1 }).eq('username', attackerUser.username);
-await supabaseClient.from('users').update({ defense_count: (defenderUser.defense_count || 0) + 1 }).eq('username', defenderUser.username);
+await supabaseClient.from('users').update({ defense_count: (actualDefender.defense_count || 0) + 1 }).eq('username', actualDefender.username);
 } else {
 await supabaseClient.from('users').update({ attack_count: (attackerUser.attack_count || 0) + 1 }).eq('username', attackerUser.username);
-await supabaseClient.from('users').update({ defense_count: (defenderUser.defense_count || 0) + 1 }).eq('username', defenderUser.username);
+await supabaseClient.from('users').update({ defense_count: (actualDefender.defense_count || 0) + 1 }).eq('username', actualDefender.username);
 }
+
 await supabaseClient.from('attacks').insert([{
-attacker: attackerUser.username, defender: defenderUser.username,
+attacker: attackerUser.username, defender: actualDefender.username,
 attacker_weapon: aWeapons.join(','), defender_weapon: dWeapons.join(','),
 attacker_power: aPower, defender_power: dPower,
 winner: winnerUser.username, loser: loserUser.username,
-attacker_wins: attackerUser.wins || 0, defender_wins: defenderUser.wins || 0,
+attacker_wins: attackerUser.wins || 0, defender_wins: actualDefender.wins || 0,
 prize: FIGHT_PRIZE
 }]);
-if (attackerUser.username === myUsername || defenderUser.username === myUsername) {
+
+if (attackerUser.username === myUsername || actualDefender.username === myUsername) {
 await loadMyGameData();
 }
-return { attackerUser, defenderUser, aWeapons, dWeapons, aPower, dPower, winnerUser, loserUser, winnerCoins, loserCoins };
+
+return { attackerUser, defenderUser: actualDefender, aWeapons, dWeapons, aPower, dPower, winnerUser, loserUser, winnerCoins, loserCoins, botActivated };
 } catch(e) { console.error(e); return null; }
 }
 
@@ -1905,10 +2177,11 @@ resultBox.innerHTML = `
 <div class="fight-result">
 🏆 <b>${r.winnerUser.username}</b> (${r.winnerUser.fullname}) برنده شد!<br><br>
 ⚔️ ${r.attackerUser.username}: قدرت ${r.aPower}<br>
-🛡️ ${r.defenderUser.username}: قدرت ${r.dPower}<br><br>
+🛡️ ${r.defenderUser.username}: قدرت ${r.dPower}${r.botActivated ? ' 🤖' : ''}<br><br>
 💰 ${r.attackerUser.username}: ${r.attackerUser.coins} → ${r.winnerUser.username === r.attackerUser.username ? r.winnerCoins : r.loserCoins}<br>
 💰 ${r.defenderUser.username}: ${r.defenderUser.coins} → ${r.winnerUser.username === r.defenderUser.username ? r.winnerCoins : r.loserCoins}<br><br>
 🎁 جایزه: ${FIGHT_PRIZE} سکه<br>
+${r.botActivated ? '<b style="color:#8b5cf6;">🤖 ربات محافظ وارد عمل شد!</b><br>' : ''}
 <b style="color:#facc15;">⚠️ سلاح‌های هر دو طرف پاک شد!</b>
 </div>
 `;
@@ -1940,11 +2213,13 @@ if (!dUser) { await sendGjBot('❌ مدافع با اسم "' + defenderName + '"
 if (aUser.username === dUser.username) { await sendGjBot('❌ یکی نمی‌تونه به خودش حمله کنه!'); return true; }
 const r = await doFight(aUser, dUser);
 if (!r) { await sendGjBot('❌ خطا در محاسبه جنگ'); return true; }
+const botText = r.botActivated ? '\n🤖 <b style="color:#8b5cf6;">ربات محافظ وارد عمل شد!</b>' : '';
 const resultMsg = `⚔️ <b>جنگ!</b>\n\n` +
 `🎯 حمله‌کننده: <b>${aUser.username}</b> (${aUser.fullname})\n` +
 `📊 قدرت: ${r.aPower} | سلاح‌ها: ${r.aWeapons.length > 0 ? r.aWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n\n` +
 `🛡️ مدافع: <b>${dUser.username}</b> (${dUser.fullname})\n` +
-`📊 قدرت: ${r.dPower} | سلاح‌ها: ${r.dWeapons.length > 0 ? r.dWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n\n` +
+`📊 قدرت: ${r.dPower} | سلاح‌ها: ${r.dWeapons.length > 0 ? r.dWeapons.map(w => WEAPONS[w]?.emoji || '').join(' ') : '❌'}\n` +
+botText + `\n\n` +
 `🏆 برنده: <b>${r.winnerUser.username}</b> (${r.winnerUser.fullname})\n` +
 `💰 ${aUser.username}: ${aUser.coins} → ${r.winnerUser.username === aUser.username ? r.winnerCoins : r.loserCoins}\n` +
 `💰 ${dUser.username}: ${dUser.coins} → ${r.winnerUser.username === dUser.username ? r.winnerCoins : r.loserCoins}\n` +
@@ -1967,6 +2242,7 @@ window.addEventListener('load', () => {
 initEmojiGrids();
 updateNotifButtons();
 updateOnlineToggleUI();
+updateBotBtnUI();
 updateNetStatus();
 updateQueueBar();
 setInterval(updateNetStatus, 10000);
@@ -2009,7 +2285,6 @@ await openChat('group', g);
 }
 
 // ========== هوک کردن sendGj برای جنگ خودکار ==========
-const _origSendGj = sendGj;
 sendGj = async function() {
 const input = document.getElementById('gjInput');
 const text = input.value.trim();
