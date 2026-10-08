@@ -184,6 +184,12 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 .bug-row .bug-text { color: #cbd5e1; margin-top: 5px; line-height: 1.6; }
 .bug-row .bug-time { color: #64748b; font-size: 10px; margin-top: 5px; }
 .bug-resolved { background: #0f172a; border-color: #22c55e; border: 2px solid #22c55e; }
+/* New styles for approval system */
+.pending-approval-banner { position: fixed; top: 32px; left: 0; right: 0; background: linear-gradient(90deg,#f59e0b,#d97706); color: #fff; text-align: center; padding: 12px; font-size: 14px; font-weight: bold; z-index: 9997; display: none; }
+.pending-approval-banner.show { display: block; }
+.approval-row { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 6px; border: 1px solid #334155; font-size: 12px; }
+.approve-btn { background: #22c55e; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
+.reject-btn { background: #dc2626; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; width: auto; margin: 0; }
 </style>
 </head>
 <body>
@@ -200,6 +206,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="status-item"><span id="netIcon">📶</span><span id="netStatus" class="status-good">نت: خوب</span></div>
 </div>
 <div class="queue-bar" id="queueBar"><span class="icon">🔄</span><span id="queueText">0 پیام در انتظار ارسال</span></div>
+<div class="pending-approval-banner" id="pendingApprovalBanner">⏳ حساب شما در انتظار تأیید مدیر است...</div>
 <div id="offlineScreen" class="offline-screen">
 <div class="emoji">😔</div>
 <h1>اتصال اینترنت قطع شد</h1>
@@ -302,7 +309,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div id="recordingIndicator" class="recording-indicator"><div class="rec-dot"></div><span id="recordingTime">00:00</span><span style="margin-right:10px;">در حال ضبط...</span></div>
 <div id="inAppNotif" class="in-app-notif" onclick="handleNotifClick()"><div class="title" id="notifTitle">پیام جدید</div><div class="body" id="notifBody">...</div></div>
 <div id="imageModal" onclick="closeImageModal()"><img id="fullImage" src=""></div>
-<div class="version-footer">💬 روبینو — نسخه <b>9.0</b></div>
+<div class="version-footer">💬 روبینو — نسخه <b>9.1</b></div>
 
 <div id="loginModal" class="modal" style="display:none;">
 <div class="modal-box">
@@ -312,6 +319,8 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <input type="text" id="usernameInput" placeholder="نام کاربری..." maxlength="20">
 <p style="font-size:12px;color:#94a3b8;margin-bottom:10px;">اسم و فامیلت را وارد کن:</p>
 <input type="text" id="fullnameInput" placeholder="مثلاً: علی محمدی" maxlength="50">
+<p style="font-size:12px;color:#94a3b8;margin-bottom:10px;">کد اختیاری (در صورت داشتن کد دعوت ویژه):</p>
+<input type="text" id="optionalCodeInput" placeholder="کد اختیاری (مثلاً 1394)" maxlength="10" style="text-align:center;font-weight:bold;">
 <button onclick="registerUser()" style="background:#38bdf8;color:#0f172a;">ادامه 🚀</button>
 </div>
 </div>
@@ -435,6 +444,15 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 </div>
 </div>
 
+<div id="approvalModal" class="modal" style="display:none;">
+<div class="modal-box" style="max-width:500px;">
+<h3 style="color:#22c55e;">✅ تأیید حساب‌ها</h3>
+<p style="font-size:12px;color:#94a3b8;margin-bottom:10px;">حساب‌هایی که در انتظار تأیید هستند:</p>
+<div id="approvalListBox" style="max-height:400px;overflow-y:auto;margin:15px 0;"></div>
+<button onclick="closeApprovalModal()" style="background:#475569;color:#fff;">بستن</button>
+</div>
+</div>
+
 <div id="delMsgsPassModal" class="modal" style="display:none;">
 <div class="modal-box">
 <h3 style="color:#dc2626;">🗑️ پاک کردن پیام‌ها</h3>
@@ -543,7 +561,7 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <div class="about-section" style="text-align:center;">
 <img src="https://cdn.imgurl.ir/uploads/f814869_logo.jpg.jpg" class="about-logo" alt="لوگو">
 <h3 style="color:#38bdf8;margin-bottom:10px;">روبینو</h3>
-<div class="version-badge">نسخه 9.0</div>
+<div class="version-badge">نسخه 9.1</div>
 </div>
 <div class="about-section">
 <h4>🎯 قابلیت‌ها</h4>
@@ -555,7 +573,8 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 ✅ گزارش باگ<br>
 ✅ سیستم دعوت دوستان (۵۰۰ سکه)<br>
 ✅ پاک کردن پیام‌ها<br>
-✅ قفل با کد 4 رقمی
+✅ قفل با کد 4 رقمی<br>
+✅ <b style="color:#22c55e;">سیستم تأیید حساب توسط مدیر</b>
 </div>
 </div>
 <div class="about-section">
@@ -612,7 +631,9 @@ input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #475569; b
 <p>📁 گروه‌ها: <b id="sGroups" style="color:#facc15;">0</b></p>
 <p>⚔️ جنگ‌ها: <b id="sAttacks" style="color:#ef4444;">0</b></p>
 <p>🐛 باگ‌ها: <b id="sBugs" style="color:#f97316;">0</b></p>
+<p>⏳ در انتظار تأیید: <b id="sPending" style="color:#f59e0b;">0</b></p>
 </div>
+<button onclick="closeServerPanel();openApprovalModal();" style="background:#22c55e;color:#fff;margin-bottom:8px;">✅ تأیید حساب‌ها</button>
 <button onclick="closeServerPanel();openBugsListModal();" style="background:#f97316;color:#fff;">🐛 لیست باگ‌ها</button>
 <button onclick="closeServerPanel();openDeleteAccModal();" style="background:#dc2626;color:#fff;margin-top:8px;">🗑️ حذف حساب‌ها</button>
 <button onclick="closeServerPanel();openResetModal();" style="background:#991b1b;color:#fff;margin-top:8px;">💣 ریست کامل برنامه</button>
@@ -644,6 +665,7 @@ const STARTING_COINS = 1000;
 const INVITE_REWARD = 500;
 const FIGHT_PRIZE = 100;
 const BOT_ACTIVATION_COST = 1000;
+const OPTIONAL_CODE = '1394'; // کد اختیاری برای ورود بدون تأیید
 
 let myOnlineStatus = localStorage.getItem('my_online_status') !== 'false';
 let pendingUsername = '';
@@ -674,6 +696,61 @@ const WEAPONS = {
 };
 
 const ANIMATED_EMOJIS = ['😊','😂','❤️','🔥','👍','👏','🎉','💪','😍','🤣','😎','🙏','💯','✨','🤔','😴','🥺','😭','🥰','😘','🤗','🫡','💀','👀','🤝','😜','🤩','🥳','😇','🤪','😋','😅','🙄','😱','😡','🥶','🤯','😳','🤫','🤭','🚀','⚡','💥','🎯','🏆','🥇','💎','👑','🎁','🌈'];
+
+// ========== توابع تأیید حساب ==========
+function openApprovalModal() {
+    document.getElementById('approvalModal').style.display = 'flex';
+    loadPendingApprovals();
+}
+function closeApprovalModal() { document.getElementById('approvalModal').style.display = 'none'; }
+
+async function loadPendingApprovals() {
+    const box = document.getElementById('approvalListBox');
+    box.innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
+    try {
+        const { data } = await supabaseClient.from('users').select('username, fullname').eq('approved', false).order('created_at', { ascending: true });
+        if (!data || data.length === 0) {
+            box.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ حساب در انتظار تأییدی وجود ندارد</div>';
+            return;
+        }
+        let html = '';
+        data.forEach(u => {
+            html += `
+            <div class="approval-row">
+                <div>
+                    <div style="color:#38bdf8;font-weight:bold;">👤 ${u.username}</div>
+                    <div style="color:#94a3b8;font-size:10px;">${u.fullname || 'بدون اسم'}</div>
+                </div>
+                <div style="display:flex;gap:4px;">
+                    <button class="approve-btn" onclick="approveUser('${u.username}')">✅ تأیید</button>
+                    <button class="reject-btn" onclick="rejectUser('${u.username}')">❌ رد</button>
+                </div>
+            </div>`;
+        });
+        box.innerHTML = html;
+    } catch(e) {
+        box.innerHTML = '<div style="color:#ef4444;padding:20px;">خطا: ' + e.message + '</div>';
+    }
+}
+
+async function approveUser(username) {
+    if (!confirm('حساب "' + username + '" تأیید بشه؟')) return;
+    try {
+        await supabaseClient.from('users').update({ approved: true }).eq('username', username);
+        showInAppNotif('✅ حساب تأیید شد', username + ' می‌تونه وارد برنامه بشه');
+        loadPendingApprovals();
+    } catch(e) { alert('خطا: ' + e.message); }
+}
+
+async function rejectUser(username) {
+    if (!confirm('حساب "' + username + '" رد و حذف بشه؟')) return;
+    try {
+        await supabaseClient.from('users').delete().eq('username', username);
+        showInAppNotif('❌ حساب رد شد', username + ' حذف شد');
+        loadPendingApprovals();
+    } catch(e) { alert('خطا: ' + e.message); }
+}
+// ========== پایان توابع تأیید ==========
 
 function updateOnlineToggleUI() {
 ['gjOnlineToggle','msOnlineToggle'].forEach((id, i) => {
@@ -723,6 +800,7 @@ showScreen('home');
 setTimeout(() => {
 document.getElementById('usernameInput').value = '';
 document.getElementById('fullnameInput').value = '';
+document.getElementById('optionalCodeInput').value = '';
 document.getElementById('loginModal').style.display = 'flex';
 }, 300);
 showInAppNotif('🚪 خروج موفق', 'از حساب خارج شدی');
@@ -731,6 +809,8 @@ showInAppNotif('🚪 خروج موفق', 'از حساب خارج شدی');
 async function registerUser() {
 const name = document.getElementById('usernameInput').value.trim();
 const fullname = document.getElementById('fullnameInput').value.trim();
+const optionalCode = document.getElementById('optionalCodeInput').value.trim();
+
 if (!name || name.length < 2) { alert('نام کاربری باید حداقل 2 کاراکتر!'); return; }
 if (name.length > 20) { alert('نام کاربری باید حداکثر 20 کاراکتر!'); return; }
 if (!fullname || fullname.length < 2) { alert('اسم و فامیلت رو وارد کن!'); return; }
@@ -738,42 +818,73 @@ if (!fullname || fullname.length < 2) { alert('اسم و فامیلت رو وا�
 pendingFullname = fullname;
 
 try {
-const { data: ex } = await supabaseClient.from('users').select('id, pin').eq('username', name).limit(1);
+const { data: ex } = await supabaseClient.from('users').select('id, pin, approved').eq('username', name).limit(1);
 
 if (ex && ex.length > 0) {
-if (ex[0].pin) {
-openPinModal(name);
+    // کاربر قبلاً ثبت‌نام کرده
+    if (!ex[0].approved) {
+        // هنوز تأیید نشده
+        if (optionalCode === OPTIONAL_CODE) {
+            // با کد اختیاری تأییدش کن
+            await supabaseClient.from('users').update({ approved: true }).eq('username', name);
+            showInAppNotif('✅ حساب تأیید شد', 'با کد اختیاری وارد شدی');
+        } else {
+            // منتظر تأیید مدیر
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('pendingApprovalBanner').classList.add('show');
+            showInAppNotif('⏳ در انتظار تأیید', 'حساب شما در انتظار تأیید مدیر است');
+            setTimeout(() => { document.getElementById('pendingApprovalBanner').classList.remove('show'); }, 8000);
+            return;
+        }
+    }
+    // حالا کد پین
+    if (ex[0].pin) {
+        openPinModal(name);
+    } else {
+        pendingUsername = name;
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('newPinInput').value = '';
+        document.getElementById('newPinConfirm').value = '';
+        document.getElementById('setPinError').style.display = 'none';
+        document.getElementById('setPinModal').style.display = 'flex';
+    }
 } else {
-pendingUsername = name;
-document.getElementById('loginModal').style.display = 'none';
-document.getElementById('newPinInput').value = '';
-document.getElementById('newPinConfirm').value = '';
-document.getElementById('setPinError').style.display = 'none';
-document.getElementById('setPinModal').style.display = 'flex';
-}
-} else {
-const inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
-await supabaseClient.from('users').insert([{ 
-username: name, 
-fullname: fullname,
-online: myOnlineStatus,
-coins: STARTING_COINS,
-weapons: '',
-wins: 0,
-losses: 0,
-attack_count: 0,
-defense_count: 0,
-invite_code: inviteCode,
-invited_by: '',
-invite_redeemed: false,
-bot_enabled: false
-}]);
-pendingUsername = name;
-document.getElementById('loginModal').style.display = 'none';
-document.getElementById('newPinInput').value = '';
-document.getElementById('newPinConfirm').value = '';
-document.getElementById('setPinError').style.display = 'none';
-document.getElementById('setPinModal').style.display = 'flex';
+    // کاربر جدید
+    const inviteCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const isApproved = (optionalCode === OPTIONAL_CODE);
+    
+    await supabaseClient.from('users').insert([{ 
+        username: name, 
+        fullname: fullname,
+        online: myOnlineStatus,
+        coins: STARTING_COINS,
+        weapons: '',
+        wins: 0,
+        losses: 0,
+        attack_count: 0,
+        defense_count: 0,
+        invite_code: inviteCode,
+        invited_by: '',
+        invite_redeemed: false,
+        bot_enabled: false,
+        approved: isApproved
+    }]);
+    
+    if (!isApproved) {
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('pendingApprovalBanner').classList.add('show');
+        showInAppNotif('⏳ در انتظار تأیید', 'حساب شما در انتظار تأیید مدیر است. لطفاً بعداً مراجعه کنید.');
+        setTimeout(() => { document.getElementById('pendingApprovalBanner').classList.remove('show'); }, 8000);
+        return;
+    }
+    
+    // اگر با کد اختیاری تأیید شد، ادامه بده
+    pendingUsername = name;
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('newPinInput').value = '';
+    document.getElementById('newPinConfirm').value = '';
+    document.getElementById('setPinError').style.display = 'none';
+    document.getElementById('setPinModal').style.display = 'flex';
 }
 } catch(e) { alert('خطا: ' + e.message); }
 }
@@ -814,8 +925,18 @@ const errDiv = document.getElementById('pinError');
 if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) { errDiv.innerText = 'کد باید 4 رقم عددی باشه!'; errDiv.style.display = 'block'; return; }
 await new Promise(r => setTimeout(r, 300));
 try {
-const { data } = await supabaseClient.from('users').select('pin').eq('username', pendingUsername).limit(1);
+const { data } = await supabaseClient.from('users').select('pin, approved').eq('username', pendingUsername).limit(1);
 const savedPin = data && data[0] ? data[0].pin : null;
+const isApproved = data && data[0] ? data[0].approved : false;
+
+if (!isApproved) {
+    document.getElementById('pinModal').style.display = 'none';
+    document.getElementById('pendingApprovalBanner').classList.add('show');
+    showInAppNotif('⏳ در انتظار تأیید', 'حساب شما هنوز تأیید نشده است');
+    setTimeout(() => { document.getElementById('pendingApprovalBanner').classList.remove('show'); }, 8000);
+    return;
+}
+
 if (pin !== savedPin) {
 pinAttempts++;
 if (pinAttempts >= 3) {
@@ -1002,7 +1123,6 @@ content: LZString.compressToUTF16('🤖 ربات محافظ برای ' + defende
 return { coins: newCoins, weapons, power: currentPower, spent };
 }
 
-// ⚔️ حمله انتقامی ربات به حمله‌کننده
 async function botCounterAttack(botOwner, targetUser) {
 try {
 const { data: freshTarget } = await supabaseClient.from('users').select('coins, weapons, losses').eq('username', targetUser.username).single();
@@ -1016,21 +1136,18 @@ const ownerWins = freshOwner?.wins || 0;
 const ownerNewCoins = ownerCoins + FIGHT_PRIZE;
 const targetNewCoins = Math.max(0, targetCoins - FIGHT_PRIZE);
 
-// ربات برنده (پاک کردن سلاح‌ها)
 await supabaseClient.from('users').update({
 coins: ownerNewCoins,
 wins: ownerWins + 1,
 weapons: ''
 }).eq('username', botOwner.username);
 
-// دشمن بازنده
 await supabaseClient.from('users').update({
 coins: targetNewCoins,
 losses: targetLosses + 1,
 weapons: ''
 }).eq('username', targetUser.username);
 
-// ثبت حمله انتقامی
 await supabaseClient.from('attacks').insert([{
 attacker: botOwner.username, defender: targetUser.username,
 attacker_weapon: '🤖 ربات انتقام‌گیر', defender_weapon: '',
@@ -1332,16 +1449,17 @@ document.getElementById('accountsListModal').style.display = 'flex';
 document.getElementById('accountsListBox').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
 
 try {
-const { data } = await supabaseClient.from('users').select('username, fullname').order('username');
+const { data } = await supabaseClient.from('users').select('username, fullname, approved').order('username');
 if (!data || data.length === 0) {
 document.getElementById('accountsListBox').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ کاربری نیست</div>';
 return;
 }
 let html = '';
 data.forEach(u => {
+const statusIcon = u.approved ? '✅' : '⏳';
 html += `<div class="acc-row">
 <div>
-<div style="color:#38bdf8;font-weight:bold;">👤 ${u.username}</div>
+<div style="color:#38bdf8;font-weight:bold;">👤 ${u.username} ${statusIcon}</div>
 <div style="color:#94a3b8;font-size:10px;">${u.fullname || 'بدون اسم'}</div>
 </div>
 <button class="acc-del-btn" onclick="deleteAccount('${u.username}')">🗑️ حذف</button>
@@ -1749,8 +1867,8 @@ await supabaseClient.from('users').update({ online: myOnlineStatus }).eq('userna
 await loadAllUsers(); await loadMyGroups(); await loadChatList();
 }
 async function loadAllUsers() {
-const { data } = await supabaseClient.from('users').select('username, online');
-if (data) { allUsers = data.map(u => ({ username: u.username, online: u.online })); onlineUsers = new Set(data.filter(u => u.online).map(u => u.username)); }
+const { data } = await supabaseClient.from('users').select('username, online, approved');
+if (data) { allUsers = data.filter(u => u.approved !== false).map(u => ({ username: u.username, online: u.online })); onlineUsers = new Set(allUsers.filter(u => u.online).map(u => u.username)); }
 }
 async function loadMyGroups() {
 const { data } = await supabaseClient.from('groups').select('*');
@@ -1983,7 +2101,7 @@ const p = document.getElementById('serverPass').value;
 if (p !== SERVER_PASS) { alert('رمز اشتباه!'); return; }
 closeServerPass();
 document.getElementById('serverPanelModal').style.display = 'flex';
-const u = await supabaseClient.from('users').select('id, online');
+const u = await supabaseClient.from('users').select('id, online, approved');
 const m = await supabaseClient.from('messages').select('id');
 const g = await supabaseClient.from('groups').select('id');
 const a = await supabaseClient.from('attacks').select('id');
@@ -1994,6 +2112,7 @@ document.getElementById('sMessages').innerText = m.data?.length || 0;
 document.getElementById('sGroups').innerText = g.data?.length || 0;
 document.getElementById('sAttacks').innerText = a.data?.length || 0;
 document.getElementById('sBugs').innerText = b.data?.length || 0;
+document.getElementById('sPending').innerText = u.data ? u.data.filter(x => x.approved === false).length : 0;
 }
 function closeServerPanel() { document.getElementById('serverPanelModal').style.display = 'none'; }
 
@@ -2078,7 +2197,7 @@ async function showPlayersList() {
 document.getElementById('playersModal').style.display = 'flex';
 document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;">⏳ در حال بارگذاری...</div>';
 try {
-const { data } = await supabaseClient.from('users').select('*').order('coins', { ascending: false });
+const { data } = await supabaseClient.from('users').select('*').eq('approved', true).order('coins', { ascending: false });
 if (!data || data.length === 0) {
 document.getElementById('playersList').innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">هیچ بازیکنی نیست</div>';
 return;
@@ -2127,7 +2246,7 @@ function closeFightModal() { document.getElementById('fightModal').style.display
 
 // ========== ⚔️ جنگ ==========
 async function findUserByFullname(fullname) {
-const { data } = await supabaseClient.from('users').select('*').ilike('fullname', fullname.trim()).limit(1);
+const { data } = await supabaseClient.from('users').select('*').ilike('fullname', fullname.trim()).eq('approved', true).limit(1);
 return data && data[0] ? data[0] : null;
 }
 
@@ -2138,7 +2257,6 @@ let actualDefender = { ...defenderUser };
 let botActivated = false;
 let botAttacked = false;
 
-// اگه مدافع ربات داره → براش سلاح میخره
 if (defenderUser.bot_enabled) {
 const botResult = await botDefend(defenderUser, attackerUser);
 if (botResult) {
@@ -2161,14 +2279,12 @@ const winnerCoins = (winnerUser.coins || 0) + FIGHT_PRIZE;
 const loserCoins = Math.max(0, (loserUser.coins || 0) - FIGHT_PRIZE);
 
 try {
-// برنده
 await supabaseClient.from('users').update({
 coins: winnerCoins,
 wins: (winnerUser.wins || 0) + 1,
 weapons: ''
 }).eq('username', winnerUser.username);
 
-// بازنده
 await supabaseClient.from('users').update({
 coins: loserCoins,
 losses: (loserUser.losses || 0) + 1,
@@ -2192,7 +2308,6 @@ attacker_wins: attackerUser.wins || 0, defender_wins: actualDefender.wins || 0,
 prize: FIGHT_PRIZE
 }]);
 
-// ⚡ اگه مدافع ربات داشت و برنده شد → به حمله‌کننده هم حمله میکنه (انتقام)
 if (botActivated && !attackerWins) {
 const counterResult = await botCounterAttack(actualDefender, attackerUser);
 if (counterResult) {
